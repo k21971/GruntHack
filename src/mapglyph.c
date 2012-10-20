@@ -135,6 +135,7 @@ unsigned *ospecial;
 	    cmap_color(offset);
     } else if ((offset = (glyph - GLYPH_OBJ_OFF)) >= 0) {	/* object */
         struct obj *otmp = vobj_at(x, y);
+	if (iflags.hilite_hidden_stairs && On_stairs(x,y) && levl[x][y].seenv) special |= MG_STAIRS;
 	if (offset == BOULDER && iflags.bouldersym) ch = iflags.bouldersym;
 	else ch = oc_syms[(int)objects[offset].oc_class];
 #ifdef ROGUE_COLOR
@@ -166,6 +167,7 @@ unsigned *ospecial;
 	    mon_color(offset);
 	    special |= MG_RIDDEN;
     } else if ((offset = (glyph - GLYPH_BODY_OFF)) >= 0) {	/* a corpse */
+	if (iflags.hilite_hidden_stairs && On_stairs(x,y) && levl[x][y].seenv) special |= MG_STAIRS;
 	ch = oc_syms[(int)objects[CORPSE].oc_class];
 #ifdef ROGUE_COLOR
 	if (HAS_ROGUE_IBM_GRAPHICS && iflags.use_color)

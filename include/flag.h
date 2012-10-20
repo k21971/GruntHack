@@ -247,6 +247,7 @@ struct instance_flags {
 #ifdef QUIVER_FIRED
 	boolean quiver_fired;	/* quiver with f command */
 #endif
+    boolean hilite_hidden_stairs;
 /*
  * Window capability support.
  */
