@@ -43,7 +43,7 @@
  * Some combinations make no sense.  See the installation document.
  */
 #define TTY_GRAPHICS	/* good old tty based graphics */
-#define X11_GRAPHICS	/* X11 interface */
+/* #define X11_GRAPHICS	*/      /* X11 interface */
 /* #define QT_GRAPHICS */ 	/* Qt interface */
 /* #define GNOME_GRAPHICS */ 	/* Gnome interface */
 /* #define MSWIN_GRAPHICS */	/* Windows NT, CE, Graphics */
@@ -170,8 +170,10 @@
 
 #ifdef UNIX
 /* path and file name extension for compression program */
-#define COMPRESS "/usr/bin/xz"		/* the xz compression format */
-#define COMPRESS_EXTENSION ".xz"	/* and its normal extension */
+/*#define COMPRESS "/usr/bin/xz"*/		/* the xz compression format */
+/*#define COMPRESS_EXTENSION ".xz"*/	/* and its normal extension */
+#define COMPRESS "/bin/gzip"		/* the xz compression format */
+#define COMPRESS_EXTENSION ".gz"	/* and its normal extension */
 #endif
 
 #ifndef COMPRESS
@@ -183,7 +185,7 @@
  *	a tar-like file, thus making a neater installation.  See *conf.h
  *	for detailed configuration.
  */
-/* #define DLB */	/* not supported on all platforms */
+#define DLB 	/* not supported on all platforms */
 
 /*
  *	Defining INSURANCE slows down level changes, but allows games that
@@ -202,7 +204,7 @@
  * otherwise it will be the current directory.
  */
 # ifndef HACKDIR
-#  define HACKDIR "/usr/games/lib/grunthackdir"
+#  define HACKDIR "/gh020"
 # endif
 
 /*
@@ -430,6 +432,7 @@ typedef unsigned char	uchar;
 /*#define GOLDOBJ */	/* Gold is kept on obj chains - Helge Hafting */
 #define AUTOPICKUP_EXCEPTIONS /* exceptions to autopickup */
 #define DUMP_LOG        /* Dump game end information to a file */
+#define DUMP_FN "/dgldir/userdata/%N/%n/dumplog/%t.gh020.txt"
 /* #define DUMP_FN "/tmp/%n.nh" */      /* Fixed dumpfile name, if you want
                                          * to prevent definition by users */
 #define DUMPMSGS 20     /* Number of latest messages in the dump file  */
