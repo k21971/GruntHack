@@ -388,7 +388,7 @@ typedef unsigned char	uchar;
 
 #define INVISIBLE_OBJECTS   /* allow invisible objects */
 
-/*#define DGAMELAUNCH*/ /* compiled for dgamelaunch */
+#define DGAMELAUNCH /* compiled for dgamelaunch */
 
 #ifdef DGAMELAUNCH
 #define SIMPLE_MAIL
