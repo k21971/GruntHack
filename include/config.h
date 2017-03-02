@@ -433,6 +433,7 @@ typedef unsigned char	uchar;
 #define AUTOPICKUP_EXCEPTIONS /* exceptions to autopickup */
 #define DUMP_LOG        /* Dump game end information to a file */
 #define DUMP_FN "/dgldir/userdata/%N/%n/gh020/dumplog/%t.gh020.txt"
+
 #define DUMPMSGS 20     /* Number of latest messages in the dump file  */
 
 #define DYWYPISI	/* identify objects' identification state */
