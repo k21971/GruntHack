@@ -15,14 +15,14 @@ DGL_CONFIG="/opt/nethack/dgamelaunch.conf"
 # already compiled versions of dgl and nethack
 DGL_GIT="/home/build/dgamelaunch"
 NETHACK_GIT="/home/build/NetHack"
-GRUNTHACK_GIT="/home/build/grunthack"
+GRUNTHACK_GIT="/home/build/GruntHack"
 # the user & group from dgamelaunch config file.
 USRGRP="games:games"
 # COMPRESS from include/config.h; the compression binary to copy. leave blank to skip.
 COMPRESSBIN="/bin/gzip"
 # fixed data to copy (leave blank to skip)
 NH_GIT="/home/build/NetHack"
-GH_GIT="/home/build/grunthack"
+GH_GIT="/home/build/GruntHack"
 NH_BRANCH="3.4.3"
 GH_BRANCH="0.2.0"
 # HACKDIR from include/config.h; aka nethack subdir inside chroot
