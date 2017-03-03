@@ -98,6 +98,8 @@ static struct Bool_Opt
 	{"fullscreen", &iflags.wc2_fullscreen, FALSE, SET_IN_FILE},
 	{"help", &flags.help, TRUE, SET_IN_GAME},
 	{"hilite_pet",    &iflags.wc_hilite_pet, FALSE, SET_IN_GAME},	/*WC*/
+	{"hilite_hidden_stairs",    &iflags.hilite_hidden_stairs, FALSE, SET_IN_GAME},	/*WC*/
+	{"hilite_obj_piles",    &iflags.hilite_obj_piles, FALSE, SET_IN_GAME},	/*WC*/
 #ifdef ASCIIGRAPH
 	{"IBMgraphics", &iflags.IBMgraphics, FALSE, SET_IN_GAME},
 #else
@@ -1023,9 +1025,6 @@ int bool_or_comp;	/* 0 == boolean option, 1 == compound */
 	}
 }
 
-#ifdef MENU_COLOR
-extern struct menucoloring *menu_colorings;
-
 static const struct {
    const char *name;
    const int color;
@@ -1046,6 +1045,9 @@ static const struct {
    {"lightcyan", CLR_BRIGHT_CYAN},
    {"white", CLR_WHITE}
 };
+
+#ifdef MENU_COLOR
+extern struct menucoloring *menu_colorings;
 
 static const struct {
    const char *name;
@@ -1149,6 +1151,60 @@ char *str;
     }
 }
 #endif /* MENU_COLOR */
+
+/* parse '"monster name":color' and change monster info accordingly */
+boolean
+parse_monster_color(str)
+     char *str;
+{
+    int i, c = NO_COLOR;
+    char *tmps, *cs = strchr(str, ':');
+    char buf[BUFSZ];
+    int monster;
+
+    if (!str) return FALSE;
+
+    strncpy(buf, str, BUFSZ);
+    cs = strchr(buf, ':');
+    if (!cs) return FALSE;
+
+    tmps = cs;
+    tmps++;
+    /* skip whitespace at start of string */
+    while (*tmps && isspace(*tmps)) tmps++;
+
+    /* determine color */
+    for (i = 0; i < SIZE(colornames); i++)
+	if (strstri(tmps, colornames[i].name) == tmps) {
+	    c = colornames[i].color;
+	    break;
+	}
+    if ((i == SIZE(colornames)) && (*tmps >= '0' && *tmps <='9'))
+	c = atoi(tmps);
+
+    if (c > 15) return FALSE;
+
+    /* determine monster name */
+    *cs = '\0';
+    tmps = buf;
+    if ((*tmps == '"') || (*tmps == '\'')) {
+	cs--;
+	while (isspace(*cs)) cs--;
+	if (*cs == *tmps) {
+	    *cs = '\0';
+	    tmps++;
+	}
+    }
+
+    monster = name_to_mon(tmps);
+    if (monster > -1) {
+	mons[monster].mcolor = c;
+	return TRUE;
+    } else {
+	return FALSE;
+    }
+}
+
 
 void
 parseoptions(opts, tinitial, tfrom_file)
