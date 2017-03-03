@@ -61,7 +61,7 @@ mkdir -p "$NAO_CHROOT/dgldir/inprogress-gh020"
 chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-gh020"
 
 echo "Making $NAO_CHROOT/$GHSUBDIR"
-mkdir "$NAO_CHROOT/$GHSUBDIR"
+mkdir -p "$NAO_CHROOT/$GHSUBDIR"
 
 GRUNTHACKBIN="$GRUNTHACK_GIT/src/grunthack"
 if [ -n "$GRUNTHACKBIN" -a ! -e "$GRUNTHACKBIN" ]; then
