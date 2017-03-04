@@ -73,7 +73,7 @@ if [ -n "$GRUNTHACKBIN" -a -e "$GRUNTHACKBIN" ]; then
   cd "$NAO_CHROOT/$GHSUBDIR"
   GHBINFILE="`basename $GRUNTHACKBIN`-$DATESTAMP"
   cp "$GRUNTHACKBIN" "$GHBINFILE"
-  ln -s "$GHBINFILE" grunthack
+  ln -fs "$GHBINFILE" grunthack
   LIBS="$LIBS `findlibs $GRUNTHACKBIN`"
   cd "$NAO_CHROOT"
 fi
