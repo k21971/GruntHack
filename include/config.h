@@ -447,6 +447,10 @@ typedef unsigned char	uchar;
 
 #define AUTO_OPEN	/* open doors by walking into them - Stefano Busti */
 
+/* Filename for dgamelaunch extra info field.
+   Can be left undefined for not writing extrainfo. */
+#define EXTRAINFO_FN "/dgldir/extrainfo-gh020/%n.extrainfo"
+
 /* End of Section 5 */
 
 #include "global.h"	/* Define everything else according to choices above */
