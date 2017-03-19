@@ -59,6 +59,8 @@ umask 022
 echo "Creating inprogress and userdata directories"
 mkdir -p "$NAO_CHROOT/dgldir/inprogress-gh020"
 chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-gh020"
+mkdir -p "$NAO_CHROOT/dgldir/extrainfo-gh020"
+chown "$USRGRP" "$NAO_CHROOT/dgldir/extrainfo-gh020"
 
 echo "Making $NAO_CHROOT/$GHSUBDIR"
 mkdir -p "$NAO_CHROOT/$GHSUBDIR"
