@@ -595,6 +595,8 @@ E void FDECL(do_containerconts, (struct obj *,BOOLEAN_P,BOOLEAN_P,BOOLEAN_P,BOOL
 #endif
 E void FDECL(terminate, (int));
 E int NDECL(num_genocides);
+E void NDECL(mk_dgl_extrainfo);
+
 
 /* ### engrave.c ### */
 
