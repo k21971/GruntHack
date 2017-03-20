@@ -388,7 +388,8 @@ doextlist(VOID_ARGS)	/* here after #? - now list all full-word commands */
 	return 0;
 }
 
-#ifdef TTY_GRAPHICS
+#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS)
+
 #define MAX_EXT_CMD 200		/* Change if we have more ext cmds */
 /*
  * This is currently used only by the tty port and is
