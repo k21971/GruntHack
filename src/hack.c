@@ -627,7 +627,7 @@ int mode;
 			You("try to ooze under the door, but can't squeeze your possessions through.");
 #ifdef AUTO_OPEN
 		    else if (iflags.autoopen
-				&& !Confusion && !Stunned && !Fumbling) {
+				&& !Confusion && !Stunned && !FUMBLED) {
 			    flags.move = doopen_indir(x, y);
 		    }
 #endif
