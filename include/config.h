@@ -43,7 +43,9 @@
  * Some combinations make no sense.  See the installation document.
  */
 #define TTY_GRAPHICS	/* good old tty based graphics */
-#define X11_GRAPHICS	/* X11 interface */
+#define CURSES_GRAPHICS     /* Proper curses interface */
+
+/* #define X11_GRAPHICS	*/	/* X11 interface */
 /* #define QT_GRAPHICS */ 	/* Qt interface */
 /* #define GNOME_GRAPHICS */ 	/* Gnome interface */
 /* #define MSWIN_GRAPHICS */	/* Windows NT, CE, Graphics */
@@ -113,6 +115,12 @@
 # define HACKDIR "\\grunthack"
 #endif
 
+#ifdef CURSES_GRAPHICS
+# ifndef DEFAULT_WINDOW_SYS
+#  define DEFAULT_WINDOW_SYS "curses"
+# endif
+#endif
+
 #ifndef DEFAULT_WINDOW_SYS
 # define DEFAULT_WINDOW_SYS "tty"
 #endif
@@ -170,8 +178,8 @@
 
 #ifdef UNIX
 /* path and file name extension for compression program */
-#define COMPRESS "/usr/bin/xz"		/* the xz compression format */
-#define COMPRESS_EXTENSION ".xz"	/* and its normal extension */
+#define COMPRESS "/bin/gzip"		/* the xz compression format */
+#define COMPRESS_EXTENSION ".gz"	/* and its normal extension */
 #endif
 
 #ifndef COMPRESS
@@ -183,7 +191,7 @@
  *	a tar-like file, thus making a neater installation.  See *conf.h
  *	for detailed configuration.
  */
-/* #define DLB */	/* not supported on all platforms */
+#define DLB	/* not supported on all platforms */
 
 /*
  *	Defining INSURANCE slows down level changes, but allows games that
