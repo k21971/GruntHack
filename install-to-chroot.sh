@@ -24,13 +24,13 @@ COMPRESSBIN="/bin/gzip"
 NH_GIT="/home/build/NetHack"
 GH_GIT="/home/build/GruntHack"
 NH_BRANCH="3.4.3"
-GH_BRANCH="0.2.0"
+GH_BRANCH="0.2.1"
 # HACKDIR from include/config.h; aka nethack subdir inside chroot
 NHSUBDIR="nh343"
-GHSUBDIR="gh020"
+GHSUBDIR="gh"
 # VAR_PLAYGROUND from include/unixconf.h
 NH_VAR_PLAYGROUND="/nh343/var/"
-GH_VAR_PLAYGROUND="/gh020/var/"
+GH_VAR_PLAYGROUND="/gh/var/"
 # only define this if dgl was configured with --enable-sqlite
 SQLITE_DBFILE="/dgldir/dgamelaunch.db"
 # END OF CONFIG
@@ -57,10 +57,10 @@ set -e
 umask 022
 
 echo "Creating inprogress and userdata directories"
-mkdir -p "$NAO_CHROOT/dgldir/inprogress-gh020"
-chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-gh020"
-mkdir -p "$NAO_CHROOT/dgldir/extrainfo-gh020"
-chown "$USRGRP" "$NAO_CHROOT/dgldir/extrainfo-gh020"
+mkdir -p "$NAO_CHROOT/dgldir/inprogress-gh"
+chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-gh"
+mkdir -p "$NAO_CHROOT/dgldir/extrainfo-gh"
+chown "$USRGRP" "$NAO_CHROOT/dgldir/extrainfo-gh"
 
 echo "Making $NAO_CHROOT/$GHSUBDIR"
 mkdir -p "$NAO_CHROOT/$GHSUBDIR"
@@ -98,6 +98,16 @@ touch "$NAO_CHROOT/$GHSUBDIR/var/record"
 chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/record"
 touch "$NAO_CHROOT/$GHSUBDIR/var/xlogfile"
 chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/xlogfile"
+
+RECOVER="$GRUNTHACK_GIT/util/recover"
+
+if [ -n "$RECOVER" -a -e "$RECOVER" ]; then
+  echo "Copying $RECOVER"
+  cp "$RECOVER" "$NAO_CHROOT/$GHSUBDIR/var"
+  LIBS="$LIBS `findlibs $RECOVER`"
+  cd "$NAO_CHROOT"
+fi
+
 
 LIBS=`for lib in $LIBS; do echo $lib; done | sort | uniq`
 echo "Copying libraries:" $LIBS

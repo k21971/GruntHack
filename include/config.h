@@ -211,7 +211,7 @@
  * otherwise it will be the current directory.
  */
 # ifndef HACKDIR
-#  define HACKDIR "/gh020"
+#  define HACKDIR "/gh"
 # endif
 
 /*
@@ -439,7 +439,7 @@ typedef unsigned char	uchar;
 /*#define GOLDOBJ */	/* Gold is kept on obj chains - Helge Hafting */
 #define AUTOPICKUP_EXCEPTIONS /* exceptions to autopickup */
 #define DUMP_LOG        /* Dump game end information to a file */
-#define DUMP_FN "/dgldir/userdata/%N/%n/gh020/dumplog/%t.gh020.txt"
+#define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"
 
 #define DUMPMSGS 20     /* Number of latest messages in the dump file  */
 
@@ -449,7 +449,7 @@ typedef unsigned char	uchar;
 
 /* Filename for dgamelaunch extra info field.
    Can be left undefined for not writing extrainfo. */
-#define EXTRAINFO_FN "/dgldir/extrainfo-gh020/%n.extrainfo"
+#define EXTRAINFO_FN "/dgldir/extrainfo-gh/%n.extrainfo"
 
 /* End of Section 5 */
 
