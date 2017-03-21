@@ -637,6 +637,9 @@ static const char *build_opts[] = {
 #ifdef AUTOPICKUP_EXCEPTIONS
 		"autopickup_exceptions",
 #endif
+#ifdef AUTO_OPEN
+		"auto open doors",
+#endif
 #ifdef ASTR_ESC
 		"endgame escape",
 #endif
@@ -836,6 +839,9 @@ static const char *build_opts[] = {
 static const char *window_opts[] = {
 #ifdef TTY_GRAPHICS
 		"traditional tty-based graphics",
+#endif
+#ifdef CURSES_GRAPHICS
+        "curses",
 #endif
 #ifdef X11_GRAPHICS
 		"X11",
