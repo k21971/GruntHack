@@ -35,7 +35,7 @@ DIRPERM  = 0755
 # therefore there should not be anything in GAMEDIR that you want to keep
 # (if there is, you'll have to do the installation by hand or modify the
 # instructions)
-GAMEDIR  = $(PREFIX)/gh020
+GAMEDIR  = $(PREFIX)/gh
 VARDIR  = $(GAMEDIR)/var
 
 # per discussion in Install.X11 and Install.Qt
