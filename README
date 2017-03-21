@@ -1,4 +1,4 @@
-              GruntHack 0.2.0 -- General information
+              GruntHack 0.2.1 -- General information
 
 GruntHack is a derivative of NetHack, the classic dungeon exploration game.
 Significant changes from the 0.1.x series include: 
@@ -7,8 +7,8 @@ Significant changes from the 0.1.x series include:
 * More items usable by monsters
 
 A fuller list of changes for this release can be found in the files
-doc/changes02.0, doc/changes01.1, and doc/changes01.0 in the source
-distribution.
+doc/changes02.1, doc/changes02.0, doc/changes01.1, and doc/changes01.0
+in the source distribution.
 
 The following HOWTO derives from NetHack's original information for
 compiling the code tree.  GruntHack is still in a very experimental stage,
