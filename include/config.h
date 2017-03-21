@@ -449,7 +449,7 @@ typedef unsigned char	uchar;
 
 /* Filename for dgamelaunch extra info field.
    Can be left undefined for not writing extrainfo. */
-#define EXTRAINFO_FN "/dgldir/extrainfo-gh020/%n.extrainfo"
+/* #define EXTRAINFO_FN "/dgldir/extrainfo-gh/%n.extrainfo" */
 
 /* End of Section 5 */
 
