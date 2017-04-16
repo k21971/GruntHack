@@ -1755,7 +1755,7 @@ int final;
 			" for any artifacts");
 	}
 	
-#ifdef ELBERETH_CONDUCT
+#ifdef ELBERETH_CONDUCT 
 #ifdef ELBERETH
 	/* no point displaying the conduct if Elbereth doesn't do anything */
 	if (u.uconduct.elbereths) {
