@@ -447,6 +447,8 @@ typedef unsigned char	uchar;
 
 #define AUTO_OPEN	/* open doors by walking into them - Stefano Busti */
 
+#define ELBERETH_CONDUCT /* Track the number of times the player engraves Elbereth. - Ray Kulhanek */
+
 /* Filename for dgamelaunch extra info field.
    Can be left undefined for not writing extrainfo. */
 /* #define EXTRAINFO_FN "/dgldir/extrainfo-gh/%n.extrainfo" */
