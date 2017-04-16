@@ -1284,7 +1284,14 @@ static const char *epitaphs[] = {
 	"I made an ash of myself",
 	"Soon ripe. Soon rotten. Soon gone. But not forgotten.",
 	"Here lies the body of Jonathan Blake. Stepped on the gas instead of the brake.",
-	"Go away!"
+	"Go away!",
+	"Luck of the Grasshopper... NOT!",
+	"I drank what... ? -- Socrates",
+	"DON'T PANIC",
+	"I don't always die when I play GruntHack, but... oh who are we kidding. I always friggin' die when I play GruntHack",
+	"One... two... five! No, three!!",
+	"What... is your favorite color? Blue! No, yellllloooowwwww...",
+	"So you have YASD? Here, hold my beer... -- K2"
 };
 
 /* Create a headstone at the given location.
