@@ -8,31 +8,19 @@
 
 # autonamed chroot directory. Can rename.
 DATESTAMP=`date +%Y%m%d-%H%M%S`
-NAO_CHROOT=/opt/nethack/hardfought.org
-#NAO_CHROOT=/opt/nethack/chroot
-# config outside of chroot
-DGL_CONFIG="/opt/nethack/dgamelaunch.conf"
+NAO_CHROOT="/opt/nethack/hardfought.org"
 # already compiled versions of dgl and nethack
-DGL_GIT="/home/build/dgamelaunch"
-NETHACK_GIT="/home/build/NetHack"
 GRUNTHACK_GIT="/home/build/GruntHack"
 # the user & group from dgamelaunch config file.
 USRGRP="games:games"
-# COMPRESS from include/config.h; the compression binary to copy. leave blank to skip.
-COMPRESSBIN="/bin/gzip"
 # fixed data to copy (leave blank to skip)
-NH_GIT="/home/build/NetHack"
 GH_GIT="/home/build/GruntHack"
-NH_BRANCH="3.4.3"
-GH_BRANCH="0.2.1"
 # HACKDIR from include/config.h; aka nethack subdir inside chroot
-NHSUBDIR="nh343"
+# Make a new one each time save compat is broken
+#GHSUBDIR="gh0211"
 GHSUBDIR="gh"
-# VAR_PLAYGROUND from include/unixconf.h
-NH_VAR_PLAYGROUND="/nh343/var/"
-GH_VAR_PLAYGROUND="/gh/var/"
-# only define this if dgl was configured with --enable-sqlite
-SQLITE_DBFILE="/dgldir/dgamelaunch.db"
+#for combining xlogfile, etc on minor version bump
+#GH_LOG_SYMLINK_TARGET="/gh/var"
 # END OF CONFIG
 ##############################################################################
 
@@ -90,14 +78,29 @@ chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var"
 mkdir -p "$NAO_CHROOT/$GHSUBDIR/var/save"
 chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/save"
 
-touch "$NAO_CHROOT/$GHSUBDIR/var/logfile"
-chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/logfile"
-touch "$NAO_CHROOT/$GHSUBDIR/var/perm"
-chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/perm"
-touch "$NAO_CHROOT/$GHSUBDIR/var/record"
-chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/record"
-touch "$NAO_CHROOT/$GHSUBDIR/var/xlogfile"
-chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/xlogfile"
+#symlink the logs to the symlink target
+if [ -z "$GH_LOG_SYMLINK_TARGET" -o ! -e "$NAO_CHROOT$GH_LOG_SYMLINK_TARGET" -o "$GH_LOG_SYMLINK_TARGET" = "/$GHSUBDIR/var" ]; then
+  # don't symlink file to itself
+  touch "$NAO_CHROOT/$GHSUBDIR/var/logfile"
+  chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/logfile"
+  touch "$NAO_CHROOT/$GHSUBDIR/var/record"
+  chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/record"
+  touch "$NAO_CHROOT/$GHSUBDIR/var/xlogfile"
+  chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/xlogfile"
+  touch "$NAO_CHROOT/$GHSUBDIR/var/livelog"
+  chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/livelog"
+  touch "$NAO_CHROOT/$GHSUBDIR/var/perm"
+  chown -R "$USRGRP" "$NAO_CHROOT/$GHSUBDIR/var/perm"
+else
+  if [ -f $NAO_CHROOT/$GHSUBDIR/var/xlogfile ]; then
+    errorexit "$NAO_CHROOT/$GHSUBDIR/var/xlogfile exists as a regular file. Proceeding will casuse data loss."
+  fi
+  ln -fs $GH_LOG_SYMLINK_TARGET/xlogfile $NAO_CHROOT/$GHSUBDIR/var
+  ln -fs $GH_LOG_SYMLINK_TARGET/livelog $NAO_CHROOT/$GHSUBDIR/var
+  ln -fs $GH_LOG_SYMLINK_TARGET/record $NAO_CHROOT/$GHSUBDIR/var
+  ln -fs $GH_LOG_SYMLINK_TARGET/logfile $NAO_CHROOT/$GHSUBDIR/var
+  ln -fs $GH_LOG_SYMLINK_TARGET/perm $NAO_CHROOT/$GHSUBDIR/var
+fi
 
 RECOVER="$GRUNTHACK_GIT/util/recover"
 
