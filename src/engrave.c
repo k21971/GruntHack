@@ -1286,12 +1286,14 @@ static const char *epitaphs[] = {
 	"Here lies the body of Jonathan Blake. Stepped on the gas instead of the brake.",
 	"Go away!",
 	"Luck of the Grasshopper... NOT!",
-	"I drank what... ? -- Socrates",
-	"DON'T PANIC",
+	"I drank what... ? -- Socrates", /* Real Genius */
+	"DON'T PANIC", /* Hitchhiker's Guide to the Galaxy */
 	"I don't always die when I play GruntHack, but... oh who are we kidding. I always friggin' die when I play GruntHack",
-	"One... two... five! No, three!!",
-	"What... is your favorite color? Blue! No, yellllloooowwwww...",
-	"So you have YASD? Here, hold my beer... -- K2"
+	"One... two... five! No, three!!", /* Monty Python and the Holy Grail */
+	"What... is your favorite color? Blue! No, yellllloooowwwww...", /* Monty Python and the Holy Grail */
+	"So you have YASD? Here, hold my beer... -- K2",
+	"proval", /* Hardfought */
+	"Anybody who can't figure out how to die in NetHack, isn't really trying -- jonadab"
 };
 
 /* Create a headstone at the given location.
