@@ -481,6 +481,10 @@ E struct realtime_data {
 } realtime_data;
 #endif /* RECORD_REALTIME || REALTIME_ON_BOTL */
 
+#ifdef CURSES_GRAPHICS
+E boolean curses_stupid_hack;
+#endif
+
 #undef E
 
 #endif /* DECL_H */

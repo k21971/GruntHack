@@ -110,7 +110,7 @@ void curses_init_nhwindows(int* argcp, char** argv)
     noecho();
     raw();
     meta(stdscr, TRUE);
-    curs_set(0);
+    orig_cursor = curs_set(0);
     keypad(stdscr, TRUE);
 #ifdef NCURSES_VERSION
 # ifdef __APPLE__
@@ -207,6 +207,8 @@ void curses_get_nh_event()
 */
 void curses_exit_nhwindows(const char *str)
 {
+    curses_cleanup();
+    curs_set(orig_cursor);
     endwin();
     iflags.window_inited = 0;
     if (str != NULL)
@@ -218,6 +220,7 @@ void curses_exit_nhwindows(const char *str)
 /* Prepare the window to be suspended. */
 void curses_suspend_nhwindows(const char *str)
 {
+    endwin();
 }
 
 
@@ -269,17 +272,25 @@ void curses_clear_nhwindow(winid wid)
 void curses_display_nhwindow(winid wid, BOOLEAN_P block)
 {
     menu_item *selected = NULL;
-    
+
+    if ((wid == MAP_WIN) && block)
+    {
+      (void) curses_more();
+    }
+
+    if ((wid == MESSAGE_WIN) && block)
+    {
+      if (u.uhp != -1 && program_state.gameover != 1)
+          (void) curses_block(TRUE);
+      /* don't bug player with TAB prompt on "Saving..." or endgame*/
+      else (void) curses_more();
+    }
+
     if (curses_is_menu(wid) || curses_is_text(wid))
     {
         curses_end_menu(wid, "");
         curses_select_menu(wid, PICK_NONE, &selected);
         return;
-    }
-    
-    if ((wid == MAP_WIN) && (curses_window_exists(MAP_WIN)) && block)
-    {
-        (void) curses_more();
     }
 }
 
@@ -489,7 +500,8 @@ print_glyph(window, x, y, glyph)
 */
 void curses_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph)
 {
-    int ch, color;
+    glyph_t ch;
+    int color;
     unsigned int special;
     int attr = -1;
 
@@ -507,6 +519,15 @@ void curses_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph)
 	{
 	    ch = curses_convert_glyph(ch, glyph);
 	}
+
+	if (wid == NHW_MAP) {
+	    if ((special & MG_STAIRS) && iflags.hilite_hidden_stairs) {
+		color = 16 + (color*2);
+	    } else if ((special & MG_OBJPILE) && iflags.hilite_obj_piles) {
+		color = 16 + (color*2) + 1;
+	    }
+	}
+
     curses_putch(wid, x, y, ch, color, attr);
 }
 
