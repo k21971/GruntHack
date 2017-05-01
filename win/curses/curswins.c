@@ -499,7 +499,7 @@ int curses_get_window_orientation(winid wid)
 /* Output a line of text to specified NetHack window with given coordinates
 and text attributes */
 
-void curses_puts(winid wid, int attr, const char *text)
+void curses_puts(winid wid, int glyph, int attr, const char *text)
 {
     anything *identifier;
     WINDOW *win = NULL;
