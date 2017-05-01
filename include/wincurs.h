@@ -175,7 +175,7 @@ extern int curses_get_window_orientation(winid wid);
 
 extern void curses_get_window_xy(winid wid, int *x, int *y);
 
-extern void curses_puts(winid wid, int glyph, int attr, const char *text);
+extern void curses_puts(winid wid, int attr, const char *text);
 
 extern void curses_clear_nhwin(winid wid);
 
