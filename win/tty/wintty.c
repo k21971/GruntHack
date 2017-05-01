@@ -2186,7 +2186,7 @@ tty_end_menu(window, prompt)
 	if (curr->selector) {
 		/* extra space for keyboard accelator */
 		len += 4;
-		if (curr->glyph != NO_GLYPH &&) {
+		if (curr->glyph != NO_GLYPH) {
 			/* extra space for glyph */
 			len += 2;
 		}
