@@ -575,6 +575,7 @@ void curses_add_nhmenu_item(winid wid, int glyph, const ANY_P *identifier,
     curses_rtrim((char *) new_str);
     new_item = malloc(sizeof(nhmenu_item));
     new_item->wid = wid;
+    new_item->glyph = glyph;
     new_item->identifier = *identifier;
     new_item->accelerator = accelerator;
     new_item->group_accel = group_accel;
