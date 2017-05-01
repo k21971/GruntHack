@@ -1139,7 +1139,7 @@ static void menu_display_page(nhmenu *menu, WINDOW *win, int page_num)
             curses_toggle_color_attr(win, color, NONE, ON);
             mvwaddch(win, menu_item_ptr->line_num + 1, start_col, curletter);
             curses_toggle_color_attr(win, color, NONE, OFF);
-            mvwaddch(win, menu_item_ptr->line_num + 1, start_col + 1, " ");
+            mvwaddch(win, menu_item_ptr->line_num + 1, start_col + 1, ' ');
             entry_cols -= 2;
             start_col += 2;
         }
