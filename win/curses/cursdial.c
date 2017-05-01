@@ -13,6 +13,7 @@
 typedef struct nhmi
 {
     winid wid;  /* NetHack window id */
+    int glyph;  /* Menu glyphs */
     anything identifier; /* Value returned if item selected */
     CHAR_P accelerator;  /* Character used to select item from menu */
     CHAR_P group_accel; /* Group accelerator for menu item, if any */
