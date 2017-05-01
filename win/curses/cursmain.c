@@ -341,7 +341,7 @@ void curses_putstr(winid wid, int attr, const char *text)
     int curses_attr = curses_convert_attr(attr);
     
     /* We need to convert NetHack attributes to curses attributes */
-    curses_puts(wid, glyph, curses_attr, text);
+    curses_puts(wid, curses_attr, text);
 }
 
 /* Display the file named str.  Complain about missing files
