@@ -1123,6 +1123,26 @@ static void menu_display_page(nhmenu *menu, WINDOW *win, int page_num)
                 mvwprintw(win, menu_item_ptr->line_num + 1, 3, ") ");
             }
         }
+        entry_cols = menu->width;
+        start_col = 1;
+
+        if (menu_item_ptr->identifier.a_void != NULL)
+        {
+            entry_cols -= 4;
+            start_col += 4;
+        }        
+        if (menu_item_ptr->glyph != NO_GLYPH)
+        {
+            /* stuff to display the glyph at line_num+1, start_col goes here */
+            unsigned special; /*notused */
+            mapglyph(menu_item_ptr->glyph, &curletter, &color, &special, 0, 0);
+            curses_toggle_color_attr(win, color, NONE, ON);
+            mvwaddch(win, menu_item_ptr->line_num + 1, start_col, curletter);
+            curses_toggle_color_attr(win, color, NONE, OFF);
+            mvwaddch(win, menu_item_ptr->line_num + 1, start_col + 1, " ");
+            entry_cols -= 2;
+            start_col += 2;
+        }
 #ifdef MENU_COLOR
 		if (iflags.use_menu_color && (menu_color = get_menu_coloring
 		 ((char *)menu_item_ptr->str, &color, &attr)))
@@ -1138,14 +1158,6 @@ static void menu_display_page(nhmenu *menu, WINDOW *win, int page_num)
 		}
 #endif /* MENU_COLOR */
         curses_toggle_color_attr(win, NONE, menu_item_ptr->attr, ON);
-        entry_cols = menu->width;
-        start_col = 1;
-
-        if (menu_item_ptr->identifier.a_void != NULL)
-        {
-            entry_cols -= 4;
-            start_col += 4;
-        }        
         
         num_lines = curses_num_lines(menu_item_ptr->str, entry_cols);
         
