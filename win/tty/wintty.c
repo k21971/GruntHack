@@ -1272,7 +1272,7 @@ struct WinDesc *cw;
 			    putchar(' '); putchar('-'); putchar(' ');
 			    ttyDisplay->curx += 4;
 		    }
-		    if (curr->glyph != NO_GLYPH && !iflags.vanilla_ui_behavior) {
+		    if (curr->glyph != NO_GLYPH) {
 			    glyph_t character;
 			    unsigned special; /* unused */
 			    /* map glyph to character and color */
@@ -2186,8 +2186,7 @@ tty_end_menu(window, prompt)
 	if (curr->selector) {
 		/* extra space for keyboard accelator */
 		len += 4;
-		if (curr->glyph != NO_GLYPH &&
-		    !iflags.vanilla_ui_behavior) {
+		if (curr->glyph != NO_GLYPH &&) {
 			/* extra space for glyph */
 			len += 2;
 		}
