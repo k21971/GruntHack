@@ -33,7 +33,7 @@ boolean curses_window_exists(winid wid);
 
 int curses_get_window_orientation(winid wid);
 
-void curses_puts(winid wid, int glyph, int attr, const char *text);
+void curses_puts(winid wid, int attr, const char *text);
 
 void curses_clear_nhwin(winid wid);
 
