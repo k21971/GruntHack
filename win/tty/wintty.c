@@ -1276,7 +1276,12 @@ struct WinDesc *cw;
 			    glyph_t character;
 			    unsigned special; /* unused */
 			    /* map glyph to character and color */
-			    mapglyph(curr->glyph, &character, &color, &special, 0, 0);
+                            if (curr->attr & ATR_OBJREF) {
+			        mapglyph_obj(curr->glyph, &character, &color, &special, u.ux, u.uy, curr->identifier.a_obj);
+                                curr->attr &= ~ATR_OBJREF;
+                            } else {
+			        mapglyph(curr->glyph, &character, &color, &special, u.ux, u.uy);
+                            }
 
 			    if (color != NO_COLOR) term_start_color(color);
 			    putchar(character);

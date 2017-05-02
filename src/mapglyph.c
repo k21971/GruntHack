@@ -68,6 +68,16 @@ int glyph, *ocolor, x, y;
 int *ochar;
 unsigned *ospecial;
 {
+    mapglyph_obj(glyph, ochar, ocolor, ospecial, x, y, (struct obj *)NULL);
+}
+
+void
+mapglyph_obj(glyph, ochar, ocolor, ospecial, x, y, otmp)
+int glyph, *ocolor, x, y;
+int *ochar;
+unsigned *ospecial;
+struct obj *otmp;
+{
 	register int offset;
 #if defined(TEXTCOLOR) || defined(ROGUE_COLOR)
 	int color = NO_COLOR;
@@ -146,7 +156,7 @@ unsigned *ospecial;
         /* corridor darkening deferred elsewhere */
 	    cmap_color(offset);
     } else if ((offset = (glyph - GLYPH_OBJ_OFF)) >= 0) {	/* object */
-        struct obj *otmp = vobj_at(x, y);
+        if (!otmp) otmp = vobj_at(x, y);
 	if (On_stairs(x,y) && levl[x][y].seenv) special |= MG_STAIRS;
 	if (offset == BOULDER && iflags.bouldersym) ch = iflags.bouldersym;
 	else ch = oc_syms[(int)objects[offset].oc_class];

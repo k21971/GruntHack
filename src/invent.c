@@ -2391,7 +2391,7 @@ nextclass:
 #endif
 	      classcount++;
 	    }
-	    any.a_char = ilet;
+	    any.a_obj = otmp;
 #ifdef DYWYPISI
 	    if (dywypisi) dump_ID_on();
 #endif
@@ -2399,7 +2399,7 @@ nextclass:
             if (want_disp)
 #endif
 	    add_menu(win, obj_to_glyph(otmp),
-		     &any, ilet, 0, ATR_NONE, doname(otmp),
+		     &any, ilet, 0, ATR_OBJREF, doname(otmp),
 		     MENU_UNSELECTED);
 #ifdef DUMP_LOG
 	    if (want_dump) {
@@ -2438,7 +2438,7 @@ nextclass:
 					 MENU_UNSELECTED);
 				classcount++;
 			    }
-			    any.a_char = ilet;
+			    any.a_obj = otmp;
 #ifdef DYWYPISI
 			    if (dywypisi) dump_ID_on();
 #endif
@@ -2446,7 +2446,7 @@ nextclass:
 			    if (want_disp)
 #endif
 			    add_menu(win, obj_to_glyph(otmp),
-					&any, ilet, 0, ATR_NONE, doname(otmp),
+					&any, ilet, 0, ATR_OBJREF, doname(otmp),
 					MENU_UNSELECTED);
 #ifdef DUMP_LOG
 			    if (want_dump) {
@@ -2482,7 +2482,7 @@ nextclass:
 
 	n = select_menu(win, want_reply ? PICK_ONE : PICK_NONE, &selected);
 	if (n > 0) {
-	    ret = selected[0].item.a_char;
+	    ret = selected[0].item.a_obj->invlet;
 	    if (out_cnt) *out_cnt = selected[0].count;
 	    free((genericptr_t)selected);
 	} else
