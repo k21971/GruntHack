@@ -1273,9 +1273,16 @@ struct WinDesc *cw;
 			    ttyDisplay->curx += 4;
 		    }
 		    if (curr->glyph != NO_GLYPH) {
-                            tty_print_glyph(window,-1, -1, curr->glyph);
+			    glyph_t character;
+			    unsigned special; /* unused */
+			    /* map glyph to character and color */
+			    mapglyph(curr->glyph, &character, &color, &special, 0, 0);
+
+			    if (color != NO_COLOR) term_start_color(color);
+			    putchar(character);
+			    if (color != NO_COLOR) term_end_color();
 			    putchar(' ');
-			    ttyDisplay->curx++;
+			    ttyDisplay->curx +=2;
 		    }
 
 #ifdef MENU_COLOR
@@ -2494,7 +2501,7 @@ tty_print_glyph(window, x, y, glyph)
     unsigned special;
     
 #ifdef CLIPPING
-    if(clipping && x != -1) {
+    if(clipping) {
 	if(x <= clipx || y < clipy || x >= clipxmax || y >= clipymax)
 	    return;
     }
@@ -2502,8 +2509,8 @@ tty_print_glyph(window, x, y, glyph)
     /* map glyph to character and color */
     mapglyph(glyph, &ch, &color, &special, x, y);
 
-    /* Move the cursor. -1 implies cursor already positioned */
-    if (x != -1) tty_curs(window, x,y);
+    /* Move the cursor. */
+    tty_curs(window, x,y);
 
 #ifndef NO_TERMS
     if (ul_hack && ch == '_') {		/* non-destructive underscore */
