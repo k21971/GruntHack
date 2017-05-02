@@ -1011,6 +1011,7 @@ E boolean FDECL(propagate, (int, BOOLEAN_P,BOOLEAN_P));
 
 /* ### mapglyph.c ### */
 
+E void FDECL(mapglyph_obj, (int, int *, int *, unsigned *, int, int,struct obj *));
 E void FDECL(mapglyph, (int, int *, int *, unsigned *, int, int));
 
 /* ### mcastu.c ### */
