@@ -27,8 +27,6 @@ extern void NDECL(linux_mapoff);
 extern int errno;
 #endif
 
-extern int FDECL(restore_savefile, (char *, const char *));
-
 static struct stat buf;
 
 /* see whether we should throw away this xlock file */
@@ -169,9 +167,10 @@ getlock()
 							"Press any key to continue ...\n";
 					fflush(stdout);
 				if (iflags.window_inited) {
-					pline("%s", msg);
+					pline(msg);
 				} else {
-					printf("\n\n%s", msg);
+					printf("\n\n");
+					printf(msg);
 					fflush(stdout);
 					c = getchar();
 				}
