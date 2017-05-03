@@ -21,6 +21,7 @@ typedef struct tty_mi {
     char selector;		/* keyboard accelerator */
     char gselector;		/* group accelerator */
     glyph_t glyph;		/* glyph display in menu */
+    struct obj* obj;            /* obj for extra glyph properties */
 } tty_menu_item;
 
 /* descriptor for tty-based windows */

@@ -1268,16 +1268,24 @@ struct WinDesc *cw;
 		     */
 			/* add selector for display */
 		    if (curr->selector) {
-			    putchar(curr->selector);
-			    putchar(' '); putchar('-'); putchar(' ');
-			    ttyDisplay->curx += 4;
+                        putchar(curr->selector);
+                        putchar(' ');
+                        if (curr->identifier.a_void != 0 &&
+                                            curr->selected) {
+                            if (curr->count == -1L)
+                                (void) putchar('+'); /* all selected */
+                            else
+                                (void) putchar('#'); /* count selected */
+			} else
+                            putchar('-');
+                        putchar(' ');
+			ttyDisplay->curx += 4;
 		    }
 		    if (curr->glyph != NO_GLYPH) {
 			    glyph_t character;
 			    unsigned special; /* unused */
 			    /* map glyph to character and color */
-			    mapglyph(curr->glyph, &character, &color, &special, 0, 0);
-
+			    mapglyph_obj(curr->glyph, &character, &color, &special, u.ux, u.uy, curr->obj);
 			    if (color != NO_COLOR) term_start_color(color);
 			    putchar(character);
 			    if (color != NO_COLOR) term_end_color();
@@ -1293,21 +1301,14 @@ struct WinDesc *cw;
 		   } else
 #endif
 		    term_start_attr(curr->attr);
-		    for (n = 0, cp = curr->str;
+		    for (cp = curr->str;
 #ifndef WIN32CON
 			  *cp && (int) ++ttyDisplay->curx < (int) ttyDisplay->cols;
-			  cp++, n++)
+			  cp++)
 #else
 			  *cp && (int) ttyDisplay->curx < (int) ttyDisplay->cols;
-			  cp++, n++, ttyDisplay->curx++)
+			  cp++, ttyDisplay->curx++)
 #endif
-			if (n == 2 && curr->identifier.a_void != 0 &&
-							curr->selected) {
-			    if (curr->count == -1L)
-				(void) putchar('+'); /* all selected */
-			    else
-				(void) putchar('#'); /* count selected */
-			} else
 			    (void) putchar(*cp);
 #ifdef MENU_COLOR
 		   if (iflags.use_menu_color && menucolr) {
@@ -2099,9 +2100,10 @@ tty_add_menu(window, glyph, identifier, ch, gch, attr, str, preselected)
     item->selected = preselected;
     item->selector = ch;
     item->gselector = gch;
-    item->attr = attr;
+    item->attr = attr & ~ATR_OBJREF;
     item->str = copy_of(str);
     item->glyph = glyph;
+    item->obj = attr & ATR_OBJREF ? identifier->a_obj : NULL;
 
     item->next = cw->mlist;
     cw->mlist = item;
