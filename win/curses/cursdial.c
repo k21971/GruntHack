@@ -968,10 +968,6 @@ static void menu_win_size(nhmenu *menu)
         if (menu_item_ptr->identifier.a_void == NULL)
         {
             curentrywidth=strlen(menu_item_ptr->str);
-            if (menu_item_ptr->glyph != NO_GLYPH
-                        && iflags.use_menu_glyphs)
-                curentrywidth += 2;
-
             if (curentrywidth > maxheaderwidth)
             {
                 maxheaderwidth = curentrywidth;
@@ -981,6 +977,9 @@ static void menu_win_size(nhmenu *menu)
         {
             /* Add space for accelerator */
             curentrywidth=strlen(menu_item_ptr->str) + 4;
+            if (menu_item_ptr->glyph != NO_GLYPH
+                        && iflags.use_menu_glyphs)
+                curentrywidth += 2;
         }
         if (curentrywidth > maxentrywidth)
         {

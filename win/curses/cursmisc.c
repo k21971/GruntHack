@@ -726,7 +726,7 @@ int curses_convert_attr(int attr)
         }
     }
        /* lower 8 bits not used in curses attrs */ 
-    return curses_attr | (attr & ATR_OBJREF) ? 1 : 0; 
+    return curses_attr | ((attr & ATR_OBJREF) ? 1 : 0); 
 }
 
 
