@@ -3298,7 +3298,7 @@ const char *str;
             }
             return TRUE;
 
-        } else if ((orefl == which_armor(mon, W_RINGL)) &&
+        } else if ((orefl = which_armor(mon, W_RINGL)) &&
                    (orefl->oprops & ITEM_REFLECTION)) {
             if (str) {
                 pline(str, mons, "left ring");
@@ -3307,7 +3307,7 @@ const char *str;
             }
             return TRUE;
 
-        } else if ((orefl == which_armor(mon, W_RINGR)) &&
+        } else if ((orefl = which_armor(mon, W_RINGR)) &&
                    (orefl->oprops & ITEM_REFLECTION)) {
             if (str) {
                 pline(str, mons, "right ring");
