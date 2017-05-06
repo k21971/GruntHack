@@ -104,6 +104,7 @@
  */
 #ifndef VAR_PLAYGROUND
 #define VAR_PLAYGROUND "/gh/var"
+/* #define VAR_PLAYGROUND "/var/lib/games/nethack" */
 #endif
 
 

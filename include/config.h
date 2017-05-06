@@ -455,6 +455,7 @@ typedef long glyph_t;
 /* Filename for dgamelaunch extra info field.
    Can be left undefined for not writing extrainfo. */
 #define EXTRAINFO_FN "/dgldir/extrainfo-gh/%n.extrainfo"
+/* #define EXTRAINFO_FN "/dgldir/extrainfo-gh/%n.extrainfo" */
 
 /* End of Section 5 */
 
