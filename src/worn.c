@@ -708,13 +708,27 @@ outer_break:
 }
 #undef RACE_EXCEPTION
 
-
+/* Return armor worn in said slot. Works on the player */
 struct obj *
 which_armor(mon, flag)
 struct monst *mon;
 long flag;
 {
-	register struct obj *obj;
+	if (mon == &youmonst) {
+                return (flag == W_ARM   ? uarm   :
+                        flag == W_ARMU  ? uarmu  :
+                        flag == W_ARMC  ? uarmc  :
+                        flag == W_ARMH  ? uarmh  :
+                        flag == W_ARMS  ? uarms  :
+                        flag == W_ARMG  ? uarmg  :
+                        flag == W_ARMF  ? uarmf  :
+                        flag == W_AMUL  ? uamul  :
+                        flag == W_RINGR ? uright :
+                        flag == W_RINGL ? uleft  :
+                        (struct obj *)0);
+        }
+
+        register struct obj *obj;
 
 	for(obj = mon->minvent; obj; obj = obj->nobj)
 		if (obj->owornmask & flag) return obj;

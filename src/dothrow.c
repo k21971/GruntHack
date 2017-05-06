@@ -826,7 +826,7 @@ boolean thrown;
 		if (Reflecting)
 		{
 		    if (!Blind) {
-		    	(void) ureflects("But %s reflects from your %s!", "it");
+			(void) ureflects("But %s reflects from %s %s!", "it");
 		    } else
 			pline("For some reason you are not affected.");
 		    shieldeff(u.ux, u.uy);
