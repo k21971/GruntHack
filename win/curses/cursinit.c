@@ -15,6 +15,27 @@
 #define UNNETHACK_CURSES    3
 #define SPORKHACK_CURSES    4
 #define GRUNTHACK_CURSES    5
+#define DNETHACK_CURSES     6
+
+/* array to save initial terminal colors for later restoration */
+
+typedef struct nhrgb_type
+{
+    short r;
+    short g;
+    short b;
+} nhrgb;
+
+nhrgb orig_yellow;
+nhrgb orig_white;
+nhrgb orig_darkgray;
+nhrgb orig_hired;
+nhrgb orig_higreen;
+nhrgb orig_hiyellow;
+nhrgb orig_hiblue;
+nhrgb orig_himagenta;
+nhrgb orig_hicyan;
+nhrgb orig_hiwhite;
 
 /* Banners used for an optional ASCII splash screen */
 
@@ -101,6 +122,19 @@
 "| l__) || |   | |_| || | | || |_ | |  | || (_| || (__ |   < "
 #define GRUNTHACK_SPLASH_F \
 "\\______/|_|   \\___,_||_| |_| \\__)|_|  |_| \\__,_| \\___)|_|\\_\\"
+
+#define DNETHACK_SPLASH_A \
+"     _  _   _        _    _    _               _    "
+#define DNETHACK_SPLASH_B \
+"    | || \\ | |      | |  | |  | |             | |   "
+#define DNETHACK_SPLASH_C \
+"  __| ||  \\| |  ___ | |_ | |__| |  __ _   ___ | | __"
+#define DNETHACK_SPLASH_D \
+" / _` || . ` | / _ \\| __||  __  | / _` | / __|| |/ /"
+#define DNETHACK_SPLASH_E \
+"| (_| || |\\  ||  __/| |_ | |  | || (_| || (__ |   < "
+#define DNETHACK_SPLASH_F \
+" \\__,_||_| \\_| \\___| \\__||_|  |_| \\__,_| \\___||_|\\_\\"
 
 
 /* Create the "main" nonvolitile windows used by nethack */
@@ -560,6 +594,21 @@ void curses_init_nhcolors()
         init_pair(7, COLOR_CYAN, -1);
         init_pair(8, -1, -1);
 
+	{
+	    int i;
+	    for (i = 0; i < 16; i++) {
+		int clr_remap[16] = {
+		    COLOR_BLACK, COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_BLUE,
+		    COLOR_MAGENTA, COLOR_CYAN, -1, COLOR_WHITE,
+		    COLOR_RED+8, COLOR_GREEN+8, COLOR_YELLOW+8, COLOR_BLUE+8,
+		    COLOR_MAGENTA+8, COLOR_CYAN+8, COLOR_WHITE+8
+		};
+		init_pair(17 + (i*2) + 0, clr_remap[i], COLOR_RED);
+		init_pair(17 + (i*2) + 1, clr_remap[i], COLOR_BLUE);
+	    }
+	}
+
+
         if (COLORS >= 16)
         {
             init_pair(9, COLOR_WHITE, -1);
@@ -574,10 +623,34 @@ void curses_init_nhcolors()
 
         if (can_change_color())
         {
+            /* Preserve initial terminal colors */
+            color_content(COLOR_YELLOW, &orig_yellow.r, &orig_yellow.g,
+             &orig_yellow.b);
+            color_content(COLOR_WHITE, &orig_white.r, &orig_white.g,
+             &orig_white.b);
+            
+            /* Set colors to appear as NetHack expects */
             init_color(COLOR_YELLOW, 500, 300, 0);
             init_color(COLOR_WHITE, 600, 600, 600);
             if (COLORS >= 16)
             {
+                /* Preserve initial terminal colors */
+                color_content(COLOR_RED + 8, &orig_hired.r,
+                 &orig_hired.g, &orig_hired.b);
+                color_content(COLOR_GREEN + 8, &orig_higreen.r,
+                 &orig_higreen.g, &orig_higreen.b);
+                color_content(COLOR_YELLOW + 8, &orig_hiyellow.r,
+                 &orig_hiyellow.g, &orig_hiyellow.b);
+                color_content(COLOR_BLUE + 8, &orig_hiblue.r,
+                 &orig_hiblue.g, &orig_hiblue.b);
+                color_content(COLOR_MAGENTA + 8, &orig_himagenta.r,
+                 &orig_himagenta.g, &orig_himagenta.b);
+                color_content(COLOR_CYAN + 8, &orig_hicyan.r,
+                 &orig_hicyan.g, &orig_hicyan.b);
+                color_content(COLOR_WHITE + 8, &orig_hiwhite.r,
+                 &orig_hiwhite.g, &orig_hiwhite.b);
+            
+                /* Set colors to appear as NetHack expects */
                 init_color(COLOR_RED + 8, 1000, 500, 0);
                 init_color(COLOR_GREEN + 8, 0, 1000, 0);
                 init_color(COLOR_YELLOW + 8, 1000, 1000, 0);
@@ -588,7 +661,11 @@ void curses_init_nhcolors()
 #ifdef USE_DARKGRAY
                 if (COLORS > 16)
                 {
+                    color_content(CURSES_DARK_GRAY, &orig_darkgray.r,
+                     &orig_darkgray.g, &orig_darkgray.b);
                     init_color(CURSES_DARK_GRAY, 300, 300, 300);
+                    /* just override black colorpair entry here */
+                    init_pair(1, CURSES_DARK_GRAY, -1);
                 }
 #endif
             }
@@ -1128,13 +1205,18 @@ void curses_display_splash_window()
         which_variant = SPORKHACK_CURSES;
     }
 
-    curses_toggle_color_attr(stdscr, CLR_WHITE, A_NORMAL, ON);
     if (strncmp("GruntHack", COPYRIGHT_BANNER_A, 9) == 0)
     {
         which_variant = GRUNTHACK_CURSES;
     }
 
+    if (strncmp("dNethack", COPYRIGHT_BANNER_A, 8) == 0)
+    {
+        which_variant = DNETHACK_CURSES;
+    }
 
+
+    curses_toggle_color_attr(stdscr, CLR_WHITE, A_NORMAL, ON);
     if (iflags.wc_splash_screen)
     {
         switch (which_variant)
@@ -1194,6 +1276,17 @@ void curses_display_splash_window()
                 y_start += 7;
                 break;
             }
+            case DNETHACK_CURSES:
+            {
+                mvaddstr(y_start, x_start, DNETHACK_SPLASH_A);
+                mvaddstr(y_start + 1, x_start, DNETHACK_SPLASH_B);
+                mvaddstr(y_start + 2, x_start, DNETHACK_SPLASH_C);
+                mvaddstr(y_start + 3, x_start, DNETHACK_SPLASH_D);
+                mvaddstr(y_start + 4, x_start, DNETHACK_SPLASH_E);
+                mvaddstr(y_start + 5, x_start, DNETHACK_SPLASH_F);
+                y_start += 7;
+                break;
+            }
             default:
             {
                 impossible("which_variant number %d out of range",
@@ -1225,3 +1318,45 @@ void curses_display_splash_window()
 #endif
     refresh();
 }
+
+
+/* Resore colors and cursor state before exiting */
+
+void curses_cleanup()
+{
+#ifdef TEXTCOLOR
+    if (has_colors() && can_change_color())
+    {
+        init_color(COLOR_YELLOW, orig_yellow.r, orig_yellow.g,
+         orig_yellow.b);
+        init_color(COLOR_WHITE, orig_white.r, orig_white.g,
+         orig_white.b);
+         
+        if (COLORS >= 16)
+        {
+            init_color(COLOR_RED + 8, orig_hired.r, orig_hired.g,
+             orig_hired.b);
+            init_color(COLOR_GREEN + 8, orig_higreen.r, orig_higreen.g,
+             orig_higreen.b);
+            init_color(COLOR_YELLOW + 8, orig_hiyellow.r,
+             orig_hiyellow.g, orig_hiyellow.b);
+            init_color(COLOR_BLUE + 8, orig_hiblue.r, orig_hiblue.g,
+             orig_hiblue.b);
+            init_color(COLOR_MAGENTA + 8, orig_himagenta.r,
+             orig_himagenta.g, orig_himagenta.b);
+            init_color(COLOR_CYAN + 8, orig_hicyan.r, orig_hicyan.g,
+             orig_hicyan.b);
+            init_color(COLOR_WHITE + 8, orig_hiwhite.r, orig_hiwhite.g,
+             orig_hiwhite.b);
+# ifdef USE_DARKGRAY
+            if (COLORS > 16)
+            {
+                init_color(CURSES_DARK_GRAY, orig_darkgray.r,
+             orig_darkgray.g, orig_darkgray.b);
+            }
+# endif
+        }
+    }
+#endif
+}
+

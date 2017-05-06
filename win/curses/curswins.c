@@ -467,14 +467,19 @@ boolean curses_window_has_border(winid wid)
 
 boolean curses_window_exists(winid wid)
 {
-    if (nhwins[wid].nhwin == wid)
+    nethack_wid *widptr = nhwids;
+    
+    while (widptr != NULL)
     {
-        return TRUE;
+        if (widptr->nhwid == wid)
+        {
+            return TRUE;
+	}
+
+	widptr = widptr->next_wid;
     }
-    else
-    {
-        return FALSE;
-    }
+
+    return FALSE;
 }
 
 
@@ -524,7 +529,7 @@ void curses_puts(winid wid, int attr, const char *text)
         }
         identifier = malloc(sizeof(anything));
         identifier->a_void = NULL;
-        curses_add_nhmenu_item(wid, identifier, 0, 0, attr, text,
+        curses_add_nhmenu_item(wid, NO_GLYPH, identifier, 0, 0, attr, text,
          FALSE);
     }
     else
@@ -556,6 +561,24 @@ void curses_clear_nhwin(winid wid)
     }
 }
 
+/* Change colour of window border to alert player to something */
+void curses_alert_win_border(winid wid, boolean onoff)
+{
+    WINDOW *win = curses_get_nhwin(wid);
+    if (!curses_window_has_border(wid)) return;
+    if (onoff) curses_toggle_color_attr(win, ALERT_BORDER_COLOR, NONE, ON);
+    box(win, 0, 0);
+    if (onoff) curses_toggle_color_attr(win, ALERT_BORDER_COLOR, NONE, OFF);
+    wrefresh(win);
+}
+
+
+void curses_alert_main_borders(boolean onoff)
+{
+    curses_alert_win_border(MAP_WIN, onoff);
+    curses_alert_win_border(MESSAGE_WIN, onoff);
+    curses_alert_win_border(STATUS_WIN, onoff);
+}
 
 /* Return true if given wid is a main NetHack window */
 

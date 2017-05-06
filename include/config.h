@@ -283,6 +283,9 @@ typedef signed char	schar;
 typedef unsigned char	uchar;
 #endif
 
+/* TODO: include inttypes.h or stdint.h and use uint32_t instead of long? */
+typedef long glyph_t;
+
 /*
  * Various structures have the option of using bitfields to save space.
  * If your C compiler handles bitfields well (e.g., it can initialize structs
@@ -446,6 +449,8 @@ typedef unsigned char	uchar;
 #define DYWYPISI	/* identify objects' identification state */
 
 #define AUTO_OPEN	/* open doors by walking into them - Stefano Busti */
+
+#define ELBERETH_CONDUCT /* Track the number of times the player engraves Elbereth. - Ray Kulhanek */
 
 /* Filename for dgamelaunch extra info field.
    Can be left undefined for not writing extrainfo. */

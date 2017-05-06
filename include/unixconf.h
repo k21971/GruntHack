@@ -102,7 +102,9 @@
  * If you want the static parts of your playground on a read-only file
  * system, define VAR_PLAYGROUND to be where the variable parts are kept.
  */
+#ifndef VAR_PLAYGROUND
 /* #define VAR_PLAYGROUND "/var/lib/games/nethack" */
+#endif
 
 
 /*

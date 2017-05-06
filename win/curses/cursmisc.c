@@ -42,7 +42,7 @@ int curses_read_char()
 
     if (ch == 0)
     {
-        ch = '\033'; /* map NUL to ESC since nethack doesn't expect NUL */
+        ch = DOESCAPE; /* map NUL to ESC since nethack doesn't expect NUL */
     }
 
 #if defined(ALT_0) && defined(ALT_9)    /* PDCurses, maybe others */    
@@ -65,7 +65,7 @@ int curses_read_char()
     /* Handle resize events via get_nh_event, not this code */
     if (ch == KEY_RESIZE)
     {
-        ch = '\033'; /* NetHack doesn't know what to do with KEY_RESIZE */
+        ch = DOESCAPE; /* NetHack doesn't know what to do with KEY_RESIZE */
     }
 #endif
 
@@ -100,29 +100,35 @@ void curses_toggle_color_attr(WINDOW *win, int color, int attr, int onoff)
     if (color == 0) /* make black fg visible */
     {
 #ifdef USE_DARKGRAY
-        if (can_change_color() && (COLORS > 16))
+        if (iflags.wc2_darkgray)
         {
-            color = CURSES_DARK_GRAY - 1;
+            if (can_change_color() && (COLORS > 16))
+            {
+                /* colorpair for black is already darkgray */
+            }
+            else    /* Use bold for a bright black */
+            {
+                wattron(win, A_BOLD);
+            }
         }
-        else    /* Use bold for a bright black */
-        {
-            wattron(win, A_BOLD);
-        }
-#else        
-        color = CLR_BLUE;
+        else
 #endif  /* USE_DARKGRAY */
+            color = CLR_BLUE;
     }
     curses_color = color + 1;
     if (COLORS < 16)
     {
-        if (curses_color > 8)
+        if (curses_color > 8 && curses_color < 17)
             curses_color -= 8;
+        else if (curses_color > (17+16))
+            curses_color -= 16;
     }
     if (onoff == ON)    /* Turn on color/attributes */
     {
         if (color != NONE)
         {
-            if ((color > 7) && (COLORS < 16))
+            if ((((color > 7) && (color < 17)) ||
+		 (color > 17+17)) && (COLORS < 16))
             {
                 wattron(win, A_BOLD);
             }
@@ -671,7 +677,7 @@ int curses_get_count(int first_digit)
     
     ungetch(current_char);
     
-    if (current_char == '\033')    /* Cancelled with escape */
+    if (current_char == DOESCAPE)    /* Cancelled with escape */
     {
         current_count = -1;
     }

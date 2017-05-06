@@ -308,7 +308,8 @@ struct toptenentry *tt;
   (void)fprintf(rfile, SEP "align0=%s", 
           aligns[1 - u.ualignbase[A_ORIGINAL]].filecode);
 #endif
-
+  (void)fprintf(rfile, SEP "elbereths=%ld", u.uconduct.elbereths);
+	
   (void)fprintf(rfile, "\n");
 
 }

@@ -98,7 +98,7 @@ void curses_message_win_puts(const char *message, boolean recursed)
             {
                 /* Pause until key is hit - Esc suppresses any further
                 messages that turn */
-                if (curses_more() == '\033')
+                if (curses_more() == DOESCAPE)
                 {
                     suppress_turn = moves;
                     return;
@@ -128,7 +128,7 @@ void curses_message_win_puts(const char *message, boolean recursed)
     if ((mx == border_space) && ((message_length + 2) > width))
     {
         tmpstr = curses_break_str(message, (width - 2), 1);
-        mvwprintw(win, my, mx, tmpstr);
+        mvwprintw(win, my, mx, "%s", tmpstr);
         mx += strlen(tmpstr);
         if (strlen(tmpstr) < (width - 2))
         {
@@ -145,7 +145,7 @@ void curses_message_win_puts(const char *message, boolean recursed)
     }
     else
     {
-        mvwprintw(win, my, mx, message);
+        mvwprintw(win, my, mx, "%s", message);
         curses_toggle_color_attr(win, NONE, A_BOLD, OFF);
         mx += message_length + 1;
     }
@@ -153,29 +153,40 @@ void curses_message_win_puts(const char *message, boolean recursed)
 }
 
 
-int curses_more()
+int curses_block(boolean require_tab)
 {
     int height, width, ret;
     WINDOW *win = curses_get_nhwin(MESSAGE_WIN);
     
     curses_get_window_size(MESSAGE_WIN, &height, &width);
     curses_toggle_color_attr(win, MORECOLOR, NONE, ON);
-    mvwprintw(win, my, mx, ">>");
+    mvwprintw(win, my, mx, require_tab ? "<TAB!>" : ">>");
     curses_toggle_color_attr(win, MORECOLOR, NONE, OFF);
+    if (require_tab) curses_alert_main_borders(TRUE);
     wrefresh(win);
-    ret = wgetch(win);
+    while ((ret = wgetch(win) != '\t') && require_tab);
+    if (require_tab) curses_alert_main_borders(FALSE);
     if (height == 1)
     {
         curses_clear_unhighlight_message_window();
     }
     else
     {
-        mvwprintw(win, my, mx, "  ");
-        scroll_window(MESSAGE_WIN);
-        turn_lines = 1;
+        mvwprintw(win, my, mx, "      ");
+        wrefresh(win);
+        if (!require_tab)
+        {
+            scroll_window(MESSAGE_WIN);
+            turn_lines = 1;
+        }
     }
     
     return ret;
+}
+
+int curses_more()
+{
+    return curses_block(FALSE);
 }
 
 
