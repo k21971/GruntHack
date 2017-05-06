@@ -2211,7 +2211,7 @@ gazemu(mtmp, mattk)	/* monster gazes at you */
 		    boolean useeit = canseemon(mtmp);
 
 		    if (useeit)
-			(void) ureflects("%s gaze is reflected by your %s.",
+			(void) ureflects("%s gaze is reflected by %s %s.",
 					 s_suffix(Monnam(mtmp)));
 		    if (mon_reflects(mtmp, !useeit ? (char *)0 :
 				     "The gaze is reflected away by %s %s!"))
