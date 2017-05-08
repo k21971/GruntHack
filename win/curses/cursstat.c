@@ -85,6 +85,47 @@ static nhstat prevencumb;
 extern const char *hu_stat[];   /* from eat.c */
 extern const char *enc_stat[];  /* from botl.c */
 
+/* If the statuscolors patch isn't enabled, have some default colors for status problems
+   anyway */
+
+#ifndef STATUS_COLORS
+struct defaultstatcolor {
+    const char *txt;
+    int color;
+};
+
+static const struct defaultstatcolor default_colors[] = {
+    {"Hungry", CLR_YELLOW},
+    {"Weak", CLR_ORANGE},
+    {"Fainted", CLR_BRIGHT_MAGENTA},
+    {"Fainting", CLR_BRIGHT_MAGENTA},
+    {"Burdened", CLR_RED},
+    {"Stressed", CLR_RED},
+    {"Strained", CLR_ORANGE},
+    {"Overtaxed", CLR_ORANGE},
+    {"Overloaded", CLR_BRIGHT_MAGENTA},
+    {"Conf", CLR_BRIGHT_BLUE},
+    {"Blind", CLR_BRIGHT_BLUE},
+    {"Stun", CLR_BRIGHT_BLUE},
+    {"Hallu", CLR_BRIGHT_BLUE},
+    {"Ill", CLR_BRIGHT_MAGENTA},
+    {"FoodPois", CLR_BRIGHT_MAGENTA},
+    {"Slime", CLR_BRIGHT_MAGENTA},
+    {NULL, NO_COLOR},
+};
+
+static int
+get_fakestatuscolors_color(nhstat *stat)
+{
+    struct defaultstatcolor *clr;
+    for (clr = default_colors; clr->txt; clr++)
+        if (stat->txt && !strcmp(clr->txt, stat->txt))
+            return clr->color;
+
+    return NO_COLOR;
+}
+#endif
+
 /* Handles numerical stat changes of various kinds.
    type is generally STAT_OTHER (generic "do nothing special"),
    but is used if the stat needs to be handled in a special way. */
@@ -99,17 +140,19 @@ handle_stat_change(nhstat *stat, int new, int type,
     /* Turncount isn't highlighted, or it would be highlighted constantly.
        Also note that these colors can be ignored if statuscolors is enabled
        in color_stat() */
-    if (new != stat->value && type != STAT_TIME) {
-        /* Less AC is better */
-        if ((type == STAT_AC && new < stat->value) ||
-            (type != STAT_AC && new > stat->value)) {
-            if (type == STAT_GOLD) {
-                stat->highlight_color = HI_GOLD;
+    if (new != stat->value) {
+        if (type != STAT_TIME) {
+            /* Less AC is better */
+            if ((type == STAT_AC && new < stat->value) ||
+                (type != STAT_AC && new > stat->value)) {
+                if (type == STAT_GOLD) {
+                    stat->highlight_color = HI_GOLD;
+                } else {
+                    stat->highlight_color = STAT_UP_COLOR;
+                }
             } else {
-                stat->highlight_color = STAT_UP_COLOR;
+                stat->highlight_color = STAT_DOWN_COLOR;
             }
-        } else {
-            stat->highlight_color = STAT_DOWN_COLOR;
         }
         stat->value = new;
 
@@ -128,9 +171,11 @@ handle_stat_change(nhstat *stat, int new, int type,
 
         free(stat->txt);
         stat->txt = curses_copy_of(buf);
-        stat->highlight_turns = 5;
-        if (type == STAT_HPEN) {
-            stat->highlight_turns = 3;
+        if (type != STAT_TIME) {
+            stat->highlight_turns = 5;
+            if (type == STAT_HPEN) {
+                stat->highlight_turns = 3;
+            }
         }
     }
 
@@ -160,7 +205,6 @@ handle_status_problem(nhstat *stat, int new, const char *str,
     WINDOW *win = curses_get_nhwin(STATUS_WIN);
 
     if (new != stat->value) {
-        stat->highlight_color = STAT_DOWN_COLOR;
         if (stat->txt != NULL) {
             free(stat->txt);
         }
@@ -169,9 +213,7 @@ handle_status_problem(nhstat *stat, int new, const char *str,
         } else {
             stat->txt = NULL;
         }
-        if (stat->value == 0) {
-            stat->highlight_turns = 5;
-        }
+
         stat->value = new;
     }
 
@@ -1015,6 +1057,9 @@ init_stats()
     prevconf.highlight_turns = 0;
     prevconf.label = NULL;
     prevconf.id = "conf";
+#ifndef STATUS_COLORS
+    prevconf.highlight_color = get_fakestatuscolors_color(&prevconf);
+#endif
     set_stat_color(&prevconf);
 
     /* Blindness */
@@ -1028,6 +1073,9 @@ init_stats()
     prevblind.highlight_turns = 0;
     prevblind.label = NULL;
     prevblind.id = "blind";
+#ifndef STATUS_COLORS
+    prevblind.highlight_color = get_fakestatuscolors_color(&prevblind);
+#endif
     set_stat_color(&prevblind);
 
     /* Stun */
@@ -1041,6 +1089,9 @@ init_stats()
     prevstun.highlight_turns = 0;
     prevstun.label = NULL;
     prevstun.id = "stun";
+#ifndef STATUS_COLORS
+    prevstun.highlight_color = get_fakestatuscolors_color(&prevstun);
+#endif
     set_stat_color(&prevstun);
 
     /* Hallucination */
@@ -1054,6 +1105,9 @@ init_stats()
     prevhallu.highlight_turns = 0;
     prevhallu.label = NULL;
     prevhallu.id = "hallu";
+#ifndef STATUS_COLORS
+    prevhallu.highlight_color = get_fakestatuscolors_color(&prevhallu);
+#endif
     set_stat_color(&prevhallu);
 
     /* Sick */
@@ -1071,6 +1125,9 @@ init_stats()
     prevsick.highlight_turns = 0;
     prevsick.label = NULL;
     prevsick.id = "sick";
+#ifndef STATUS_COLORS
+    prevsick.highlight_color = get_fakestatuscolors_color(&prevsick);
+#endif
     set_stat_color(&prevsick);
 
     /* Slimed */
@@ -1084,6 +1141,9 @@ init_stats()
     prevslime.highlight_turns = 0;
     prevslime.label = NULL;
     prevslime.id = "slime";
+#ifndef STATUS_COLORS
+    prevslime.highlight_color = get_fakestatuscolors_color(&prevslime);
+#endif
     set_stat_color(&prevslime);
 
     /* Encumberance */
@@ -1453,8 +1513,7 @@ set_labels(int label_width)
 }
 
 
-/* Get the default (non-highlighted) color for a stat.  For now, this
-is NO_COLOR unless the statuscolors patch is in use. */
+/* Get the default (non-highlighted) color for a stat. */
 
 static void
 set_stat_color(nhstat *stat)
@@ -1480,14 +1539,14 @@ set_stat_color(nhstat *stat)
         stat->stat_attr = A_NORMAL;
     }
 #else
-    stat->stat_color = NO_COLOR;
+    stat->stat_color = get_fakestatuscolors_color(stat);
     stat->stat_attr = A_NORMAL;
 #endif /* STATUS_COLORS */
 }
 
 
 /* Set the color to the base color for the given stat, or highlight a
- changed stat. */
+   changed stat. */
 
 static void
 color_stat(nhstat stat, int onoff)
@@ -1561,6 +1620,8 @@ color_stat(nhstat stat, int onoff)
 
     stat.stat_color = color;
     stat.stat_attr = attr;
+#else
+    stat.stat_color = get_fakestatuscolors_color(&stat);
 #endif /* STATUS_COLORS */
 
     if ((stat.stat_color == NO_COLOR) && (stat.stat_attr == A_NORMAL)) {
