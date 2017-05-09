@@ -347,7 +347,7 @@ hpen_color_attr(boolean is_hp, int cur, int max)
     int count;
     attr_t attr = 0;
     if (!iflags.use_status_colors)
-        return curses_color_attr(CLR_GRAY);
+        return curses_color_attr(CLR_GRAY, 0);
 
     stat_color = percentage_color_of(cur, max, is_hp ? hp_colors : pw_colors);
 
