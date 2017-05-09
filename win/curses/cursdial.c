@@ -398,7 +398,6 @@ curses_ext_cmd()
                 prompt_width--;
             }
         }
-        
         if (letter != '*' && prompt_width < maxlen) {
             cur_choice[prompt_width] = letter;
             cur_choice[prompt_width + 1] = '\0';
