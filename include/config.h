@@ -452,6 +452,8 @@ typedef long glyph_t;
 
 #define ELBERETH_CONDUCT /* Track the number of times the player engraves Elbereth. - Ray Kulhanek */
 
+#define STATUS_COLORS /* Shachaf & Oren Ben-Kiki */
+
 /* Filename for dgamelaunch extra info field.
    Can be left undefined for not writing extrainfo. */
 /* #define EXTRAINFO_FN "/dgldir/extrainfo-gh/%n.extrainfo" */

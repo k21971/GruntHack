@@ -39,6 +39,137 @@ STATIC_DCL void NDECL(bot2);
 #define MAXCO (COLNO+20)
 #endif
 
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+
+extern const struct percent_color_option *hp_colors;
+extern const struct percent_color_option *pw_colors;
+extern const struct text_color_option *text_colors;
+
+struct color_option
+text_color_of(text, color_options)
+     const char *text;
+     const struct text_color_option *color_options;
+{
+    if (color_options == NULL) {
+        struct color_option result = {NO_COLOR, 0};
+        return result;
+    }
+    if (strstri(color_options->text, text)
+        || strstri(text, color_options->text))
+        return color_options->color_option;
+    return text_color_of(text, color_options->next);
+}
+
+struct color_option
+percentage_color_of(value, max, color_options)
+     int value, max;
+     const struct percent_color_option *color_options;
+{
+    if (color_options == NULL) {
+        struct color_option result = {NO_COLOR, 0};
+        return result;
+    }
+    switch (color_options->statclrtype) {
+    default:
+    case STATCLR_TYPE_PERCENT:
+        if (100 * value <= color_options->percentage * max)
+            return color_options->color_option;
+        break;
+    case STATCLR_TYPE_NUMBER_EQ:
+        if (value == color_options->percentage)
+            return color_options->color_option;
+        break;
+    case STATCLR_TYPE_NUMBER_LT:
+        if (value < color_options->percentage)
+            return color_options->color_option;
+        break;
+    case STATCLR_TYPE_NUMBER_GT:
+        if (value > color_options->percentage)
+            return color_options->color_option;
+        break;
+    }
+    return percentage_color_of(value, max, color_options->next);
+}
+
+void
+start_color_option(color_option)
+     struct color_option color_option;
+{
+#ifdef TTY_GRAPHICS
+    int i;
+    if (color_option.color != NO_COLOR)
+        term_start_color(color_option.color);
+    for (i = 0; (1 << i) <= color_option.attr_bits; ++i)
+        if (i != ATR_NONE && color_option.attr_bits & (1 << i))
+            term_start_attr(i);
+#endif  /* TTY_GRAPHICS */
+}
+
+void
+end_color_option(color_option)
+     struct color_option color_option;
+{
+#ifdef TTY_GRAPHICS
+    int i;
+    if (color_option.color != NO_COLOR)
+        term_end_color();
+    for (i = 0; (1 << i) <= color_option.attr_bits; ++i)
+        if (i != ATR_NONE && color_option.attr_bits & (1 << i))
+            term_end_attr(i);
+#endif  /* TTY_GRAPHICS */
+}
+
+static
+void
+apply_color_option(color_option, newbot2, statusline)
+     struct color_option color_option;
+     const char *newbot2;
+     int statusline; /* apply color on this statusline: 1 or 2 */
+{
+    if (!iflags.use_status_colors || !iflags.use_color) return;
+    curs(WIN_STATUS, 1, statusline-1);
+    start_color_option(color_option);
+    putstr(WIN_STATUS, 0, newbot2);
+    end_color_option(color_option);
+}
+
+void
+add_colored_text(text, newbot2)
+     const char *text;
+     char *newbot2;
+{
+    char *nb;
+    struct color_option color_option;
+
+    if (*text == '\0') return;
+
+    /* don't add anything if it can't be displayed.
+     * Otherwise the color of invisible text may bleed into
+     * the statusline. */
+    if (strlen(newbot2) >= min(MAXCO, CO)-1) return;
+
+    if (!iflags.use_status_colors) {
+        Sprintf(nb = eos(newbot2), " %s", text);
+        return;
+    }
+
+    Strcat(nb = eos(newbot2), " ");
+    curs(WIN_STATUS, 1, 1);
+    putstr(WIN_STATUS, 0, newbot2);
+
+    Strcat(nb = eos(nb), text);
+    curs(WIN_STATUS, 1, 1);
+    color_option = text_color_of(text, text_colors);
+    start_color_option(color_option);
+    /* Trim the statusline to always have the end color
+     * to have effect. */
+    newbot2[min(MAXCO, CO)-1] = '\0';
+    putstr(WIN_STATUS, 0, newbot2);
+    end_color_option(color_option);
+}
+
+#endif
+
 #ifndef OVLB
 STATIC_DCL int mrank_sz;
 #else /* OVLB */

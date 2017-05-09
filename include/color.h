@@ -71,4 +71,30 @@ struct menucoloring {
 };
 #endif /* MENU_COLOR */
 
+#ifdef STATUS_COLORS
+struct color_option {
+    int color;
+    int attr_bits;
+};
+
+#define STATCLR_TYPE_PERCENT 0
+#define STATCLR_TYPE_NUMBER_LT 1
+#define STATCLR_TYPE_NUMBER_GT 2
+#define STATCLR_TYPE_NUMBER_EQ 3
+
+
+struct percent_color_option {
+    xchar statclrtype;
+    int percentage;
+    struct color_option color_option;
+    struct percent_color_option *next;
+};
+
+struct text_color_option {
+    const char *text;
+    struct color_option color_option;
+    struct text_color_option *next;
+};
+#endif
+
 #endif /* COLOR_H */
