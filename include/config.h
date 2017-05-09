@@ -383,7 +383,6 @@ typedef long glyph_t;
 #define COMBINED_SPELLS     /* monsters and the player use the same pool of
                                spells */
 
-#define HPMON	            /* show HP in varying colours */
 #define SORTLOOT            /* allow items to be sorted by name */
 
 #define NEWRACES            /* allow player to play as kobold, ogre, or giant */

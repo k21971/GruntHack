@@ -113,6 +113,12 @@ static struct Bool_Opt
 	{"hilite_pet",    &iflags.wc_hilite_pet, FALSE, SET_IN_GAME},	/*WC*/
 	{"hilite_hidden_stairs",    &iflags.hilite_hidden_stairs, FALSE, SET_IN_GAME},	/*WC*/
 	{"hilite_obj_piles",    &iflags.hilite_obj_piles, FALSE, SET_IN_GAME},	/*WC*/
+#ifdef STATUS_COLORS
+	{"hitpointbar", &iflags.hitpointbar, FALSE, SET_IN_GAME},
+#else
+	{"hitpointbar", (boolean *)0, FALSE, SET_IN_FILE},
+#endif
+	{"hp_monitor", (boolean *)0, TRUE, SET_IN_FILE}, /* Ignore for backward compat */
 #ifdef ASCIIGRAPH
 	{"IBMgraphics", &iflags.IBMgraphics, FALSE, SET_IN_GAME},
 #else
