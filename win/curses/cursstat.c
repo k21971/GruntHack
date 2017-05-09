@@ -409,6 +409,12 @@ draw_bar(boolean is_hp, int cur, int max, const char *title)
 {
     WINDOW *win = curses_get_nhwin(STATUS_WIN);
 
+#ifdef STATUS_COLORS
+    if (!iflags.hitpointbar) {
+        wprintw(win, "%s", !title ? "---" : title);
+        return;
+    }
+#endif
     char buf[BUFSZ];
     if (title)
         Strcpy(buf, title);

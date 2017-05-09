@@ -203,6 +203,7 @@ struct instance_flags {
 #endif
 #if defined(STATUS_COLORS) && defined(TEXTCOLOR)
     boolean use_status_colors; /* use color in status line; only if wc_color */
+    boolean hitpointbar;
 #endif
 #ifdef MFLOPPY
 	boolean  checkspace;	/* check disk space before writing files */
