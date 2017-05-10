@@ -894,6 +894,7 @@ bot2()
 #else
   Sprintf(nb = eos(nb), " %s", enc_stat[cap]);
 #endif
+  oldmoves = moves;
 #ifdef DUMP_LOG
 }
 STATIC_OVL void
