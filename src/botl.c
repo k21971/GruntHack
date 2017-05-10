@@ -330,6 +330,7 @@ bot1()
 #if defined(STATUS_COLORS) && defined(TEXTCOLOR)
 	int save_botlx = flags.botlx;
 #endif
+	boolean changed = FALSE;
 
 	Strcpy(newbot1, "");
 #if defined(STATUS_COLORS) && defined(TEXTCOLOR)
@@ -343,7 +344,6 @@ bot1()
 	    putstr(WIN_STATUS, 0, newbot1);
         }
 #endif
-	boolean changed = FALSE;
 
 
 	Strcat(newbot1, plname);
@@ -371,25 +371,41 @@ bot1()
 # ifdef STATUS_COLORS
 		}
 # endif
+                if (changed) {
+                    /* force whole string to update */
+                    Sprintf(nb = eos(nb), "%*c", strlen(mbot), ' ');
+	            putstr(WIN_STATUS, 0, newbot1);
+                    *nb = '\0';
+                }
 #endif
 		Sprintf(nb = eos(nb), "%s", mbot);
 		if (oldmoves != moves)
 		    olddata = u.umonnum;
-	} else {
-		int newrank = xlev_to_rank(u.ulevel);
+            } else {
+                int newrank = xlev_to_rank(u.ulevel);
 #ifdef TEXTCOLOR
 # ifdef STATUS_COLORS
-		if (!iflags.hitpointbar) {
+                if (!iflags.hitpointbar) {
 # endif
-		    if ((changed = (olddata != u.umonnum)))
-			_term_start_color(CLR_BRIGHT_BLUE);
-		    else if ((changed = (oldrank < newrank)))
-			_term_start_color(CLR_GREEN);
-		    else if ((changed = (oldrank > newrank)))
-			_term_start_color(CLR_RED);
+                if (olddata != u.umonnum) {
+                        _term_start_color(CLR_BRIGHT_BLUE);
+                        changed = TRUE;
+                    } else if (oldrank < newrank) {
+                        _term_start_color(CLR_GREEN);
+                        changed = TRUE;
+                    } else if (oldrank > newrank) {
+                        _term_start_color(CLR_RED);
+                        changed = TRUE;
+                    }
 # ifdef STATUS_COLORS
 		}
 # endif
+                if (changed) {
+                    /* force whole string to update */
+                    Sprintf(nb = eos(nb), "%*c", strlen(rank()), ' ');
+	            putstr(WIN_STATUS, 0, newbot1);
+                    *nb = '\0';
+                }
 #endif
 		Sprintf(nb = eos(nb), "%s", rank());
 		if (oldmoves != moves) {
@@ -434,6 +450,7 @@ bot1()
 	if((i - j) > 0)
 		Sprintf(nb = eos(nb),"%*s", i-j, " ");	/* pad with spaces */
 
+	curs(WIN_STATUS, 1, 0);
         putstr(WIN_STATUS, 0, newbot1);
 
 #ifdef TEXTCOLOR
