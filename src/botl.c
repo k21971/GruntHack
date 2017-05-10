@@ -810,7 +810,7 @@ bot2()
 	    curs(WIN_STATUS, 1, 1);
 #ifdef TEXTCOLOR
             if ((changed = (oldmoves != moves)))
-	        _term_start_color(CLR_BLUE);
+	        _term_start_color(CLR_CYAN);
 #endif /*TEXTCOLOR*/
 	    Sprintf(nb = eos(nb), " T:%ld", moves);
 	    putstr(WIN_STATUS, 0, newbot2);
@@ -824,7 +824,7 @@ bot2()
     time_t currenttime = get_realtime();
 #ifdef TEXTCOLOR
     if ((changed = (oldtime != time)))
-	term_start_color(CLR_BLUE);
+	term_start_color(CLR_CYAN);
 #endif /*TEXTCOLOR*/
     Sprintf(nb = eos(nb), " %d:%2.2d", currenttime / 3600, 
                                        (currenttime % 3600) / 60);
