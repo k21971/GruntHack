@@ -838,137 +838,62 @@ bot2()
 #endif
 
 	if(strcmp(hu_stat[u.uhs], "        ")) {
-	        curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-                /* 3 == WEAK, 4 == FAINTING*/
-                if (iflags.use_color)
-	            _term_start_color(u.uhs >= 4  ?  CLR_ORANGE        :
-				     u.uhs == 3  ?  CLR_RED           :
-				                    CLR_YELLOW);
-#endif /*TEXTCOLOR*/
-		Sprintf(nb = eos(nb), " ");
-		Strcat(newbot2, hu_stat[u.uhs]);
-	        putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-                if (iflags.use_color) _term_end_color();
-#endif /*TEXTCOLOR*/
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+	      add_colored_text(hu_stat[u.uhs], newbot2);
+#else
+		  Sprintf(nb = eos(nb), " %s", hu_stat[u.uhs]);
+#endif
 	}
-	if(Confusion) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_BRIGHT_BLUE);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Conf");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-
-	if(Sick && (u.usick_type & SICK_VOMITABLE)) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_ORANGE);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " FoodPois");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(Sick && (u.usick_type & (SICK_NONVOMITABLE|SICK_ZOMBIE))) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_ORANGE);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Ill");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(Blind) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_BRIGHT_BLUE);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Blind");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(Stunned) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_RED);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Stun");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(HHallucination &&
-	  !Halluc_resistance) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_BRIGHT_MAGENTA);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Hallu");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(Slimed) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_GREEN);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Slime");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(Stoned) {
-	    curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-	    _term_start_color(CLR_ORANGE);
-#endif /*TEXTCOLOR*/
-	    Sprintf(nb = eos(nb), " Stone");
-
-	    putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-	    _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-	if(cap > UNENCUMBERED)
-	{
-	        curs(WIN_STATUS, 1, 1);
-#ifdef TEXTCOLOR
-                if (iflags.use_color)
-	            _term_start_color(cap == SLT_ENCUMBER ? CLR_BLUE :
-		                     cap == MOD_ENCUMBER ? CLR_YELLOW :
-				     cap == HVY_ENCUMBER ? CLR_RED :
-				                           CLR_ORANGE);
-#endif /*TEXTCOLOR*/
-		Sprintf(nb = eos(nb), " %s", enc_stat[cap]);
-	        putstr(WIN_STATUS, 0, newbot2);
-#ifdef TEXTCOLOR
-                if (iflags.use_color) _term_end_color();
-#endif /*TEXTCOLOR*/
-	}
-
-	oldmoves = moves;
+  if(Confusion)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Conf", newbot2);
+#else
+  Strcat(nb = eos(nb), " Conf");
+#endif
+  if(Sick) {
+      if (u.usick_type & SICK_VOMITABLE)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+	  add_colored_text("FoodPois", newbot2);
+#else
+      Strcat(nb = eos(nb), " FoodPois");
+#endif
+      if (u.usick_type & SICK_NONVOMITABLE)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+	  add_colored_text("Ill", newbot2);
+#else
+      Strcat(nb = eos(nb), " Ill");
+#endif
+  }
+  if(Blind)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Blind", newbot2);
+#else
+  Strcat(nb = eos(nb), " Blind");
+#endif
+  if(Stunned)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Stun", newbot2);
+#else
+  Strcat(nb = eos(nb), " Stun");
+#endif
+  if(Hallucination)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Hallu", newbot2);
+#else
+  Strcat(nb = eos(nb), " Hallu");
+#endif
+  if(Slimed)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Slime", newbot2);
+#else
+  Strcat(nb = eos(nb), " Slime");
+#endif
+  if(cap > UNENCUMBERED)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text(enc_stat[cap], newbot2);
+#else
+  Sprintf(nb = eos(nb), " %s", enc_stat[cap]);
+#endif
 #ifdef DUMP_LOG
 }
 STATIC_OVL void
