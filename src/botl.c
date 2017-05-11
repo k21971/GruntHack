@@ -857,7 +857,7 @@ bot2()
 #else
       Strcat(nb = eos(nb), " FoodPois");
 #endif
-      if (u.usick_type & SICK_NONVOMITABLE)
+      if (u.usick_type & (SICK_NONVOMITABLE|SICK_ZOMBIE))
 #if defined(STATUS_COLORS) && defined(TEXTCOLOR)
 	  add_colored_text("Ill", newbot2);
 #else
