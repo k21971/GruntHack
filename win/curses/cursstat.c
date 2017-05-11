@@ -474,8 +474,6 @@ draw_horizontal(void)
         hp = u.mh;
         hpmax = u.mhmax;
     }
-    if (hp < 0)
-        hp = 0; /* don't display negative values */
 
     /* Line 1 */
     wmove(win, y, x);
@@ -618,8 +616,6 @@ draw_vertical(void)
         hp = u.mh;
         hpmax = u.mhmax;
     }
-    if (hp < 0)
-        hp = 0; /* don't display negative values */
 
     /* Clear the window */
     werase(win);
