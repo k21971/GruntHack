@@ -448,8 +448,6 @@ curses_update_stats(void)
         hp = u.mh;
         hpmax = u.mhmax;
     }
-    if (hp < 0)
-        hp = 0; /* don't display negative values */
 
     orient = curses_get_window_orientation(STATUS_WIN);
 

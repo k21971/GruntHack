@@ -709,6 +709,7 @@ E void NDECL(delete_whereis);
 #endif
 #ifdef LIVELOG
 E void FDECL(livelog_write_string, (char *));
+E void VDECL(livelog_printf, (const char *,...)) PRINTF_F(1,2);
 #endif
 
 /* ### fountain.c ### */
