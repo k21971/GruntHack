@@ -82,9 +82,6 @@ Misc
   * Maybe add in a very small built-in editor for editing the config
   file from withing the game.
 
-  * Implement perm_invent option to allow inventory window to always
-be visible on larger terminals 
-
   * Add window_borders option to not draw window borders for the main
 windows on the outside edge of the terminal 
 
