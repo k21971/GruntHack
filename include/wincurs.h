@@ -160,6 +160,9 @@ extern void curses_line_input_dialog(const char *prompt, char *answer, int buffe
 extern int curses_character_input_dialog(const char *prompt, const char *choices, CHAR_P def);
 extern int curses_ext_cmd(void);
 extern void curses_create_nhmenu(winid wid);
+#ifdef MENU_COLOR
+extern boolean get_menu_coloring(char *, int *, int *);
+#endif
 extern void curses_add_nhmenu_item(winid wid, int glyph, const ANY_P *identifier,
                                    CHAR_P accelerator, CHAR_P group_accel, int attr,
                                    const char *str, BOOLEAN_P presel);
@@ -170,8 +173,15 @@ extern void curses_del_menu(winid wid);
 
 /* cursstat.c */
 
+extern attr_t curses_color_attr(int nh_color, int bg_color);
 extern void curses_update_stats(void);
 extern void curses_decrement_highlight(void);
+
+/* cursinvt.c */
+
+extern void curses_update_inv(void);
+extern void curses_add_inv(int, int, CHAR_P, attr_t, const char *,
+                           const ANY_P *);
 
 /* cursinit.c */
 
