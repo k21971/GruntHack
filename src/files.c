@@ -2,6 +2,8 @@
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
+#define NEED_VARARGS /* Uses ... */     /* comment line for pre-compiled headers */
+
 #include "hack.h"
 #include "dlb.h"
 
@@ -2689,6 +2691,16 @@ livelog_write_string(buffer)
        }
        unlock_file(LIVELOGFILE);
     }
+}
+
+void
+livelog_printf VA_DECL(const char *, fmt)
+    char ll_msgbuf[512];
+    VA_START(fmt);
+    VA_INIT(fmt, char *);
+    vsnprintf(ll_msgbuf, 512, fmt, VA_ARGS);
+    livelog_write_string(ll_msgbuf);
+    VA_END();
 }
 #endif
 
