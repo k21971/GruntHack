@@ -9,37 +9,28 @@
 
 /* Private declarations */
 
+/* Used to track previous value of things, to highlight changes. */
 typedef struct nhs {
     long value;
-    char *txt;
-    aligntyp alignment;
-    boolean display;
     int highlight_turns;
     int highlight_color;
-    int stat_color;
-    int stat_attr;
-    int x;
-    int y;
-    char *label;
-    const char *id;
 } nhstat;
 
 static attr_t get_trouble_color(const char *);
-static void statusproblem(int, const char *);
+static void draw_trouble_str(const char *);
 static void print_statdiff(const char *append, nhstat *, int, int);
 static void get_playerrank(char *);
 static attr_t curses_color_attr(int nh_color, int bg_color);
 static int hpen_color(boolean, int, int);
 static void draw_bar(boolean, int, int, const char *);
-static void draw_horizontal(void);
-static void draw_vertical(void);
+static void draw_horizontal(int, int, int, int);
+static void draw_vertical(int, int, int, int);
+static void curses_add_statuses(WINDOW *, boolean, int *, int *);
+static void curses_add_status(WINDOW *, boolean, int *, int *, const char *, int);
 static int decrement_highlight(nhstat *, boolean);
-static void decrement_highlights(boolean);
-static void init_stats(void);
 
 #ifdef STATUS_COLORS
 static attr_t hpen_color_attr(boolean, int, int);
-
 extern struct color_option text_color_of(const char *text,
                                          const struct text_color_option *color_options);
 struct color_option percentage_color_of(int value, int max,
@@ -50,6 +41,9 @@ extern const struct percent_color_option *hp_colors;
 extern const struct percent_color_option *pw_colors;
 #endif
 
+/* Whether or not we have printed status window content at least once.
+   Used to ensure that prev* doesn't end up highlighted on game start. */
+static boolean first = TRUE;
 static nhstat prevdepth;
 static nhstat prevstr;
 static nhstat prevint;
@@ -58,11 +52,7 @@ static nhstat prevdex;
 static nhstat prevcon;
 static nhstat prevcha;
 static nhstat prevau;
-static nhstat prevhp;
-static nhstat prevmhp;
 static nhstat prevlevel;
-static nhstat prevpow;
-static nhstat prevmpow;
 static nhstat prevac;
 static nhstat prevexp;
 static nhstat prevtime;
@@ -71,10 +61,6 @@ static nhstat prevtime;
 static nhstat prevscore;
 #endif
 
-#define COMPACT_LABELS  1
-#define NORMAL_LABELS   2
-#define WIDE_LABELS     3
-
 extern const char *hu_stat[];   /* from eat.c */
 extern const char *enc_stat[];  /* from botl.c */
 
@@ -82,29 +68,28 @@ extern const char *enc_stat[];  /* from botl.c */
    anyway */
 
 struct statcolor {
-    const char *id; /* Identifier for statuscolors */
     const char *txt; /* For status problems */
     int color; /* Default color assuming STATUS_COLORS isn't enabled */
 };
 
 static const struct statcolor default_colors[] = {
-    {"satiated", "Satiated", CLR_YELLOW},
-    {"hungry", "Hungry", CLR_YELLOW},
-    {"weak", "Weak", CLR_ORANGE},
-    {"fainted", "Fainted", CLR_BRIGHT_MAGENTA},
-    {"fainting", "Fainting", CLR_BRIGHT_MAGENTA},
-    {"burdened", "Burdened", CLR_RED},
-    {"stressed", "Stressed", CLR_RED},
-    {"strained", "Strained", CLR_ORANGE},
-    {"overtaxed", "Overtaxed", CLR_ORANGE},
-    {"overloaded", "Overloaded", CLR_BRIGHT_MAGENTA},
-    {"conf", "Conf", CLR_BRIGHT_BLUE},
-    {"blind", "Blind", CLR_BRIGHT_BLUE},
-    {"stun", "Stun", CLR_BRIGHT_BLUE},
-    {"hallu", "Hallu", CLR_BRIGHT_BLUE},
-    {"ill", "Ill", CLR_BRIGHT_MAGENTA},
-    {"foodpois", "FoodPois", CLR_BRIGHT_MAGENTA},
-    {"slime", "Slime", CLR_BRIGHT_MAGENTA},
+    {"Satiated", CLR_YELLOW},
+    {"Hungry", CLR_YELLOW},
+    {"Weak", CLR_ORANGE},
+    {"Fainted", CLR_BRIGHT_MAGENTA},
+    {"Fainting", CLR_BRIGHT_MAGENTA},
+    {"Burdened", CLR_RED},
+    {"Stressed", CLR_RED},
+    {"Strained", CLR_ORANGE},
+    {"Overtaxed", CLR_ORANGE},
+    {"Overloaded", CLR_BRIGHT_MAGENTA},
+    {"Conf", CLR_BRIGHT_BLUE},
+    {"Blind", CLR_BRIGHT_BLUE},
+    {"Stun", CLR_BRIGHT_BLUE},
+    {"Hallu", CLR_BRIGHT_BLUE},
+    {"Ill", CLR_BRIGHT_MAGENTA},
+    {"FoodPois", CLR_BRIGHT_MAGENTA},
+    {"Slime", CLR_BRIGHT_MAGENTA},
     {NULL, NULL, NO_COLOR},
 };
 
@@ -122,7 +107,7 @@ get_trouble_color(const char *stat)
 
             struct color_option stat_color;
 
-            stat_color = text_color_of(clr->id, text_colors);
+            stat_color = text_color_of(clr->txt, text_colors);
             if (stat_color.color == NO_COLOR && !stat_color.attr_bits)
                 return curses_color_attr(CLR_GRAY, 0);
 
@@ -170,7 +155,6 @@ get_playerrank(char *rank)
 /* Handles numerical stat changes of various kinds.
    type is generally STAT_OTHER (generic "do nothing special"),
    but is used if the stat needs to be handled in a special way. */
-
 static void
 print_statdiff(const char *append, nhstat *stat, int new, int type)
 {
@@ -213,11 +197,8 @@ print_statdiff(const char *append, nhstat *stat, int new, int type)
 }
 
 static void
-statusproblem(int trouble, const char *str)
+draw_trouble_str(const char *str)
 {
-    if (!trouble)
-        return;
-
     WINDOW *win = curses_get_nhwin(STATUS_WIN);
 
     /* For whatever reason, hunger states have trailing spaces. Get rid of them. */
@@ -328,7 +309,7 @@ curses_color_attr(int nh_color, int bg_color)
     return cattr;
 }
 
-/* Returns a complete curses attribute. Used to color HP/Pw text. */
+/* Returns a complete curses attribute. Used to possibly bold/underline/etc HP/Pw. */
 #ifdef STATUS_COLORS
 static attr_t
 hpen_color_attr(boolean is_hp, int cur, int max)
@@ -440,40 +421,65 @@ draw_bar(boolean is_hp, int cur, int max, const char *title)
 }
 
 /* Update the status win - this is called when NetHack would normally
-write to the status window, so we know somwthing has changed.  We
-override the write and update what needs to be updated ourselves. */
-static void
-draw_horizontal(void)
+   write to the status window, so we know somwthing has changed.  We
+   override the write and update what needs to be updated ourselves. */
+void
+curses_update_stats(void)
 {
-    char buf[BUFSZ];
-    char rank[BUFSZ];
+    int orient;
     WINDOW *win = curses_get_nhwin(STATUS_WIN);
+    boolean horiz;
+    boolean border = curses_window_has_border(STATUS_WIN);
 
-    /* The area we're allowed to print on. Excludes borders */
-    int x, y, h, w;
+    /* Starting x/y. Passed to draw_horizontal/draw_vertical to keep track of
+       window positioning. */
+    int x = 0;
+    int y = 0;
 
-    /* Starting x/y */
-    x = 0;
-    y = 0;
-
-    /* Starting height/width */
-    curses_get_window_size(STATUS_WIN, &h, &w);
-
-    boolean border = FALSE;
+    /* Don't start at border position if applicable */
     if (curses_window_has_border(STATUS_WIN)) {
         x++;
         y++;
-        h--;
-        w--;
-        border = TRUE;
     }
 
+    /* Get HP values. */
     int hp = u.uhp;
     int hpmax = u.uhpmax;
     if (Upolyd) {
         hp = u.mh;
         hpmax = u.mhmax;
     }
+
+    orient = curses_get_window_orientation(STATUS_WIN);
+
+    horiz = FALSE;
+    if ((orient != ALIGN_RIGHT) && (orient != ALIGN_LEFT))
+        horiz = TRUE;
+
+    if (orient != ALIGN_RIGHT && orient != ALIGN_LEFT)
+        draw_horizontal(x, y, hp, hpmax);
+    else
+        draw_vertical(x, y, hp, hpmax);
+
+    if (border)
+        box(win, 0, 0);
+
+    wrefresh(win);
+
+    if (first) {
+        first = FALSE;
+
+        /* Zero highlight timers. This will call curses_update_status again if needed */
+        curses_decrement_highlights(TRUE);
+    }
+}
+
+static void
+draw_horizontal(int x, int y, int hp, int hpmax)
+{
+    char buf[BUFSZ];
+    char rank[BUFSZ];
+    WINDOW *win = curses_get_nhwin(STATUS_WIN);
 
     /* Line 1 */
     wmove(win, y, x);
@@ -555,29 +561,8 @@ draw_horizontal(void)
 
     if (flags.time)
         print_statdiff(" T:", &prevtime, moves, STAT_TIME);
-#define statprob(stat, str)                   \
-    if (stat) {                               \
-        waddch(win, ' ');                     \
-        statusproblem(stat, str);             \
-    }
 
-    /* Hunger */
-    statprob(u.uhs != 1, hu_stat[u.uhs]);
-
-    /* General troubles */
-    statprob(Confusion, "Conf");
-    statprob(Blind, "Blind");
-    statprob(Stunned, "Stun");
-    statprob(Hallucination, "Hallu");
-    statprob((u.usick_type & SICK_VOMITABLE), "FoodPois");
-    statprob((u.usick_type & (SICK_NONVOMITABLE|SICK_ZOMBIE)), "Ill");
-    statprob(Slimed, "Slime");
-
-    /* Encumbrance */
-    int enc = near_capacity();
-    statprob(enc > UNENCUMBERED, enc_stat[enc]);
-#undef statprob
-
+    curses_add_statuses(win, FALSE, NULL, NULL);
     wclrtoeol(win);
 }
 
@@ -585,37 +570,11 @@ draw_horizontal(void)
 /* Personally I never understood the point of a vertical status bar. But removing the
    option would be silly, so keep the functionality. */
 static void
-draw_vertical(void)
+draw_vertical(int x, int y, int hp, int hpmax)
 {
     char buf[BUFSZ];
     char rank[BUFSZ];
     WINDOW *win = curses_get_nhwin(STATUS_WIN);
-
-    /* The area we're allowed to print on. Excludes borders */
-    int x, y, h, w;
-
-    /* Starting x/y */
-    x = 0;
-    y = 0;
-
-    /* Starting height/width */
-    curses_get_window_size(STATUS_WIN, &h, &w);
-
-    boolean border = FALSE;
-    if (curses_window_has_border(STATUS_WIN)) {
-        x++;
-        y++;
-        h--;
-        w--;
-        border = TRUE;
-    }
-
-    int hp = u.uhp;
-    int hpmax = u.uhpmax;
-    if (Upolyd) {
-        hp = u.mh;
-        hpmax = u.mhmax;
-    }
 
     /* Clear the window */
     werase(win);
@@ -626,14 +585,20 @@ draw_vertical(void)
     get_playerrank(rank);
     int ranklen = strlen(rank);
     int namelen = strlen(plname);
-    if ((ranklen + namelen) > 19) {
+    int maxlen = 19;
+#ifdef STATUS_COLORS
+    if (!iflags.hitpointbar)
+        maxlen += 2; /* With no hitpointbar, we can fit more since there's no "[]" */
+#endif
+
+    if ((ranklen + namelen) > maxlen) {
         /* The result doesn't fit. Strip name if >10 characters, then strip title */
         if (namelen > 10) {
-            while (namelen > 10 && (ranklen + namelen) > 19)
+            while (namelen > 10 && (ranklen + namelen) > maxlen)
                 namelen--;
         }
 
-        while ((ranklen + namelen) > 19)
+        while ((ranklen + namelen) > maxlen)
             ranklen--; /* Still doesn't fit, strip rank */
     }
     sprintf(buf, "%-*s the %-*s", namelen, plname, ranklen, rank);
@@ -730,79 +695,53 @@ draw_vertical(void)
     }
 #endif /* SCORE_ON_BOTL */
 
-    /* Troubles. Uses a macro to avoid major repetition */
+    curses_add_statuses(win, TRUE, &x, &y);
+}
 
-#define statprob(stat, str)                   \
-    if (stat) {                               \
-        statusproblem(stat, str);             \
-        wmove(win, y++, x);                   \
-    }
+static void
+curses_add_statuses(WINDOW *win, boolean vertical, int *x, int *y)
+{
+#define statprob(str, trouble)                                  \
+    curses_add_status(win, vertical, x, y, str, trouble)
 
     /* Hunger */
-    statprob(u.uhs != 1, hu_stat[u.uhs]);
+    statprob(hu_stat[u.uhs], u.uhs != 1); /* 1 is NOT_HUNGRY (not defined here) */
 
-    /* General troubles */
-    statprob(Confusion, "Conf");
-    statprob(Blind, "Blind");
-    statprob(Stunned, "Stun");
-    statprob(Hallucination, "Hallu");
-    statprob((u.usick_type & SICK_VOMITABLE), "FoodPois");
-    statprob((u.usick_type & (SICK_NONVOMITABLE|SICK_ZOMBIE)), "Ill");
-    statprob(Slimed, "Slime");
+    statprob("Conf",     Confusion);
+    statprob("Blind",    Blind);
+    statprob("Stun",     Stunned);
+    statprob("Hallu",    Hallucination);
+    statprob("Ill",      (u.usick_type & (SICK_NONVOMITABLE|SICK_ZOMBIE)));
+    statprob("FoodPois", (u.usick_type & SICK_VOMITABLE));
+    statprob("Slime",    Slimed);
 
     /* Encumbrance */
     int enc = near_capacity();
-    statprob(enc > UNENCUMBERED, enc_stat[enc]);
+    statprob(enc_stat[enc], enc > UNENCUMBERED);
 #undef statprob
 }
 
-void
-curses_update_stats(void)
+static void
+curses_add_status(WINDOW *win, boolean vertical, int *x, int *y,
+                  const char *str, int trouble)
 {
-    char buf[BUFSZ];
-    int count, enc, sx_start, hp, hpmax, labels, swidth, sheight, sx_end, sy_end,
-        orient;
-    WINDOW *win = curses_get_nhwin(STATUS_WIN);
-    static int prev_labels = -1;
-    static boolean first = TRUE;
-    static boolean horiz;
-    int sx = 0;
-    int sy = 0;
-    boolean border = curses_window_has_border(STATUS_WIN);
+    /* If vertical is TRUE here with no x/y, that's an error. But handle
+       it gracefully since NH3 doesn't recover well in crashes. */
+    if (!x || !y)
+        vertical = FALSE;
 
-    curses_get_window_size(STATUS_WIN, &sheight, &swidth);
+    if (!trouble)
+        return;
 
-    if (border) {
-        sx++;
-        sy++;
-        swidth--;
-        sheight--;
+    if (!vertical)
+        waddch(win, ' ');
+
+    draw_trouble_str(str);
+
+    if (vertical) {
+        wmove(win, *y, *x);
+        *y += 1; /* ++ advances the pointer addr */
     }
-
-    sx_end = swidth - 1;
-    sy_end = sheight - 1;
-    sx_start = sx;
-
-    if (first) {
-        init_stats();
-        first = FALSE;
-    }
-
-    orient = curses_get_window_orientation(STATUS_WIN);
-
-    horiz = FALSE;
-    if ((orient != ALIGN_RIGHT) && (orient != ALIGN_LEFT))
-        horiz = TRUE;
-
-    if (orient != ALIGN_RIGHT && orient != ALIGN_LEFT)
-        draw_horizontal();
-    else
-        draw_vertical();
-
-    if (border)
-        box(win, 0, 0);
-
-    wrefresh(win);
 }
 
 /* Decrement a single highlight, return 1 if decremented to zero. zero is TRUE if we're
@@ -824,10 +763,9 @@ decrement_highlight(nhstat *stat, boolean zero)
 }
 
 /* Decrement the highlight_turns for all stats.  Call curses_update_stats
-if needed to unhighlight a stat */
-
-static void
-decrement_highlights(boolean zero)
+   if needed to unhighlight a stat */
+void
+curses_decrement_highlights(boolean zero)
 {
     int unhighlight = 0;
 
@@ -839,11 +777,7 @@ decrement_highlights(boolean zero)
     unhighlight |= decrement_highlight(&prevwis, zero);
     unhighlight |= decrement_highlight(&prevcha, zero);
     unhighlight |= decrement_highlight(&prevau, zero);
-    unhighlight |= decrement_highlight(&prevhp, zero);
-    unhighlight |= decrement_highlight(&prevmhp, zero);
     unhighlight |= decrement_highlight(&prevlevel, zero);
-    unhighlight |= decrement_highlight(&prevpow, zero);
-    unhighlight |= decrement_highlight(&prevmpow, zero);
     unhighlight |= decrement_highlight(&prevac, zero);
 #ifdef EXP_ON_BOTL
     unhighlight |= decrement_highlight(&prevexp, zero);
@@ -855,49 +789,4 @@ decrement_highlights(boolean zero)
 
     if (unhighlight)
         curses_update_stats();
-}
-
-
-void
-curses_decrement_highlight()
-{
-    decrement_highlights(FALSE);
-}
-
-
-/* Initializes the prev(whatever) values */
-static void
-init_stats()
-{
-    prevdepth.value = depth(&u.uz);
-    prevstr.value = ACURR(A_STR);
-    prevdex.value = ACURR(A_DEX);
-    prevcon.value = ACURR(A_CON);
-    prevint.value = ACURR(A_INT);
-    prevwis.value = ACURR(A_WIS);
-    prevcha.value = ACURR(A_CHA);
-#ifndef GOLDOBJ
-    prevau.value = u.ugold;
-#else
-    prevau.value = money_cnt(invent);
-#endif
-    int hp = u.uhp;
-    int hpmax = u.uhpmax;
-    if (Upolyd) {
-        hp = u.mh;
-        hpmax = u.mhmax;
-    }
-    prevhp.value = hp;
-    prevmhp.value = hpmax;
-    prevlevel.value = (Upolyd ? mons[u.umonnum].mlevel : u.ulevel);
-    prevpow.value = u.uen;
-    prevmpow.value = u.uenmax;
-    prevac.value = u.uac;
-#ifdef EXP_ON_BOTL
-    prevexp.value = u.uexp;
-#endif
-    prevtime.value = moves;
-#ifdef SCORE_ON_BOTL
-    prevscore.value = botl_score();
-#endif
 }
