@@ -2702,6 +2702,18 @@ livelog_printf VA_DECL(const char *, fmt)
     livelog_write_string(ll_msgbuf);
     VA_END();
 }
+
+void
+livelog_conduct VA_DECL(const char *, fmt)
+    if ( moves > LL_CONDUCT_THRESHOLD ) {
+        char ll_msgbuf[512];
+        VA_START(fmt);
+        VA_INIT(fmt, char *);
+        vsnprintf(ll_msgbuf, 512, fmt, VA_ARGS);
+        livelog_write_string(ll_msgbuf);
+        VA_END();
+    }
+}
 #endif
 
 /*files.c*/
