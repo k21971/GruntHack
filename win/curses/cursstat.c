@@ -646,7 +646,7 @@ draw_horizontal_new(int x, int y, int hp, int hpmax)
     y++;
     wmove(win, y, x);
     wprintw(win, "Pw:");
-    draw_bar(TRUE, u.uen, u.uenmax, NULL);
+    draw_bar(FALSE, u.uen, u.uenmax, NULL);
 
 #ifndef GOLDOBJ
     print_statdiff(" $", &prevau, u.ugold, STAT_GOLD);
