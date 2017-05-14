@@ -10,6 +10,7 @@
 extern char *lev_message;
 extern lev_region *lregions;
 extern int num_lregions;
+extern int flipped;
 
 STATIC_DCL boolean FDECL(iswall,(int,int));
 STATIC_DCL boolean FDECL(iswall_or_stone,(int,int));
@@ -454,7 +455,7 @@ fixup_special()
     } else if(Is_wiz1_level(&u.uz)) {
 	croom = search_special(MORGUE);
 
-	create_secret_door(croom, W_SOUTH|W_EAST|W_WEST);
+	create_secret_door(croom, (flipped & 1 ? W_NORTH : W_SOUTH)|W_EAST|W_WEST);
     } else if(Is_knox(&u.uz)) {
 	/* using an unfilled morgue for rm id */
 	croom = search_special(MORGUE);
