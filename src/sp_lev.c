@@ -99,6 +99,7 @@ STATIC_DCL void FDECL(build_room, (room *, room*));
 char *lev_message = 0;
 lev_region *lregions = 0;
 int num_lregions = 0;
+int flipped;
 lev_init init_lev;
 
 void
@@ -377,6 +378,7 @@ flip_level(int flp)
     }
 
     wall_extends(1, 0, COLNO-1, ROWNO-1);
+    flipped = flp; /* set ugly extern variable for fixup_special() */
 }
 
 void
@@ -3066,6 +3068,7 @@ const char *name;
 	char c;
 	struct version_info vers_info;
 
+        flipped = 0; /* extern for fixup_special() */
 	fd = dlb_fopen(name, RDBMODE);
 	if (!fd) return FALSE;
 
