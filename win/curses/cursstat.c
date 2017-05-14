@@ -447,6 +447,10 @@ curses_update_stats(void)
             curses_create_main_windows();
             curses_last_messages();
             doredraw();
+
+            /* Reset XP highlight (since classic_status and new show different numbers) */
+            prevexp.highlight_turns = 0;
+            curses_update_stats();
             return;
         }
     }
