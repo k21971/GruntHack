@@ -181,7 +181,7 @@ dump_init ()
     chmod(new_dump_fn, dumpmode);
 #endif
     if (!dump_fp) {
-      pline("Can't open %s for output.", dump_fn);
+      pline("Can't open %s for output.", new_dump_fn);
       pline("Dump file not created.");
     }
   }
