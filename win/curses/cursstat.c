@@ -626,7 +626,7 @@ draw_horizontal_new(int x, int y, int hp, int hpmax)
 
         /* Figure out amount of Xp needed to next level */
         int xp_left = 0;
-        if (u.ulevel < 29)
+        if (u.ulevel < 30)
             xp_left = (newuexp(u.ulevel) - u.uexp);
 
         print_statdiff("", &prevexp, xp_left, STAT_AC);
