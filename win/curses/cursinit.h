@@ -13,5 +13,7 @@ void curses_init_options(void);
 void curses_display_splash_window(void);
 void curses_cleanup(void);
 
+void curses_cleanup(void);
+
 
 #endif /* CURSINIT_H */

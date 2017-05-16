@@ -33,7 +33,8 @@
  * PP = patch level, ee = edit level, L = literal suffix "L",
  * with all four numbers specified as two hexadecimal digits.
  */
-#define VERSION_COMPATIBILITY 0x00020101L /* just this version */
+ /* hdf only - allow patch 00 because save break happened before version bump */
+#define VERSION_COMPATIBILITY 0x00020100L
 
 
 /*****************************************************************************/

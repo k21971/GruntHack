@@ -397,6 +397,7 @@ curses_ext_cmd()
                 prompt_width--;
             }
         }
+
         if (letter != '*' && prompt_width < maxlen) {
             cur_choice[prompt_width] = letter;
             cur_choice[prompt_width + 1] = '\0';
@@ -1084,7 +1085,6 @@ menu_get_selections(WINDOW * win, nhmenu *menu, int how)
         if (curletter == DOESCAPE) {
             curletter = curses_convert_keys(curletter);
         }
-
         switch (how) {
         case PICK_NONE:
             if (menu->num_pages == 1) {
@@ -1186,7 +1186,6 @@ menu_get_selections(WINDOW * win, nhmenu *menu, int how)
             }
 
             menu_item_ptr = menu->entries;
-
             while (menu_item_ptr != NULL) {
                 if ((menu_item_ptr->identifier.a_void != NULL) &&
                     (strstri(menu_item_ptr->str, search_key))) {

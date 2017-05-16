@@ -160,7 +160,6 @@ curses_block(boolean require_tab)
             turn_lines = 1;
         }
     }
-
     return ret;
 }
 

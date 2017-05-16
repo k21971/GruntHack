@@ -1479,7 +1479,7 @@ domove()
 	/* Check regions entering/leaving */
 	if (!in_out_region(x,y))
 	    return;
-	
+
 	if (!Blind) {
 		struct obj *otmp = level.objects[u.ux][u.uy];
 		for (; otmp; otmp = otmp->nexthere) {
