@@ -167,6 +167,7 @@ STATIC_VAR short cham_to_pm[] = {
 
 /* for deciding whether corpse or statue will carry along full monster data */
 #define KEEPTRAITS(mon)	((mon)->isshk || (mon)->mtame ||		\
+			 unique_corpstat((mon)->data) ||		\
 			 is_racial((mon)->data)	||			\
 			 is_were((mon)->data)	||			\
 			 ((mon)->data->geno & G_UNIQ) ||		\
