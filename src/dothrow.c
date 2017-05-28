@@ -1493,7 +1493,7 @@ register struct obj   *obj;
 		u.uconduct.weaphit++;
 		/* #ifdef LIVELOG
   	        livelog_write_string("hit with a wielded weapon for the first time"); /* need to fix this */
-		#endif */
+		/* #endif */
 		if (hmon(mon,obj,1)) {	/* mon still alive */
 		    cutworm(mon, bhitpos.x, bhitpos.y, obj);
 		}
