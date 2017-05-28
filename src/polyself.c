@@ -398,6 +398,9 @@ int	mntmp;
 
 	/* KMH, conduct */
 	u.uconduct.polyselfs++;
+	#ifdef LIVELOG
+  	        livelog_write_string("changed form for the first time, becoming %s", an(mons[mntmp].mname));
+	#endif
 
 	if (!Upolyd) {
 		/* Human to monster; save human stats */
