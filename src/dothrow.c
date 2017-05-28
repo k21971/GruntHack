@@ -1491,9 +1491,9 @@ register struct obj   *obj;
 
 	    if (tmp >= rnd(20)) {
 		u.uconduct.weaphit++;
-		#ifdef LIVELOG
-  	        livelog_write_string("hit with a wielded weapon for the first time");
-		#endif
+		/* #ifdef LIVELOG
+  	        livelog_write_string("hit with a wielded weapon for the first time"); /* need to fix this */
+		#endif */
 		if (hmon(mon,obj,1)) {	/* mon still alive */
 		    cutworm(mon, bhitpos.x, bhitpos.y, obj);
 		}
