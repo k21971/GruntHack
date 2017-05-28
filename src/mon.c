@@ -167,7 +167,6 @@ STATIC_VAR short cham_to_pm[] = {
 
 /* for deciding whether corpse or statue will carry along full monster data */
 #define KEEPTRAITS(mon)	((mon)->isshk || (mon)->mtame ||		\
-			 unique_corpstat((mon)->data) ||		\
 			 is_racial((mon)->data)	||			\
 			 is_were((mon)->data)	||			\
 			 ((mon)->data->geno & G_UNIQ) ||		\
@@ -2097,11 +2096,6 @@ register int how;
 #ifdef LIVELOG
 	    if (!achieve.killed_medusa) {
 	        livelog_write_string("killed Medusa");
-	    } else if (unique_corpstat(mtmp->data))
-        	livelog_write_string("%s %s",
-                nonliving(mtmp->data) ? "destroyed" : "killed",
-                noit_mon_nam(mtmp));
-	    }
 #endif
             achieve.killed_medusa = 1;
 	}
