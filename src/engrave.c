@@ -1030,7 +1030,7 @@ doengrave()
 	if (len != 1 || (!index(ebuf, 'x') && !index(ebuf, 'X')))
 	    u.uconduct.literate++;
 	#ifdef LIVELOG
-  	    livelog_write_string("became literate by engraving \"%s\"", ebuf);
+  	    livelog_write_string("became literate by engraving \"%s\"");
 	#endif
 
 	/* Mix up engraving if surface or state of mind is unsound.
