@@ -2096,6 +2096,7 @@ register int how;
 #ifdef LIVELOG
 	    if (!achieve.killed_medusa) {
 	        livelog_write_string("killed Medusa");
+	    }
 #endif
             achieve.killed_medusa = 1;
 	}
