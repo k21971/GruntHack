@@ -673,7 +673,7 @@ gcrownu()
 	u.uevent.uhand_of_elbereth = 1;
 	verbalize("I crown thee...  The Hand of Elbereth!");
 	#ifdef LIVELOG
-  	        livelog_write_string("was crowned \"The Hand of Elbereth\" by %s", u_gname());
+  	        livelog_write_string("was crowned \"The Hand of Elbereth\" by %s");
 	#endif
 	break;
     case A_NEUTRAL:
@@ -682,7 +682,7 @@ gcrownu()
 	already_exists = exist_artifact(LONG_SWORD, artiname(ART_VORPAL_BLADE));
 	verbalize("Thou shalt be my Envoy of Balance!");
 	#ifdef LIVELOG
-  	        livelog_write_string("became %s Envoy of Balance", s_suffix(u_gname()));
+  	        livelog_write_string("became %s Envoy of Balance");
 	#endif
 	break;
     case A_CHAOTIC:
@@ -692,9 +692,7 @@ gcrownu()
 	verbalize("Thou art chosen to %s for My Glory!",
 		  already_exists && !in_hand ? "take lives" : "steal souls");
 	#ifdef LIVELOG
-  	        livelog_write_string("was chosen to %s for the Glory of %s",
-                already_exists && !in_hand ? "take lives" : "steal souls",
-                u_gname());
+  	        livelog_write_string("was chosen to %s for the Glory of %s");
 	#endif
 	break;
     }
@@ -1201,9 +1199,7 @@ dosacrifice()
 	/* KMH, conduct */
 	u.uconduct.gnostic++;
 	#ifdef LIVELOG
-  	        livelog_write_string("rejected atheism by offering %s on an altar of %s",
-                corpse_xname(otmp, (const char *)0, CXN_ARTICLE),
-                a_gname());
+  	        livelog_write_string("rejected atheism by offering %s on an altar of %s");
 	#endif
 
 	/* you're handling this corpse, even if it was killed upon the altar */
@@ -1579,10 +1575,7 @@ verbalize("In return for thy service, I grant thee the gift of Immortality!");
 		    u.ublesscnt = rnz(300 + (50 * nartifacts));
 		    exercise(A_WIS, TRUE);
 		    #ifdef LIVELOG
-  	        	livelog_write_string("had %s bestowed upon %s by %s",
-                            artiname(otmp->oartifact), 
-                            uhim(),
-                            align_gname(u.ualign.type));
+  	        	livelog_write_string("had %s bestowed upon %s by %s");
 		    #endif
 		    /* make sure we can use this weapon */
 		    if (otmp->otyp != SPBOOK_CLASS)
