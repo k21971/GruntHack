@@ -189,13 +189,13 @@ register struct monst *mtmp;
 		pline("%s vanishes, laughing about cowardly mortals.",
 		      Amonnam(mtmp));
 		#ifdef LIVELOG
-  	        livelog_write_string("bribed %s with %ld %s for safe passage");
+  	        livelog_printf("bribed %s with %ld %s for safe passage", Amonnam(mtmp), offer, currency(demand));
 		#endif
 	    } else if (offer > 0L && (long)rnd(40) > (demand - offer)) {
 		pline("%s scowls at you menacingly, then vanishes.",
 		      Amonnam(mtmp));
 		#ifdef LIVELOG
-  	        livelog_write_string("bribed %s with %ld %s for safe passage");
+  	        livelog_printf("bribed %s with %ld %s for safe passage", Amonnam(mtmp), offer, currency(demand));
 		#endif
 	    } else {
 		pline("%s gets angry...", Amonnam(mtmp));
