@@ -293,6 +293,9 @@ doaltarobj(obj)  /* obj is an object dropped on an altar */
 
 	/* KMH, conduct */
 	u.uconduct.gnostic++;
+	#ifdef LIVELOG
+  	        livelog_write_string("eschewed atheism, by dropping %s on an altar",doname(obj));
+	#endif
 
 	if ((obj->blessed || obj->cursed) && obj->oclass != COIN_CLASS) {
 		There("is %s flash as %s %s the altar.",
