@@ -399,7 +399,7 @@ int	mntmp;
 	/* KMH, conduct */
 	u.uconduct.polyselfs++;
 	#ifdef LIVELOG
-  	        livelog_write_string("changed form for the first time, becoming %s", an(mons[mntmp].mname));
+  	        livelog_write_string("changed form for the first time, becoming %s");
 	#endif
 
 	if (!Upolyd) {
