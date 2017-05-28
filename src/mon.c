@@ -2096,6 +2096,10 @@ register int how;
 #ifdef LIVELOG
 	    if (!achieve.killed_medusa) {
 	        livelog_write_string("killed Medusa");
+	    } else if (unique_corpstat(mtmp->data))
+        	livelog_write_string("%s %s",
+                nonliving(mtmp->data) ? "destroyed" : "killed",
+                noit_mon_nam(mtmp));
 	    }
 #endif
             achieve.killed_medusa = 1;
