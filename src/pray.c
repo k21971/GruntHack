@@ -1199,7 +1199,7 @@ dosacrifice()
 	extern const int monstr[];
 
 	/* KMH, conduct */
-	if(u.uconduct.gnostic++)
+	if(!u.uconduct.gnostic++)
 	#ifdef LIVELOG
   	        livelog_conduct("rejected atheism by offering %s on an altar of %s", xname(otmp), a_gname())
 	#endif
@@ -1667,7 +1667,7 @@ dopray()
 	if (yn("Are you sure you want to pray?") == 'n')
 	    return 0;
 
-    if(u.uconduct.gnostic++)
+    if(!u.uconduct.gnostic++)
     #ifdef LIVELOG
   	        livelog_conduct("rejected atheism with a prayer")
     #endif
@@ -1784,7 +1784,7 @@ doturn()
 		You("don't know how to turn undead!");
 		return(0);
 	}
-	if(u.uconduct.gnostic++)
+	if(!u.uconduct.gnostic++)
 	#ifdef LIVELOG
   	        livelog_conduct("rejected atheism by turning undead")
 	#endif
