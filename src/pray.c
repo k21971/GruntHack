@@ -1201,7 +1201,7 @@ dosacrifice()
 	/* KMH, conduct */
 	if(u.uconduct.gnostic++)
 	#ifdef LIVELOG
-  	        livelog_conduct("rejected atheism by offering %s on an altar of %s", xname(otmp, (const char *)0, CXN_ARTICLE), a_gname())
+  	        livelog_conduct("rejected atheism by offering %s on an altar of %s", xname(otmp, (const char *)0), a_gname())
 	#endif
                 ;
 
