@@ -2093,14 +2093,16 @@ register int how;
         
 #ifdef RECORD_ACHIEVE
         if(mtmp->data == &mons[PM_MEDUSA]) {
-#ifdef LIVELOG
-	    if (!achieve.killed_medusa) {
-	        livelog_write_string("killed Medusa");
-	    }
-#endif
             achieve.killed_medusa = 1;
 	}
 #endif
+#ifdef LIVELOG
+        if (mtmp->data->geno & G_UNIQ)
+            livelog_printf( "%s %s",
+                   nonliving(mtmp->data) ? "destroyed" : "killed",
+                   noit_mon_nam(mtmp));
+#endif
+
 
 	if(glyph_is_invisible(levl[mtmp->mx][mtmp->my].glyph))
 	    unmap_object(mtmp->mx, mtmp->my);
