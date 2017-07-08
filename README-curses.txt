@@ -111,6 +111,15 @@ OPTIONS=petattr:u
 # option, which only controls the color of the map itself.
 OPTIONS=guicolor
 #
+# Controls if the horizontal status bar looks similar to in tty.
+# If set to false, a horizontal status bar will have 3 lines and show
+# a hitpoint and energy bar.  This option defaults to true.
+OPTIONS=classic_status
+#
+# Show a permanent inventory on the side.  Defaults to false.
+#
+OPTIONS=perm_invent
+#
 # Use the mouse for moving around.  This option defaults to false.
 #
 OPTIONS=mouse_support
