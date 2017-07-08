@@ -339,9 +339,6 @@ struct instance_flags {
   	boolean  showrealtime; /* show actual elapsed time */
 #endif
 #ifdef AUTO_OPEN
-	boolean  autoopen;     /* open doors by walking into them */
-#endif
-#ifdef AUTO_OPEN
 	boolean  autoopen;	/* open doors by walking into them */
 #endif
 };
