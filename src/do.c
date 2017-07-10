@@ -294,7 +294,7 @@ doaltarobj(obj)  /* obj is an object dropped on an altar */
 	/* KMH, conduct */
 	if(!u.uconduct.gnostic++)
 	#ifdef LIVELOG
-  	        livelog_conduct("eschewed atheism, by dropping %s on an altar")
+  	        livelog_conduct("eschewed atheism, by dropping %s on an altar", doname(obj))
 	#endif
                 ;
 
