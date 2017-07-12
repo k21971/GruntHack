@@ -126,15 +126,15 @@ flip_level(int flp)
      */
     if (flp & 1) {
 	if (xupstair) yupstair = y2 - yupstair;
-	if (xupstair) ydnstair = y2 - ydnstair;
+	if (xdnstair) ydnstair = y2 - ydnstair;
 	if (xupladder) yupladder = y2 - yupladder;
-	if (xupladder) ydnladder = y2 - ydnladder;
+	if (xdnladder) ydnladder = y2 - ydnladder;
     }
     if (flp & 2) {
 	if (xupstair) xupstair = x2 - xupstair;
-	if (xupstair) xdnstair = x2 - xdnstair;
+	if (xdnstair) xdnstair = x2 - xdnstair;
 	if (xupladder) xupladder = x2 - xupladder;
-	if (xupladder) xdnladder = x2 - xdnladder;
+	if (xdnladder) xdnladder = x2 - xdnladder;
     }
 
     /* traps */
