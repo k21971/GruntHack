@@ -288,9 +288,23 @@ boolean allow_drag;
 	}
 
 	if (u.uswallow) {
-                /* unstuck() calls placebc(), so unplace it here */
-                unplacebc();
+		if (Punished) {
+                    /* unstuck calls placebc() so have to unplace it here,
+                     * though this will not affect the actual final placement of the ball - see below
+                     */
+                    unplacebc();
+                    ball_active = TRUE;
+                    allow_drag = FALSE;
+		}
+
                 unstuck(u.ustuck, u.ustuck->data);
+
+                /* ...and then we have to unplacebc() after this, because unstuck places it where the
+                 * hero is teleporting from. Unplacing it again lets the placebc() below set it properly.
+                 */
+                if (Punished) {
+                    unplacebc();
+                }
 	}
 	if (ball_active) {
 	    if (ball_still_in_range || allow_drag) {
