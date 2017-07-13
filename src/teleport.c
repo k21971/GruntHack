@@ -244,7 +244,7 @@ boolean allow_drag;
 	}
 
 	/* If they have to move the ball, then drag if allow_drag is true;
-	 * otherwise they are teleporting, so unplacebc().  
+	 * otherwise they are teleporting, so unplacebc().
 	 * If they don't have to move the ball, then always "drag" whether or
 	 * not allow_drag is true, because we are calling that function, not
 	 * to drag, but to move the chain.  *However* there are some dumb
@@ -273,7 +273,6 @@ boolean allow_drag;
 	    }
 	}
 	u.utrap = 0;
-	u.ustuck = 0;
 	u.ux0 = u.ux;
 	u.uy0 = u.uy;
 
@@ -289,13 +288,9 @@ boolean allow_drag;
 	}
 
 	if (u.uswallow) {
-		u.uswldtim = u.uswallow = 0;
-		if (Punished && !ball_active) {
-		    /* ensure ball placement, like unstuck */
-		    ball_active = TRUE;
-		    allow_drag = FALSE;
-		}
-		docrt();
+                /* unstuck() calls placebc(), so unplace it here */
+                unplacebc();
+                unstuck(u.ustuck, u.ustuck->data);
 	}
 	if (ball_active) {
 	    if (ball_still_in_range || allow_drag) {
