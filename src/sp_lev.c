@@ -394,6 +394,9 @@ flip_level_rnd(int flp)
     /* Workaround for preventing the stairs to Vlad's tower appearing
      * in the wizard's tower because of a bug in level flipping. */
     if (On_W_tower_level(&u.uz)) { flp &= 1; }
+    /* vertically flipping the castle is pointless but sligtly changes
+     * y-offset which can trap player in rock */
+    if (Is_stronghold(&u.uz)) { flp &= 2; }
 
     if ((flp & 1) && rn2(2)) c |= 1;
     if ((flp & 2) && rn2(2)) c |= 2;
