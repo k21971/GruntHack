@@ -1189,7 +1189,7 @@ int *spell_no;
 			spellname(i), spellev(i),
 			(spellknow(i) > 1000) ? " " : (spellknow(i) ? "!" : "*"),
 			spelltypemnemonic(spell_skilltype(spellid(i))),
-			100 - percent_success(i)),
+			100 - percent_success(i),
 			(spellknow(i) * 100 + (KEEN-1)) / KEEN);
 
 		any.a_int = i+1;	/* must be non-zero */
@@ -1245,7 +1245,7 @@ dump_spells()
 			spellet(i), spellname(i), spellev(i),
 			(spellknow(i) > 1000) ? " " : (spellknow(i) ? "!" : "*"),
 			spelltypemnemonic(spell_skilltype(spellid(i))),
-			100 - percent_success(i)),
+			100 - percent_success(i),
 			(spellknow(i) * 100 + (KEEN-1)) / KEEN);
 		dump("  ", buf);
 	}
