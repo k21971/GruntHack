@@ -1181,7 +1181,7 @@ int *spell_no;
 			"    Name", "Category");
 	else
 		Sprintf(buf, "Name\tLevel\tCategory\tFail");
-	add_menu(tmpwin, NO_GLYPH, MENU_DEFCNT, &any, 0, 0, ATR_BOLD, buf, MENU_UNSELECTED);
+	add_menu(tmpwin, NO_GLYPH, &any, 0, 0, ATR_BOLD, buf, MENU_UNSELECTED);
 	for (i = 0; i < MAXSPELL && spellid(i) != NO_SPELL; i++) {
 		Sprintf(buf, iflags.menu_tab_sep ?
 			"%s\t%-d%s\t%s\t%-d%%" : "%-20s  %2d%s   %-12s %3d%%"
@@ -1189,11 +1189,11 @@ int *spell_no;
 			spellname(i), spellev(i),
 			(spellknow(i) > 1000) ? " " : (spellknow(i) ? "!" : "*"),
 			spelltypemnemonic(spell_skilltype(spellid(i))),
-			100 - percent_success(i));
+			100 - percent_success(i)),
 			(spellknow(i) * 100 + (KEEN-1)) / KEEN);
 
 		any.a_int = i+1;	/* must be non-zero */
-		add_menu(tmpwin, NO_GLYPH, MENU_DEFCNT, &any,
+		add_menu(tmpwin, NO_GLYPH, &any,
 			 spellet(i), 0, ATR_NONE, buf,
 			 (i == splaction) ? MENU_SELECTED : MENU_UNSELECTED);
 	      }
@@ -1245,7 +1245,7 @@ dump_spells()
 			spellet(i), spellname(i), spellev(i),
 			(spellknow(i) > 1000) ? " " : (spellknow(i) ? "!" : "*"),
 			spelltypemnemonic(spell_skilltype(spellid(i))),
-			100 - percent_success(i));
+			100 - percent_success(i)),
 			(spellknow(i) * 100 + (KEEN-1)) / KEEN);
 		dump("  ", buf);
 	}
