@@ -2,18 +2,18 @@
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
-/* GruntHack 0.2.1 */
+/* GruntHack 0.2.2 */
 #define VERSION_MAJOR   0	
 #define VERSION_MINOR   2	
 /*
  * PATCHLEVEL is updated for each release.
  */
-#define PATCHLEVEL      1	
+#define PATCHLEVEL      2	
 /*
  * Incrementing EDITLEVEL can be used to force invalidation of old bones
  * and save files.
  */
-#define EDITLEVEL	1
+#define EDITLEVEL	0
 
 #define COPYRIGHT_BANNER_A \
 "GruntHack"
@@ -33,8 +33,7 @@
  * PP = patch level, ee = edit level, L = literal suffix "L",
  * with all four numbers specified as two hexadecimal digits.
  */
- /* hdf only - allow patch 00 because save break happened before version bump */
-#define VERSION_COMPATIBILITY 0x00020100L
+#define VERSION_COMPATIBILITY 0x00020200L
 
 
 /*****************************************************************************/
