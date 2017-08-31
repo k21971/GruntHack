@@ -352,7 +352,7 @@ NEARDATA struct permonst mons[] = {
      * as this creature is already deadly enough as it is. Reason - originally having 
      * a base level of 6, the Beholder would start appearing as early as dlvl 10, and 
      * via warning would typically show as 2 or 3 at best. Wildly inaccurate given how 
-     * powerful and dangerous this monster is. Raising its base difficulty to 19 will ensure 
+     * powerful and dangerous this monster is. Raising its base difficulty to 21 will ensure 
      * that it does not spawn too early in the dungeon vs mid-level players, and that it will
      * always show as a 5 via warning, as it should given its abilities. And since it's
      * getting a buff in the HD department, we'll buff up a couple other areas as well,
@@ -360,7 +360,7 @@ NEARDATA struct permonst mons[] = {
      * engaging in battle with a housecat.
      */
     MON("beholder", S_EYE,
-	LVL(19, 3, -6, 50, -10), (G_GENO|2),
+	LVL(21, 3, -6, 50, -10), (G_GENO|2),
 	A(ATTK(AT_GAZE, AD_SLOW, 0, 0), ATTK(AT_GAZE, AD_SLEE, 2,25),
 	  ATTK(AT_GAZE, AD_DISN, 0, 0), ATTK(AT_GAZE, AD_STON, 0, 0),
 	  ATTK(AT_GAZE, AD_CNCL, 2, 4), ATTK(AT_BITE, AD_PHYS, 6, 8)),
