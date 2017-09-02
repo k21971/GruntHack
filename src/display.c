@@ -685,8 +685,8 @@ newsym(x,y)
 	    (u.xray_range <= 0 ||
 	     dist2(u.ux,u.uy,x,y) > u.xray_range*u.xray_range) &&
 	    (ACCESSIBLE(lev->typ) ||
-	     lev->typ == POOL || lev->typ == MOAT || lev->typ == WATER ||
-	     lev->typ == LAVAPOOL)) {
+	     (reg->glyph == cmap_to_glyph(S_poisoncloud) && lev->typ == LAVAPOOL ||
+	     lev->typ == POOL || lev->typ == MOAT || lev->typ == WATER)))) {
 	    show_region(reg,x,y);
 	    return;
 	}
