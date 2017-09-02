@@ -1586,7 +1586,7 @@ back_to_glyph(x,y)
 	case ICE:		idx = S_ice;      break;
 	case AIR:		idx = S_air;	  break;
 	case CLOUD:		idx = S_cloud;	  break;
-	case POISONCLOUD	idx = S_poisoncloud; break;
+	case POISONCLOUD:	idx = S_poisoncloud; break;
 	case WATER:		idx = S_water;	  break;
 	case DBWALL:
 	    idx = (ptr->horizontal) ? S_hcdbridge : S_vcdbridge;
