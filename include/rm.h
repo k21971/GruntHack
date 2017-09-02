@@ -66,8 +66,9 @@
 #define DRAWBRIDGE_DOWN 33
 #define AIR		34
 #define CLOUD		35
+#define POISONCLOUD	36
 
-#define MAX_TYPE	36
+#define MAX_TYPE	37
 #define INVALID_TYPE	127
 
 /*
@@ -93,8 +94,8 @@
 #define IS_ALTAR(typ)	((typ) == ALTAR)
 #define IS_DRAWBRIDGE(typ) ((typ) == DRAWBRIDGE_UP || (typ) == DRAWBRIDGE_DOWN)
 #define IS_FURNITURE(typ) ((typ) >= STAIRS && (typ) <= ALTAR)
-#define IS_AIR(typ)	((typ) == AIR || (typ) == CLOUD)
-#define IS_SOFT(typ)	((typ) == AIR || (typ) == CLOUD || IS_POOL(typ))
+#define IS_AIR(typ)	((typ) == AIR || (typ) == CLOUD || (typ) == POISONCLOUD)
+#define IS_SOFT(typ)	((typ) == AIR || (typ) == CLOUD || (typ) == POISONCLOUD || IS_POOL(typ))
 
 /*
  * The screen symbols may be the default or defined at game startup time.
