@@ -1700,7 +1700,7 @@ static const char *type_names[MAX_TYPE] = {
 	"DOOR",		"CORR",		"ROOM",		"STAIRS",
 	"LADDER",	"FOUNTAIN",	"THRONE",	"SINK",
 	"ALTAR",	"ICE",		"DRAWBRIDGE_DOWN","AIR",
-	"CLOUD"
+	"CLOUD",	"POISONCLOUD"
 };
 
 
