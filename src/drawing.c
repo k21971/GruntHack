@@ -287,7 +287,6 @@ const struct symdef defsyms[MAXPCHARS] = {
 	{'#', "",		C(HI_ZAP)},
 	{'@', "",		C(HI_ZAP)},
 	{'*', "",		C(HI_ZAP)},
-	{'#', "poison cloud", 	C(CLR_BRIGHT_GREEN)},   /* part of a cloud */
 	{'/', "",		C(CLR_GREEN)},	/* swallow top left	*/
 	{'-', "",		C(CLR_GREEN)},	/* swallow top center	*/
 	{'\\', "",		C(CLR_GREEN)},	/* swallow top right	*/
@@ -305,6 +304,7 @@ const struct symdef defsyms[MAXPCHARS] = {
 /*90*/	{'\\', "",		C(CLR_ORANGE)},	/* explosion bottom left  */
 	{'-', "",		C(CLR_ORANGE)},	/* explosion bottom center*/
 	{'/', "",		C(CLR_ORANGE)},	/* explosion bottom right */
+	{'#', "poison cloud", 	C(CLR_BRIGHT_GREEN)},   /* part of a cloud */
 /*
  *  Note: Additions to this array should be reflected in the
  *	  {ibm,dec,mac}_graphics[] arrays below.
@@ -365,7 +365,6 @@ static uchar ibm_graphics[MAXPCHARS] = {
 	g_FILLER(S_hcdbridge),
 	g_FILLER(S_air),
 	g_FILLER(S_cloud),
-	g_FILLER(S_poisoncloud),
 /*40*/	0xf7,	/* S_water:	meta-w, approx. equals */
 	g_FILLER(S_arrow_trap),
 	g_FILLER(S_dart_trap),
@@ -418,6 +417,7 @@ static uchar ibm_graphics[MAXPCHARS] = {
 	g_FILLER(S_explode7),
 /*90*/	g_FILLER(S_explode8),
 	g_FILLER(S_explode9)
+	g_FILLER(S_poisoncloud),
 };
 #endif  /* ASCIIGRAPH */
 
@@ -466,7 +466,6 @@ static uchar dec_graphics[MAXPCHARS] = {
 	g_FILLER(S_hcdbridge),
 	g_FILLER(S_air),
 	g_FILLER(S_cloud),
-	g_FILLER(S_poisoncloud),
 /*40*/	0xe0,	/* S_water:	meta-\, diamond */
 	g_FILLER(S_arrow_trap),
 	g_FILLER(S_dart_trap),
@@ -519,6 +518,7 @@ static uchar dec_graphics[MAXPCHARS] = {
 	g_FILLER(S_explode7),
 /*90*/	0xf3,	/* S_explode8:	meta-s, low horizontal line */
 	g_FILLER(S_explode9)
+	g_FILLER(S_poisoncloud),
 };
 #endif  /* TERMLIB */
 
@@ -565,7 +565,6 @@ static uchar mac_graphics[MAXPCHARS] = {
 	g_FILLER(S_hcdbridge),
 	g_FILLER(S_air),
 	g_FILLER(S_cloud),
-	g_FILLER(S_poisoncloud),
 /*40*/	g_FILLER(S_water),
 	g_FILLER(S_arrow_trap),
 	g_FILLER(S_dart_trap),
@@ -618,6 +617,7 @@ static uchar mac_graphics[MAXPCHARS] = {
 	g_FILLER(S_explode7),
 /*90*/	g_FILLER(S_explode8),
 	g_FILLER(S_explode9)
+	g_FILLER(S_poisoncloud),
 };
 #endif	/* MAC_GRAPHICS_ENV */
 
