@@ -416,8 +416,8 @@ static uchar ibm_graphics[MAXPCHARS] = {
 	0xb3,	/* S_explode6:	meta-3, vertical rule */
 	g_FILLER(S_explode7),
 /*90*/	g_FILLER(S_explode8),
-	g_FILLER(S_explode9)
-	g_FILLER(S_poisoncloud),
+	g_FILLER(S_explode9),
+	g_FILLER(S_poisoncloud)
 };
 #endif  /* ASCIIGRAPH */
 
@@ -517,8 +517,8 @@ static uchar dec_graphics[MAXPCHARS] = {
 	0xf8,	/* S_explode6:	meta-x, vertical rule */
 	g_FILLER(S_explode7),
 /*90*/	0xf3,	/* S_explode8:	meta-s, low horizontal line */
-	g_FILLER(S_explode9)
-	g_FILLER(S_poisoncloud),
+	g_FILLER(S_explode9),
+	g_FILLER(S_poisoncloud)
 };
 #endif  /* TERMLIB */
 
