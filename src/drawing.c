@@ -287,12 +287,13 @@ const struct symdef defsyms[MAXPCHARS] = {
 	{'#', "",		C(HI_ZAP)},
 	{'@', "",		C(HI_ZAP)},
 	{'*', "",		C(HI_ZAP)},
+	{'#', "poison cloud", 	C(CLR_BRIGHT_GREEN)},   /* part of a cloud */
 	{'/', "",		C(CLR_GREEN)},	/* swallow top left	*/
 	{'-', "",		C(CLR_GREEN)},	/* swallow top center	*/
 	{'\\', "",		C(CLR_GREEN)},	/* swallow top right	*/
 	{'|', "",		C(CLR_GREEN)},	/* swallow middle left	*/
-	{'|', "",		C(CLR_GREEN)},	/* swallow middle right	*/
-/*80*/	{'\\', "",		C(CLR_GREEN)},	/* swallow bottom left	*/
+/*80*/	{'|', "",		C(CLR_GREEN)},	/* swallow middle right	*/
+	{'\\', "",		C(CLR_GREEN)},	/* swallow bottom left	*/
 	{'-', "",		C(CLR_GREEN)},	/* swallow bottom center*/
 	{'/', "",		C(CLR_GREEN)},	/* swallow bottom right	*/
 	{'/', "",		C(CLR_ORANGE)},	/* explosion top left     */
@@ -301,8 +302,8 @@ const struct symdef defsyms[MAXPCHARS] = {
 	{'|', "",		C(CLR_ORANGE)},	/* explosion middle left  */
 	{' ', "",		C(CLR_ORANGE)},	/* explosion middle center*/
 	{'|', "",		C(CLR_ORANGE)},	/* explosion middle right */
-	{'\\', "",		C(CLR_ORANGE)},	/* explosion bottom left  */
-/*90*/	{'-', "",		C(CLR_ORANGE)},	/* explosion bottom center*/
+/*90*/	{'\\', "",		C(CLR_ORANGE)},	/* explosion bottom left  */
+	{'-', "",		C(CLR_ORANGE)},	/* explosion bottom center*/
 	{'/', "",		C(CLR_ORANGE)},	/* explosion bottom right */
 /*
  *  Note: Additions to this array should be reflected in the
