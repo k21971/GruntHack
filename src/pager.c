@@ -312,10 +312,8 @@ lookat(x, y, buf, monbuf)
 	else
 	    Strcpy(buf,"doorway");
 	break;
-    case S_cloud:
-	Strcpy(buf, Is_airlevel(&u.uz) ? "cloudy area" : "fog/vapor cloud");
-	break;
     case S_poisoncloud:
+    case S_cloud:
 	Strcpy(buf, Is_airlevel(&u.uz) ? "cloudy area" : "fog/vapor cloud");
 	break;
     default:
