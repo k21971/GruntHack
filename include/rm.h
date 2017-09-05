@@ -66,8 +66,9 @@
 #define DRAWBRIDGE_DOWN 33
 #define AIR		34
 #define CLOUD		35
+#define POISONCLOUD	36
 
-#define MAX_TYPE	36
+#define MAX_TYPE	37
 #define INVALID_TYPE	127
 
 /*
@@ -93,8 +94,8 @@
 #define IS_ALTAR(typ)	((typ) == ALTAR)
 #define IS_DRAWBRIDGE(typ) ((typ) == DRAWBRIDGE_UP || (typ) == DRAWBRIDGE_DOWN)
 #define IS_FURNITURE(typ) ((typ) >= STAIRS && (typ) <= ALTAR)
-#define IS_AIR(typ)	((typ) == AIR || (typ) == CLOUD)
-#define IS_SOFT(typ)	((typ) == AIR || (typ) == CLOUD || IS_POOL(typ))
+#define IS_AIR(typ)	((typ) == AIR || (typ) == CLOUD || (typ) == POISONCLOUD)
+#define IS_SOFT(typ)	((typ) == AIR || (typ) == CLOUD || (typ) == POISONCLOUD || IS_POOL(typ))
 
 /*
  * The screen symbols may be the default or defined at game startup time.
@@ -207,13 +208,14 @@
 #define S_explode7	90	/* explosion bottom left	 \-/	*/
 #define S_explode8	91	/* explosion bottom center		*/
 #define S_explode9	92	/* explosion bottom right		*/
+#define S_poisoncloud	93
 
 /* end effects */
 
-#define MAXPCHARS	93	/* maximum number of mapped characters */
+#define MAXPCHARS	94	/* maximum number of mapped characters */
 #define MAXDCHARS	42	/* maximum of mapped dungeon characters */
 #define MAXTCHARS	22	/* maximum of mapped trap characters */
-#define MAXECHARS	29	/* maximum of mapped effects characters */
+#define MAXECHARS	30	/* maximum of mapped effects characters */
 #define MAXEXPCHARS	9	/* number of explosion characters */
 
 struct symdef {

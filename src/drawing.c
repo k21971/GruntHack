@@ -242,7 +242,7 @@ const struct symdef defsyms[MAXPCHARS] = {
 #else
 	{'#', "",		C(CLR_GRAY)},	/* sink */
 #endif
-/*30*/	{'{', "fountain",	C(CLR_BLUE)},	/* fountain */
+/*30*/	{'{', "fountain",	C(CLR_BRIGHT_BLUE)},	/* fountain */
 	{'}', "water",		C(CLR_BLUE)},	/* pool */
 	{'.', "ice",		C(CLR_CYAN)},	/* ice */
 	{'}', "molten lava",	C(CLR_RED)},	/* lava */
@@ -291,8 +291,8 @@ const struct symdef defsyms[MAXPCHARS] = {
 	{'-', "",		C(CLR_GREEN)},	/* swallow top center	*/
 	{'\\', "",		C(CLR_GREEN)},	/* swallow top right	*/
 	{'|', "",		C(CLR_GREEN)},	/* swallow middle left	*/
-	{'|', "",		C(CLR_GREEN)},	/* swallow middle right	*/
-/*80*/	{'\\', "",		C(CLR_GREEN)},	/* swallow bottom left	*/
+/*80*/	{'|', "",		C(CLR_GREEN)},	/* swallow middle right	*/
+	{'\\', "",		C(CLR_GREEN)},	/* swallow bottom left	*/
 	{'-', "",		C(CLR_GREEN)},	/* swallow bottom center*/
 	{'/', "",		C(CLR_GREEN)},	/* swallow bottom right	*/
 	{'/', "",		C(CLR_ORANGE)},	/* explosion top left     */
@@ -301,9 +301,10 @@ const struct symdef defsyms[MAXPCHARS] = {
 	{'|', "",		C(CLR_ORANGE)},	/* explosion middle left  */
 	{' ', "",		C(CLR_ORANGE)},	/* explosion middle center*/
 	{'|', "",		C(CLR_ORANGE)},	/* explosion middle right */
-	{'\\', "",		C(CLR_ORANGE)},	/* explosion bottom left  */
-/*90*/	{'-', "",		C(CLR_ORANGE)},	/* explosion bottom center*/
+/*90*/	{'\\', "",		C(CLR_ORANGE)},	/* explosion bottom left  */
+	{'-', "",		C(CLR_ORANGE)},	/* explosion bottom center*/
 	{'/', "",		C(CLR_ORANGE)},	/* explosion bottom right */
+	{'#', "poison cloud", 	C(CLR_BRIGHT_GREEN)},   /* part of a cloud */
 /*
  *  Note: Additions to this array should be reflected in the
  *	  {ibm,dec,mac}_graphics[] arrays below.
@@ -415,7 +416,8 @@ static uchar ibm_graphics[MAXPCHARS] = {
 	0xb3,	/* S_explode6:	meta-3, vertical rule */
 	g_FILLER(S_explode7),
 /*90*/	g_FILLER(S_explode8),
-	g_FILLER(S_explode9)
+	g_FILLER(S_explode9),
+	g_FILLER(S_poisoncloud)
 };
 #endif  /* ASCIIGRAPH */
 
@@ -515,7 +517,8 @@ static uchar dec_graphics[MAXPCHARS] = {
 	0xf8,	/* S_explode6:	meta-x, vertical rule */
 	g_FILLER(S_explode7),
 /*90*/	0xf3,	/* S_explode8:	meta-s, low horizontal line */
-	g_FILLER(S_explode9)
+	g_FILLER(S_explode9),
+	g_FILLER(S_poisoncloud)
 };
 #endif  /* TERMLIB */
 
@@ -614,6 +617,7 @@ static uchar mac_graphics[MAXPCHARS] = {
 	g_FILLER(S_explode7),
 /*90*/	g_FILLER(S_explode8),
 	g_FILLER(S_explode9)
+	g_FILLER(S_poisoncloud),
 };
 #endif	/* MAC_GRAPHICS_ENV */
 
