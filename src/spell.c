@@ -894,7 +894,7 @@ boolean atme;
 					(pseudo->otyp == SPE_POISON_BLAST) ?
 						EXPL_NOXIOUS :
 					(pseudo->otyp == SPE_ACID_BLAST) ?
-						EXPL_WET :
+						EXPL_ACID :
 						EXPL_FIERY);
 			    if (pseudo->otyp == SPE_FIREBALL)
 			        scatter(u.dx, u.dy,

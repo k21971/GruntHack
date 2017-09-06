@@ -218,7 +218,7 @@ int set, entry;
 	    if (set == OTH_GLYPH) {
 		static char *explosion_types[] = { /* hack.h */
 			"dark", "noxious", "muddy", "wet",
-			"magical", "fiery", "frosty"
+			"magical", "fiery", "acid", "frosty"
 		};
 		Sprintf(buf, "explosion %s %d",
 			explosion_types[i / MAXEXPCHARS], i % MAXEXPCHARS);

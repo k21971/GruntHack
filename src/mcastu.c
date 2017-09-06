@@ -814,7 +814,7 @@ int spellnum;
 				(spellnum == SPE_POISON_BLAST) ?
 					EXPL_NOXIOUS :
 				(spellnum == SPE_ACID_BLAST) ?
-					EXPL_WET :
+					EXPL_ACID :
 				EXPL_FIERY);
 		    if (spellnum != SPE_CONE_OF_COLD)
 		        scatter(pos.x, pos.y,
@@ -2753,7 +2753,7 @@ int spellnum;
 				(spellnum == SPE_POISON_BLAST) ?
 					EXPL_NOXIOUS :
 				(spellnum == SPE_ACID_BLAST) ?
-					EXPL_WET :
+					EXPL_ACID :
 				EXPL_FIERY);
 		    if (spellnum != SPE_CONE_OF_COLD)
 		        scatter(pos.x, pos.y,
