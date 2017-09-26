@@ -239,7 +239,8 @@ NEARDATA extern coord bhitpos;	/* place where throw or zap hits or stops */
 #define EXPL_MAGICAL	4
 #define EXPL_FIERY	5
 #define EXPL_FROSTY	6
-#define EXPL_MAX	7
+#define EXPL_ACID	7
+#define EXPL_MAX	8
 
 /* Macros for messages referring to hands, eyes, feet, etc... */
 #define ARM 0
