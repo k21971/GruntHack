@@ -986,6 +986,7 @@ E void FDECL(nocmov, (int x, int y));
 
 /* ### mail.c ### */
 
+E void NDECL(server_admin_msg);
 #ifdef MAIL
 # ifdef UNIX
 E void NDECL(getmailstatus);

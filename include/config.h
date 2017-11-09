@@ -211,7 +211,7 @@
  * otherwise it will be the current directory.
  */
 # ifndef HACKDIR
-#  define HACKDIR "/gh"
+#  define HACKDIR "/grunthack-0.2.2"
 # endif
 
 /*
@@ -431,6 +431,8 @@ typedef long glyph_t;
 /* from NAO */
 #define LIVELOG		/* live logging of player actions */
 #define LIVELOGFILE "livelog"	/* file to output to */
+
+#define SERVER_ADMIN_MSG "admin_msg"
 
 /* no earlygame livelog spam for broken  conducts */
 #define LL_CONDUCT_THRESHOLD 3000 /* min turncount */

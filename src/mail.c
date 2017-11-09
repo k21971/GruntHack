@@ -699,4 +699,49 @@ struct obj *otmp;
 
 #endif /* MAIL */
 
+void
+ck_server_admin_msg()
+{
+#if defined(SERVER_ADMIN_MSG) && defined(UNIX)
+  static struct stat ost,nst;
+  static long lastchk = 0;
+
+  if (moves < lastchk + 10) return;
+  lastchk = moves;
+
+  if (!stat(SERVER_ADMIN_MSG, &nst)) {
+
+    if (nst.st_mtime > ost.st_mtime) {
+      char curline[250];
+      boolean shown_name = FALSE;
+      FILE* mb = fopen(SERVER_ADMIN_MSG, "r");
+      boolean snd = flags.soundok;
+
+      if (!mb) return;
+
+      while (fgets(curline, 250, mb) != NULL) {
+        char *msg = strchr(curline, ':');
+        if (!msg) {
+          fclose(mb);
+          flags.soundok = snd;
+          return;
+        }
+        *msg = '\0';
+        msg++;
+        msg[strlen(msg) - 1] = '\0'; /* kill newline */
+        flags.soundok = TRUE;
+        if (!shown_name) {
+          pline("The voice of %s booms through the caverns:", curline);
+          shown_name = TRUE;
+        }
+        verbalize(msg);
+      }
+      ost.st_mtime = nst.st_mtime;
+      fclose(mb);
+      flags.soundok = snd;
+    }
+  }
+#endif /* SERVER_ADMIN_MSG && UNIX */
+}
+
 /*mail.c*/
