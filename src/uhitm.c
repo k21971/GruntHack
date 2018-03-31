@@ -577,6 +577,7 @@ int dieroll;
 	boolean silvermsg = FALSE, silverobj = FALSE;
 	boolean valid_weapon_attack = FALSE;
 	boolean unarmed = !uwep && !uarm && !uarms;
+        boolean not_melee_weapon = FALSE;
 #ifdef STEED
 	int jousting = 0;
 #endif
@@ -644,6 +645,7 @@ rock1:
 		    /* or throw a missile without the proper bow... */
 		    (is_ammo(obj) && !ammo_and_launcher(obj, uwep))) {
 		    /* then do only 1-2 points of damage */
+                    not_melee_weapon = TRUE;
 		    if (mdat == &mons[PM_SHADE] && obj->otyp != SILVER_ARROW)
 			tmp = 0;
 		    else
@@ -1157,7 +1159,8 @@ rock2:
 	  (!destroyed || (thrown && m_shot.n > 1 && m_shot.o == obj->otyp))) {
 		if (thrown) hit(mshot_xname(obj), mon, exclam(tmp));
 		else if (!flags.verbose) You("hit it.");
-		else You("%s %s%s", Role_if(PM_BARBARIAN) ? "smite" : "hit",
+                else You("%s %s%s", !obj ? barehitmsg(&youmonst) :
+                          not_melee_weapon ? "hit" : weaphitmsg(obj,TRUE),
 			 mon_nam(mon), canseemon(mon) ? exclam(tmp) : ".");
 	}
 
@@ -2341,7 +2344,8 @@ use_weapon:
 			    if (mattk->aatyp == AT_KICK)
 				    You("kick %s.", mon_nam(mon));
 			    else if (mattk->aatyp == AT_BITE)
-				    You("bite %s.", mon_nam(mon));
+                                    You("%s %s.", has_beak(youmonst.data) ?
+                                        "peck" : "bite", mon_nam(mon));
 			    else if (mattk->aatyp == AT_STNG)
 				    You("sting %s.", mon_nam(mon));
 			    else if (mattk->aatyp == AT_BUTT)
@@ -2350,6 +2354,9 @@ use_weapon:
 				    You("touch %s.", mon_nam(mon));
 			    else if (mattk->aatyp == AT_TENT)
 				    Your("tentacles suck %s.", mon_nam(mon));
+                            else if (mattk->aatyp == AT_CLAW) {
+                                    You("%s %s.", barehitmsg(&youmonst),mon_nam(mon));
+                            }
 			    else You("hit %s.", mon_nam(mon));
 			    sum[i] = damageum(mon, mattk, dieroll);
 			} else

@@ -36,6 +36,56 @@ static int dieroll;
 
 #ifdef OVL1
 
+const char *
+weaphitmsg(obj,uhitm)
+struct obj *obj;
+boolean uhitm;
+{
+       /* lucern hammers and bec-de-corbins both whack and pierce */
+       return ((objects[obj->otyp].oc_dir & WHACK &&
+               (!(objects[obj->otyp].oc_dir & PIERCE) || rn2(2))) ?
+                       ((objects[obj->otyp].oc_skill == P_CLUB ||
+                       objects[obj->otyp].oc_skill == P_MACE ||
+                       objects[obj->otyp].oc_skill == P_MORNING_STAR) ?
+                           "club" : "whack") :
+               (objects[obj->otyp].oc_dir & PIERCE &&
+               (!(objects[obj->otyp].oc_dir & SLASH) || rn2(2))) ?
+                       (is_blade(obj) ? "stab" : "jab") :
+               (objects[obj->otyp].oc_dir & SLASH) ?
+                       (uhitm && Role_if(PM_BARBARIAN) ? "smite" :
+                        rn2(2) ? "hack" : is_axe(obj) ? "chop" : "slash") :
+               (objects[obj->otyp].oc_skill == P_WHIP) ?
+                       "whip" :
+               "hit");
+}
+
+const char *
+barehitmsg(mtmp)
+struct monst *mtmp;
+{
+       if (!strcmp(mbodypart(mtmp, HAND),"claw") ||
+	   !strcmp(mbodypart(mtmp, HAND),"paw") ||
+               !strcmp(mbodypart(mtmp, HAND),"foreclaw") || is_bird(mtmp->data))
+                return "claw";
+       if (!strcmp(mbodypart(mtmp, HAND),"swirl") || /* elementals */
+           !strcmp(mbodypart(mtmp, HAND),"tentacle")) { /* krakens */
+               if (mtmp->data == &mons[PM_EARTH_ELEMENTAL])
+                   return "pummel";
+               return "lash";
+       } if (is_undead(mtmp->data))
+               return "scratch";
+       if (mtmp->data == &mons[PM_MONK] || mtmp->data == &mons[PM_SAMURAI]
+               || (martial_bonus() &&
+                  (mtmp == &youmonst ||
+                   /* Assumes monk or samurai quest monsters */
+                  mtmp->data->msound == MS_LEADER ||
+                  mtmp->data->msound == MS_GUARDIAN ||
+                  mtmp->data->msound == MS_NEMESIS)))
+               return "strike";
+       if (mtmp->data == &mons[PM_NURSE])
+               return "touch";
+       return "punch";
+}
 
 STATIC_OVL void
 hitmsg(mtmp, mattk)
@@ -43,6 +93,7 @@ register struct monst *mtmp;
 register struct attack *mattk;
 {
 	int compat;
+	char buf[BUFSZ];
 
 	/* Note: if opposite gender, "seductively" */
 	/* If same gender, "engagingly" for nymph, normal msg for others */
@@ -54,7 +105,8 @@ register struct attack *mattk;
 	} else
 	    switch (mattk->aatyp) {
 		case AT_BITE:
-			pline("%s bites!", Monnam(mtmp));
+                        pline("%s %ss!", Monnam(mtmp), has_beak(mtmp->data) ?
+                                "peck" : "bite");
 			break;
 		case AT_KICK:
 			pline("%s kicks%c", Monnam(mtmp),
@@ -77,6 +129,28 @@ register struct attack *mattk;
 		case AT_BOOM:
 			pline("%s explodes!", Monnam(mtmp));
 			break;
+                case AT_WEAP:
+                        if (MON_WEP(mtmp)) {
+ 			   Sprintf(buf, weaphitmsg(MON_WEP(mtmp),FALSE));
+                            if (is_launcher(MON_WEP(mtmp)) ||
+                                is_missile(MON_WEP(mtmp)) ||
+                                is_ammo(MON_WEP(mtmp)) ||
+                                is_pole(MON_WEP(mtmp)))
+                                    Sprintf(buf,"hit");
+                            pline("%s %s%s!", Monnam(mtmp),
+                               makeplural(buf), !strcmp(buf,"whip") ||
+	 					!strcmp(buf,"hack") ||
+	 					!strcmp(buf,"chop") ||
+	 					!strcmp(buf,"jab") ? " you" : "");
+                            break;
+                        } /*fallthrough*/
+                case AT_CLAW:
+	 	       Sprintf(buf, barehitmsg(mtmp));
+                        pline("%s %s%s!", Monnam(mtmp), makeplural(buf),
+	 					!strcmp(buf,"scratch") ||
+	 					!strcmp(buf,"strike") ||
+	 					!strcmp(buf,"punch") ? "" : " you");
+                        break;
 		default:
 			pline("%s hits!", Monnam(mtmp));
 	    }
@@ -1604,7 +1678,7 @@ do_rust:
 #endif
 		   && !uarm && !uarmh && !uarms && !uarmg && !uarmc && !uarmf) {
 		    boolean goaway = FALSE;
-		    pline("%s hits!  (I hope you don't mind.)", Monnam(mtmp));
+		    pline("%s %s you!  (I hope you don't mind.)", Monnam(mtmp), makeplural(barehitmsg(mtmp)));
 		    if (Upolyd) {
 			u.mh += rnd(7);
 			if (!rn2(7)) {
