@@ -643,7 +643,8 @@ mattacku(mtmp)
 	if(!mtmp->cham && is_demon(mdat) && !range2
 	   && mtmp->data != &mons[PM_BALROG]
 	   && mtmp->data != &mons[PM_SUCCUBUS]
-	   && mtmp->data != &mons[PM_INCUBUS])
+	   && mtmp->data != &mons[PM_INCUBUS]
+           && mtmp->data != &mons[PM_NIGHTMARE])
 	    if(!mtmp->mcan && !rn2(13))	msummon(mtmp);
 
 /*	Special lycanthrope handling code */
@@ -987,7 +988,8 @@ struct monst *mtmp;
 	} else {
 		make_sick(Sick ? Sick/3L + 1L : (long)rn1(ACURR(A_CON), 20),
 			done_in_name(mtmp), TRUE,
-			mtmp->data == &mons[PM_ZOMBIE]
+			mtmp->data == &mons[PM_ZOMBIE] ||
+                        mtmp->data == &mons[PM_ZOMBIE_DRAGON]
 			? SICK_ZOMBIE : SICK_NONVOMITABLE);
 		return TRUE;
 	}
@@ -1333,7 +1335,7 @@ dopois:
 		}
 		if (u_slip_free(mtmp,mattk)) break;
 
-		if (mtmp->data == &mons[PM_ZOMBIE] && rn2(5))
+		if (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON] && rn2(5))
 		{
 		    if (uncancelled)
                         diseasemu(mtmp);
@@ -1388,7 +1390,8 @@ dopois:
 		forget_levels(25);	/* lose memory of 25% of levels */
 		forget_objects(25);	/* lose memory of 25% of objects */
 		exercise(A_WIS, FALSE);
-		if (mtmp->data == &mons[PM_ZOMBIE])
+		if (mtmp->data == &mons[PM_ZOMBIE] ||
+                    mtmp->data == &mons[PM_ZOMBIE_DRAGON])
 		    diseasemu(mtmp);
 		break;
 	    case AD_PLYS:

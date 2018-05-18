@@ -1536,9 +1536,10 @@ int dieroll; /* needed for Magicbane and vorpal blades */
 			*dmgptr = 2 * mdef->mhp + FATAL_DAMAGE_MODIFIER;
 			pline(behead_msg[rn2(SIZE(behead_msg))],
 			      wepdesc, mon_nam(mdef));
-			if (mdef->data == &mons[PM_ZOMBIE])
-			    mdef->mcan = 1; /* prevent zombie from reviving
-			                     * if it suffers head damage */
+			if (mdef->data == &mons[PM_ZOMBIE] ||
+                            mdef->data == &mons[PM_ZOMBIE_DRAGON])
+			    mdef->mcan = 1; /* prevent zombies from reviving
+			                     * if they suffer head damage */
 			if (otmp->oartifact)
 				otmp->dknown = TRUE;
 			return TRUE;

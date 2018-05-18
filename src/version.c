@@ -14,7 +14,7 @@
 #include "patchlevel.h"
 #endif
 
-#define BETA_INFO "[ beta 1]" 	/* "[ beta n]" */
+/* #define BETA_INFO "[ beta 1]" */ 	/* "[ beta n]" */
 
 /* fill buffer with short version (so caller can avoid including date.h) */
 char *

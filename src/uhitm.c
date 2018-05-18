@@ -1688,7 +1688,7 @@ do_rust:
 		    mdef->msick = 1;
 		}
 	    case AD_DRIN:
-	        if (youmonst.data == &mons[PM_ZOMBIE] && rn2(5))
+	        if (youmonst.data == &mons[PM_ZOMBIE] || youmonst.data == &mons[PM_ZOMBIE_DRAGON] && rn2(5))
 		{
 zombie:
                     if (!resists_sick(mdef))
@@ -1752,7 +1752,7 @@ zombie:
 			flags.botl = 1;
 		}
 		exercise(A_WIS, TRUE);
-	        if (youmonst.data == &mons[PM_ZOMBIE]) goto zombie;
+	        if (youmonst.data == &mons[PM_ZOMBIE] || youmonst.data == &mons[PM_ZOMBIE_DRAGON]) goto zombie;
 		break;
 	    case AD_STCK:
 		if (!negated && !sticks(mdef->data))
@@ -1854,7 +1854,7 @@ zombie:
 			break;
 		    }
 		    tmp = 2 * mdef->mhp + 200; /*FATAL_DAMAGE_MODIFIER;*/
-		    if (mdef->data == &mons[PM_ZOMBIE])
+		    if (mdef->data == &mons[PM_ZOMBIE] || mdef->data == &mons[PM_ZOMBIE_DRAGON])
 		        mdef->mcan = 1; /*beheaded zombies don't revive*/
 		    Strcpy(buf, mon_nam(mdef));
 		    pline(behead_msg[rn2(2)],

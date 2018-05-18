@@ -374,7 +374,7 @@ register struct monst *mtmp;
 				     ? mtmp->data :
 				     &mons[mons_to_corpse(mtmp)], x, y, TRUE);
 
-		    if      (mndx == PM_ZOMBIE ||
+		    if      (mndx == PM_ZOMBIE || mndx == PM_ZOMBIE_DRAGON ||
 		             mndx == PM_MUMMY)
 		    {
 		        obj->spe = -2;
@@ -1715,9 +1715,15 @@ struct monst *magr,	/* monster that is currently deciding where to move */
 	if (ma == &mons[PM_ZOMBIE] && !is_undead(md))
 	    return ALLOW_M|ALLOW_TM;
 
+        if (ma == &mons[PM_ZOMBIE_DRAGON] && !is_undead(md))
+            return ALLOW_M|ALLOW_TM;
+
 	/* and vice versa */
 	if (md == &mons[PM_ZOMBIE] && !is_undead(ma))
 	    return ALLOW_M|ALLOW_TM;
+
+        if (md == &mons[PM_ZOMBIE_DRAGON] && !is_undead(ma))
+            return ALLOW_M|ALLOW_TM;
  
  	/* Since the quest guardians are under siege, it makes sense to have 
         them fight hostiles.  (But we don't want the quest leader to be in
@@ -2173,6 +2179,7 @@ boolean was_swallowed;			/* digestion */
 
 	if (bigmonst(mdat) || mdat == &mons[PM_LIZARD]
 		   || mdat == &mons[PM_ZOMBIE]
+                   || mdat == &mons[PM_ZOMBIE_DRAGON]
 		   || is_golem(mdat)
 		   || is_mplayer(mdat)
 		   || is_rider(mdat))
@@ -2772,6 +2779,18 @@ register struct monst *mtmp;
 	                 : !rn2(3)  ? "a low groaning."
 			 : !rn2(2)  ? "a low moaning."
 			 :            "a shuffling noise.");
+    }
+    if (mtmp->data == &mons[PM_ZOMBIE_DRAGON] && flags.soundok && !mtmp->mburied) {
+        if (canseemon(mtmp))
+            pline("%s %s.", Monnam(mtmp),
+                           !rn2(15) ? "gurgles, \"UUUUUUUHHHHHNNG...\"" :
+                           !rn2(3) ? "growls" :
+                           !rn2(2) ? "moans" : "drags itself in your direction");
+        else if (!rn2(4))
+            You_hear("%s", !rn2(15) ? "a low guttural sound \"UUUUUUUHHHHHNNG...\"."
+                         : !rn2(3)  ? "a low growling."
+                         : !rn2(2)  ? "a low moaning."
+                         :            "an ominous noise.");
     }
     if(mtmp->data == &mons[PM_MEDUSA]) {
 	register int i;
