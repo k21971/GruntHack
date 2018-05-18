@@ -784,9 +784,12 @@ register struct obj *obj;
 {
 	register struct monst *mtmp2;
 
-	/* The Wiz, Medusa and the quest nemeses aren't even made peaceful. */
+	/* The Wiz, Medusa and the quest nemeses aren't even made peaceful.
+           Adding beholders to this section - reserve genociding these and then taming them
+           is way too overpowered. Was cool to watch during testing though... */
 	if (mtmp->iswiz || mtmp->data == &mons[PM_MEDUSA]
-				|| (mtmp->data->mflags3 & M3_WANTSARTI))
+                                || (mtmp->data == &mons[PM_BEHOLDER]
+				|| (mtmp->data->mflags3 & M3_WANTSARTI)))
 		return((struct monst *)0);
 
 	/* worst case, at least it'll be peaceful. */
