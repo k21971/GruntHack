@@ -354,13 +354,13 @@ NEARDATA struct permonst mons[] = {
      * via warning would typically show as 2 or 3 at best. Wildly inaccurate given how
      * powerful and dangerous this monster is. Raising its base difficulty to 17 will ensure
      * that it does not spawn too early in the dungeon vs mid-level players, and that it will
-     * typically show as a 4 via warning, as it should given its abilities. And since it's
+     * typically show as a 5 via warning, as it should given its abilities. And since it's
      * getting a buff in the HD department, we'll buff up a couple other areas as well,
      * as once the hero is blindfolded, defeating a beholder became easier to do than
      * engaging in battle with a housecat.
      */
     MON("beholder", S_EYE,
-	LVL(17, 3, -6, 50, -10), (G_GENO|2),
+	LVL(18, 3, -6, 50, -10), (G_GENO|2),
 	A(ATTK(AT_GAZE, AD_SLOW, 0, 0), ATTK(AT_GAZE, AD_SLEE, 2,20),
 	  ATTK(AT_GAZE, AD_DISN, 0, 0), ATTK(AT_GAZE, AD_STON, 0, 0),
 	  ATTK(AT_GAZE, AD_CNCL, 2, 4), ATTK(AT_BITE, AD_PHYS, 6, 8)),
