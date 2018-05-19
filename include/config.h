@@ -211,7 +211,7 @@
  * otherwise it will be the current directory.
  */
 # ifndef HACKDIR
-#  define HACKDIR "/grunthack-0.2.2"
+#  define HACKDIR "/grunthack-0.2.3"
 # endif
 
 /*
@@ -448,7 +448,7 @@ typedef long glyph_t;
 #define DUMP_LOG        /* Dump game end information to a file */
 #define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"
 
-#define DUMPMSGS 20     /* Number of latest messages in the dump file  */
+#define DUMPMSGS 30     /* Number of latest messages in the dump file  */
 
 #define DYWYPISI	/* identify objects' identification state */
 
