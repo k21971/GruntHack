@@ -1321,7 +1321,7 @@ mdamagem(magr, mdef, mattk)
 		    tmp = 0;
 		    break;
 		}
-		if (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON]  && rn2(5)) {
+		if ((pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON])  && rn2(5)) {
 		    if (!cancelled) {
 		        if (vis && !resists_sick(mdef))
 		            pline("%s looks %s.", Monnam(mdef),
@@ -1353,7 +1353,7 @@ mdamagem(magr, mdef, mattk)
 		if (tmp >= mdef->mhp && vis)
 		    pline("%s last thought fades away...",
 			          s_suffix(Monnam(mdef)));
-		if (tmp < mdef->mhp && pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON])
+		if (tmp < mdef->mhp && (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON]))
 		{
 		    if (vis && !resists_sick(mdef))
 		        pline("%s looks %s.", Monnam(mdef),
@@ -1582,7 +1582,7 @@ msickness:
 		place_monster(mdef, mdef->mx, mdef->my);
 		mdef->mhp = 0;
 	    }
-	    if (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON] && !nonliving(pd) &&
+	    if ((pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON]) && !nonliving(pd) &&
 	        (is_racial(pd) || is_were(pd)))
 	    {
 	    	zombify(mdef);

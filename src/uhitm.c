@@ -1688,7 +1688,7 @@ do_rust:
 		    mdef->msick = 1;
 		}
 	    case AD_DRIN:
-	        if (youmonst.data == &mons[PM_ZOMBIE] || youmonst.data == &mons[PM_ZOMBIE_DRAGON] && rn2(5))
+	        if ((youmonst.data == &mons[PM_ZOMBIE] || youmonst.data == &mons[PM_ZOMBIE_DRAGON]) && rn2(5))
 		{
 zombie:
                     if (!resists_sick(mdef))

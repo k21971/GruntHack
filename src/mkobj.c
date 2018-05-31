@@ -1142,14 +1142,14 @@ boolean init;
 		if (otmp->otyp == CORPSE &&
 			(special_corpse(old_corpsenm) ||
 				special_corpse(otmp->corpsenm) ||
-				(mtmp && mtmp->data == &mons[PM_ZOMBIE] || mtmp && mtmp->data == &mons[PM_ZOMBIE_DRAGON]))) {
+				(mtmp && (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON])))) {
 		    obj_stop_timers(otmp);
 		    if (mtmp &&
 		        (ptr->mlet == S_TROLL ||
 			 mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON]) &&
 		        mtmp->mcan == 1)
 			otmp->norevive = 1;
-		    if (mtmp && mtmp->data == &mons[PM_ZOMBIE] || mtmp && mtmp->data == &mons[PM_ZOMBIE_DRAGON])
+		    if (mtmp && (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON]))
 		        otmp->spe = -2;
 		    start_corpse_timeout(otmp);
 		}

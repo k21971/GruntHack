@@ -1335,7 +1335,7 @@ dopois:
 		}
 		if (u_slip_free(mtmp,mattk)) break;
 
-		if (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON] && rn2(5))
+		if ((mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON]) && rn2(5))
 		{
 		    if (uncancelled)
                         diseasemu(mtmp);
