@@ -421,7 +421,10 @@ bot1()
             int hpmax = (Upolyd ? u.mhmax : u.uhpmax);
 	    char tmp[MAXCO];
 	    char *p = tmp;
-	    int filledbar = ((hp < 0) ? 0 : hp) * bar_length / hpmax;
+	    int filledbar = ((hp < 0) ? 0 : hp)
+                            * bar_length
+                            / (hpmax > 0 && hpmax >= hp) ? hpmax
+                              : ((hp > 0) ? hp : 1);
 	    if (filledbar >= MAXCO) { filledbar = MAXCO-1; }
 	    Strcpy(tmp, newbot1);
 	    p++;
