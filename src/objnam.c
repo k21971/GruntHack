@@ -672,7 +672,7 @@ boolean has_of;
             Strcat(buf, " warning");
 	    Strcpy(of, "and");
 #ifdef DYWYPISI
-	    if (!(props_known & ITEM_STEALTH))
+	    if (!(props_known & ITEM_WARNING))
 	    	Strcat(buf, "]");
 #endif
 	}
