@@ -600,7 +600,7 @@ boolean has_of;
 #endif
 	) {
 #ifdef DYWYPISI
-	    if (!(props_known & ITEM_BRILLIANCE))
+	    if (!(props_known & ITEM_ESP))
 	    	Strcat(buf, " [");
 	    else
 #endif
