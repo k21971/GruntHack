@@ -103,7 +103,7 @@ long mask;
 		}
 	    }
 	}
-	update_inventory();
+	if (!restoring) update_inventory();
 }
 
 /* called e.g. when obj is destroyed */
