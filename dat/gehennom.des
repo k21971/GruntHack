@@ -35,8 +35,8 @@ MONSTER: 'i', random, random
 MONSTER: 'i', random, random
 MONSTER: 'i', random, random
 MONSTER: 'i', random, random
-MONSTER: 'i', random, random
-MONSTER: 'i', random, random
+MONSTER: 'u', "nightmare", random
+MONSTER: 'u', "nightmare", random
 MONSTER: 'Z', "skeleton", random
 MONSTER: 'Z', random, random
 MONSTER: 'Z', random, random
@@ -735,6 +735,7 @@ MONSTER:'L',random,random
 MONSTER:'V',random,random
 MONSTER:'V',random,random
 MONSTER:'V',random,random
+MONSTER:'H',"elder minotaur",random
 STAIR:(63,15),up
 
 # new GruntHack levels.
@@ -834,9 +835,9 @@ MONSTER:'d',random,random
 MONSTER:'d',random,random
 MONSTER:'G',random,random
 MONSTER:'G',random,random
-MONSTER:'G',random,random
-MONSTER:'G',random,random
-MONSTER:'G',random,random
+MONSTER:'u',"nightmare",random
+MONSTER:'u',"nightmare",random
+MONSTER:'u',"nightmare",random
 # the throne room loot
 OBJECT:'(',"chest",(13,08)
 # some wasteland-ish stuff
@@ -1075,10 +1076,10 @@ MONSTER:'i',random,random
 MONSTER:'i',random,random
 MONSTER:'i',random,random
 MONSTER:'i',random,random
-MONSTER:'i',random,random
-MONSTER:'i',random,random
-MONSTER:'i',random,random
-MONSTER:'i',random,random
+MONSTER:'u',"nightmare",random
+MONSTER:'u',"nightmare",random
+MONSTER:'u',"nightmare",random
+MONSTER:'u',"nightmare",random
 # the damned
 MONSTER:'Z',random,random
 MONSTER:'Z',random,random
@@ -1196,7 +1197,7 @@ MONSTER:'&',"balrog",(51,08)
 MONSTER:'&',"nalfeshnee",(49,10)
 MONSTER:'&',"balrog",(51,10)
 MONSTER:'&',"pit fiend",(50,08)
-MONSTER:'&',"pit fiend",(49,09)
+MONSTER:'H',"elder minotaur",(49,09)
 MONSTER:'&',"pit fiend",(50,10)
 # and some other denizens
 MONSTER:'&',random,random

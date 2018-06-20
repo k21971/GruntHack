@@ -46,7 +46,7 @@ PORTAL:(0,0,75,19),(65,13,75,19),"earth"
 #  pick axe and at least one wand of digging
 #  are available.
 MONSTER:'@',"king",(67,16)
-MONSTER:'H',"minotaur",(67,14)
+MONSTER:'H',"elder minotaur",(67,14)
 #  An assortment of earth-appropriate nasties
 #  in each cavern.
 MONSTER:'E',"earth elemental",(52,13),hostile
@@ -313,7 +313,7 @@ MONSTER:'E',"fire elemental",random,hostile
 MONSTER:'d',"hell hound",random
 MONSTER:'E',"fire elemental",random,hostile
 MONSTER:'E',"fire elemental",random,hostile
-MONSTER:'s',"scorpion",random
+MONSTER:'u',"nightmare",random
 MONSTER:'H',"fire giant",random
 #
 MONSTER:'d',"hell hound",random
@@ -326,7 +326,7 @@ MONSTER:'d',"hell hound",random
 MONSTER:'E',"fire elemental",random,hostile
 MONSTER:''',"stone golem",random
 MONSTER:'S',"pit viper",random
-MONSTER:'S',"pit viper",random
+MONSTER:'u',"nightmare",random
 MONSTER:'v',"fire vortex",random
 #
 MONSTER:'E',"fire elemental",random,hostile
@@ -341,7 +341,7 @@ MONSTER:'S',"pit viper",random
 #
 MONSTER:':',"salamander",random,hostile
 MONSTER:':',"salamander",random,hostile
-MONSTER:'H',"minotaur",random
+MONSTER:'H',"elder minotaur",random
 MONSTER:':',"salamander",random,hostile
 MONSTER:'v',"steam vortex",random
 MONSTER:':',"salamander",random,hostile
@@ -349,7 +349,7 @@ MONSTER:':',"salamander",random,hostile
 #
 MONSTER:'H',"fire giant",random
 MONSTER:'&',"barbed devil",random
-MONSTER:'E',"fire elemental",random,hostile
+MONSTER:'u',"nightmare",random,hostile
 MONSTER:'v',"fire vortex",random
 MONSTER:'E',"fire elemental",random,hostile
 MONSTER:'E',"fire elemental",random,hostile
@@ -610,3 +610,5 @@ MONSTER:'V',random,random,hostile
 MONSTER:'D',random,random,hostile
 MONSTER:'D',random,random,hostile
 MONSTER:'D',random,random,hostile
+MONSTER:'H',"elder minotaur",random,hostile
+MONSTER:'H',"elder minotaur",random,hostile

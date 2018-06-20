@@ -21,7 +21,7 @@
 
 #define resists_sick(mon)       (((mon)->data->mlet == S_FUNGUS) || \
                                  ((mon)->data == &mons[PM_ZOMBIE]) || \
-                                 ((mon)->data == &mons[PM_ZOMBIE_DRAGON]) || \
+                                 ((mon)->data == &mons[PM_DRAGON_ZOMBIE]) || \
 				 ((mon)->data == &mons[PM_GHOUL]))
 
 #define MR2_SEE_INVIS	0x0100	/* see invisible */
@@ -185,7 +185,7 @@
 /* return TRUE if the monster tends to revive */
 #define is_reviver(ptr)		(is_rider(ptr) || (ptr)->mlet == S_TROLL || \
                                  (ptr) == &mons[PM_ZOMBIE] || \
-                                 (ptr) == &mons[PM_ZOMBIE_DRAGON])
+                                 (ptr) == &mons[PM_DRAGON_ZOMBIE])
 
 /* this returns the light's range, or 0 if none; if we add more light emitting
    monsters, we'll likely have to add a new light range field to mons[] */

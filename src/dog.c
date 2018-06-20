@@ -788,8 +788,9 @@ register struct obj *obj;
            Adding beholders to this section - reserve genociding these and then taming them
            is way too overpowered. Was cool to watch during testing though... */
 	if (mtmp->iswiz || mtmp->data == &mons[PM_MEDUSA]
-                                || (mtmp->data == &mons[PM_BEHOLDER]
-				|| (mtmp->data->mflags3 & M3_WANTSARTI)))
+                        || (mtmp->data == &mons[PM_BEHOLDER]
+                        || (mtmp->data == &mons[PM_ELDER_MINOTAUR]
+			|| (mtmp->data->mflags3 & M3_WANTSARTI))))
 		return((struct monst *)0);
 
 	/* worst case, at least it'll be peaceful. */

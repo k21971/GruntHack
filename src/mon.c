@@ -81,6 +81,7 @@ int mndx;
 	case PM_GIANT_MUMMY:	mndx = PM_GIANT;  break;
 	case PM_ETTIN_ZOMBIE:
 	case PM_ETTIN_MUMMY:	mndx = PM_ETTIN;  break;
+        case PM_DRAGON_ZOMBIE:  mndx = PM_GREEN_DRAGON;  break;
 	default:  break;
 	}
 	return mndx;
@@ -267,6 +268,7 @@ register struct monst *mtmp;
 	    case PM_HUMAN_ZOMBIE:
 	    case PM_GIANT_ZOMBIE:
 	    case PM_ETTIN_ZOMBIE:
+            case PM_DRAGON_ZOMBIE:
 		num = undead_to_corpse(mndx);
 		obj = mkcorpstat(CORPSE, mtmp, &mons[num], x, y, TRUE);
 		obj->age -= 100;		/* this is an *OLD* corpse */
@@ -374,7 +376,7 @@ register struct monst *mtmp;
 				     ? mtmp->data :
 				     &mons[mons_to_corpse(mtmp)], x, y, TRUE);
 
-		    if      (mndx == PM_ZOMBIE || mndx == PM_ZOMBIE_DRAGON ||
+		    if      (mndx == PM_ZOMBIE || mndx == PM_DRAGON_ZOMBIE ||
 		             mndx == PM_MUMMY)
 		    {
 		        obj->spe = -2;
@@ -1715,14 +1717,14 @@ struct monst *magr,	/* monster that is currently deciding where to move */
 	if (ma == &mons[PM_ZOMBIE] && !is_undead(md))
 	    return ALLOW_M|ALLOW_TM;
 
-        if (ma == &mons[PM_ZOMBIE_DRAGON] && !is_undead(md))
+        if (ma == &mons[PM_DRAGON_ZOMBIE] && !is_undead(md))
             return ALLOW_M|ALLOW_TM;
 
 	/* and vice versa */
 	if (md == &mons[PM_ZOMBIE] && !is_undead(ma))
 	    return ALLOW_M|ALLOW_TM;
 
-        if (md == &mons[PM_ZOMBIE_DRAGON] && !is_undead(ma))
+        if (md == &mons[PM_DRAGON_ZOMBIE] && !is_undead(ma))
             return ALLOW_M|ALLOW_TM;
  
  	/* Since the quest guardians are under siege, it makes sense to have 
@@ -2179,7 +2181,7 @@ boolean was_swallowed;			/* digestion */
 
 	if (bigmonst(mdat) || mdat == &mons[PM_LIZARD]
 		   || mdat == &mons[PM_ZOMBIE]
-                   || mdat == &mons[PM_ZOMBIE_DRAGON]
+                   || mdat == &mons[PM_DRAGON_ZOMBIE]
 		   || is_golem(mdat)
 		   || is_mplayer(mdat)
 		   || is_rider(mdat))
@@ -2780,7 +2782,7 @@ register struct monst *mtmp;
 			 : !rn2(2)  ? "a low moaning."
 			 :            "a shuffling noise.");
     }
-    if (mtmp->data == &mons[PM_ZOMBIE_DRAGON] && flags.soundok && !mtmp->mburied) {
+    if (mtmp->data == &mons[PM_DRAGON_ZOMBIE] && flags.soundok && !mtmp->mburied) {
         if (canseemon(mtmp))
             pline("%s %s.", Monnam(mtmp),
                            !rn2(15) ? "gurgles, \"UUUUUUUHHHHHNNG...\"" :

@@ -422,7 +422,7 @@ register struct attack *mattk;
 	else if (mtmp->data == &mons[PM_GHOUL])
 		u.ugrave_arise = PM_GHOUL;
 	else if ((mtmp->data == &mons[PM_ZOMBIE] ||
-                 mtmp->data == &mons[PM_ZOMBIE_DRAGON]) && !Upolyd)
+                 mtmp->data == &mons[PM_DRAGON_ZOMBIE]) && !Upolyd)
 	        u.ugrave_arise = PM_ZOMBIE;
 	if (u.ugrave_arise >= LOW_PM &&
 				(mvitals[u.ugrave_arise].mvflags & G_GENOD))

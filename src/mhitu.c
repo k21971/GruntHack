@@ -989,7 +989,7 @@ struct monst *mtmp;
 		make_sick(Sick ? Sick/3L + 1L : (long)rn1(ACURR(A_CON), 20),
 			done_in_name(mtmp), TRUE,
 			mtmp->data == &mons[PM_ZOMBIE] ||
-                        mtmp->data == &mons[PM_ZOMBIE_DRAGON]
+                        mtmp->data == &mons[PM_DRAGON_ZOMBIE]
 			? SICK_ZOMBIE : SICK_NONVOMITABLE);
 		return TRUE;
 	}
@@ -1335,7 +1335,7 @@ dopois:
 		}
 		if (u_slip_free(mtmp,mattk)) break;
 
-		if ((mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON]) && rn2(5))
+		if ((mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_DRAGON_ZOMBIE]) && rn2(5))
 		{
 		    if (uncancelled)
                         diseasemu(mtmp);
@@ -1391,7 +1391,7 @@ dopois:
 		forget_objects(25);	/* lose memory of 25% of objects */
 		exercise(A_WIS, FALSE);
 		if (mtmp->data == &mons[PM_ZOMBIE] ||
-                    mtmp->data == &mons[PM_ZOMBIE_DRAGON])
+                    mtmp->data == &mons[PM_DRAGON_ZOMBIE])
 		    diseasemu(mtmp);
 		break;
 	    case AD_PLYS:

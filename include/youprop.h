@@ -65,7 +65,7 @@
 #define Sick_resistance		(HSick_resistance || \
 				 youmonst.data->mlet == S_FUNGUS || \
 				 youmonst.data == &mons[PM_ZOMBIE] || \
-                                 youmonst.data == &mons[PM_ZOMBIE_DRAGON] || \
+                                 youmonst.data == &mons[PM_DRAGON_ZOMBIE] || \
 				 youmonst.data == &mons[PM_GHOUL] || \
 				 defends(AD_DISE,uwep))
 #define Invulnerable		u.uprops[INVULNERABLE].intrinsic    /* [Tom] */

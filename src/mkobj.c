@@ -1094,7 +1094,7 @@ int x, y;
 				|| ((num) == PM_LICHEN)		\
 				|| (is_rider(&mons[num]))	\
 				|| ((num) == PM_ZOMBIE)         \
-                                || ((num) == PM_ZOMBIE_DRAGON)  \
+                                || ((num) == PM_DRAGON_ZOMBIE)  \
 				|| (mons[num].mlet == S_TROLL))
 
 /*
@@ -1142,14 +1142,14 @@ boolean init;
 		if (otmp->otyp == CORPSE &&
 			(special_corpse(old_corpsenm) ||
 				special_corpse(otmp->corpsenm) ||
-				(mtmp && (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON])))) {
+				(mtmp && (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_DRAGON_ZOMBIE])))) {
 		    obj_stop_timers(otmp);
 		    if (mtmp &&
 		        (ptr->mlet == S_TROLL ||
-			 mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON]) &&
+			 (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_DRAGON_ZOMBIE])) &&
 		        mtmp->mcan == 1)
 			otmp->norevive = 1;
-		    if (mtmp && (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_ZOMBIE_DRAGON]))
+		    if (mtmp && (mtmp->data == &mons[PM_ZOMBIE] || mtmp->data == &mons[PM_DRAGON_ZOMBIE]))
 		        otmp->spe = -2;
 		    start_corpse_timeout(otmp);
 		}

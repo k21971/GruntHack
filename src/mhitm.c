@@ -1321,7 +1321,7 @@ mdamagem(magr, mdef, mattk)
 		    tmp = 0;
 		    break;
 		}
-		if ((pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON])  && rn2(5)) {
+		if ((pa == &mons[PM_ZOMBIE] || pa == &mons[PM_DRAGON_ZOMBIE])  && rn2(5)) {
 		    if (!cancelled) {
 		        if (vis && !resists_sick(mdef))
 		            pline("%s looks %s.", Monnam(mdef),
@@ -1353,7 +1353,7 @@ mdamagem(magr, mdef, mattk)
 		if (tmp >= mdef->mhp && vis)
 		    pline("%s last thought fades away...",
 			          s_suffix(Monnam(mdef)));
-		if (tmp < mdef->mhp && (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON]))
+		if (tmp < mdef->mhp && (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_DRAGON_ZOMBIE]))
 		{
 		    if (vis && !resists_sick(mdef))
 		        pline("%s looks %s.", Monnam(mdef),
@@ -1413,7 +1413,7 @@ msickness:
 		if((mdef->mhp > 2) && !resist(mdef, 0, 0, NOTELL))
 			mdef->mhp /= 2;
 		if (mdef->mhp > mdef->mhpmax) mdef->mhp = mdef->mhpmax; */
-		mdef->msick = (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON]) ? 3 : 1;
+		mdef->msick = (pa == &mons[PM_ZOMBIE] || pa == &mons[PM_DRAGON_ZOMBIE]) ? 3 : 1;
 		break;
 	    case AD_FAMN:
 		Strcpy(buf, s_suffix(mon_nam(mdef)));
@@ -1483,7 +1483,7 @@ msickness:
 		    }
 		    tmp = 2 * mdef->mhp + 200; /*FATAL_DAMAGE_MODIFIER;*/
 		    if (mdef->data == &mons[PM_ZOMBIE] ||
-                        mdef->data == &mons[PM_ZOMBIE_DRAGON])
+                        mdef->data == &mons[PM_DRAGON_ZOMBIE])
 		        mdef->mcan = 1; /*beheaded zombies don't revive*/
 		    Strcpy(buf, mon_nam(mdef));
 		    pline(behead_msg[rn2(2)],
@@ -1582,7 +1582,7 @@ msickness:
 		place_monster(mdef, mdef->mx, mdef->my);
 		mdef->mhp = 0;
 	    }
-	    if ((pa == &mons[PM_ZOMBIE] || pa == &mons[PM_ZOMBIE_DRAGON]) && !nonliving(pd) &&
+	    if ((pa == &mons[PM_ZOMBIE] || pa == &mons[PM_DRAGON_ZOMBIE]) && !nonliving(pd) &&
 	        (is_racial(pd) || is_were(pd)))
 	    {
 	    	zombify(mdef);
