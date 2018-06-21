@@ -1104,7 +1104,11 @@ boolean at_stairs, falling, portal;
 	 *	 -1    8.33   4.17   0.0	 -1    6.25   8.33  12.5
 	 *	 -2    8.33   4.17   0.0	 -2    6.25   8.33   0.0
 	 *	 -3    8.33   4.17   0.0	 -3    6.25   0.0    0.0
+	 *
+	 *	Removing the mysterious force completely, adding nasty()
+	 *	functionality akin to what SporkHack uses.
 	 */
+#if 0
 	if (Inhell && up && u.uhave.amulet && !newdungeon && !portal &&
 				(dunlev(&u.uz) < dunlevs_in_dungeon(&u.uz)-3)) {
 		if (!rn2(4)) {
@@ -1131,6 +1135,7 @@ boolean at_stairs, falling, portal;
 			at_stairs = at_ladder = FALSE;
 		}
 	}
+#endif
 
 	/* Prevent the player from going past the first quest level unless
 	 * (s)he has been given the go-ahead by the leader.
