@@ -721,8 +721,8 @@ resurrect()
 void
 intervene()
 {
-	int which = Is_astralevel(&u.uz) ? rnd(4) : rn2(6);
-	/* cases 0 and 5 don't apply on the Astral level */
+	int which = Is_astralevel(&u.uz) ? rnd(4) : rn2(8);
+	/* many cases don't apply on the Astral level or Planes */
 	switch (which) {
 	    case 0:
 	    case 1:	You_feel("vaguely nervous.");
@@ -734,11 +734,14 @@ intervene()
 			break;
 	    case 3:	aggravate();
 			break;
-	    case 4:	(void)nasty((struct monst *)0,FALSE);
+	    case 4:
+			(void)nasty((struct monst *)0,FALSE);
 			break;
-	    case 5:	resurrect();
+	    case 5:
+			resurrect();
 	    case 6:
-	    case 7:	(void)nasty((struct monst*)0,TRUE);
+	    case 7:
+			(void)nasty((struct monst*)0,TRUE);
 			break;
 	}
 }
