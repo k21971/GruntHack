@@ -1492,11 +1492,6 @@ register struct obj   *obj;
 	    }
 
 	    if (tmp >= dieroll) {
-		if(!u.uconduct.weaphit++)
-		    #ifdef LIVELOG
-  	            livelog_conduct("hit with a wielded weapon for the first time")
-                    #endif
-                    ;
 		if (hmon(mon,obj,1,dieroll)) {	/* mon still alive */
 		    cutworm(mon, bhitpos.x, bhitpos.y, obj);
 		}

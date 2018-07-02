@@ -29,7 +29,7 @@ SYSTEM = Sysunix
 # script needs to match.
 #
 #DIR = /gh0211
-DIR = /grunthack-0.2.3
+DIR = /grunthack-0.2.4
 VAR = $(DIR)/var
 #
 # Make sure that your bourne shell is specified here, as you have to spawn

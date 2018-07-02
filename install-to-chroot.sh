@@ -17,10 +17,10 @@ USRGRP="games:games"
 GH_GIT="/home/build/GruntHack"
 # HACKDIR from include/config.h; aka nethack subdir inside chroot
 # Make a new one each time save compat is broken
-#GHSUBDIR="grunthack-0.2.3"
-GHSUBDIR="grunthack-0.2.3"
+#GHSUBDIR="grunthack-0.2.4"
+GHSUBDIR="grunthack-0.2.4"
 #for combining xlogfile, etc on minor version bump
-#GH_LOG_SYMLINK_TARGET="/grunthack-0.2.3/var"
+#GH_LOG_SYMLINK_TARGET="/grunthack-0.2.4/var"
 # END OF CONFIG
 ##############################################################################
 
@@ -45,8 +45,8 @@ set -e
 umask 022
 
 echo "Creating inprogress and userdata directories"
-mkdir -p "$NAO_CHROOT/dgldir/inprogress-gh023"
-chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-gh023"
+mkdir -p "$NAO_CHROOT/dgldir/inprogress-gh024"
+chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-gh024"
 mkdir -p "$NAO_CHROOT/dgldir/extrainfo-gh"
 chown "$USRGRP" "$NAO_CHROOT/dgldir/extrainfo-gh"
 
