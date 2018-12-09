@@ -24,6 +24,13 @@
 #	'SysBe'		-- BeOS
 SYSTEM = Sysunix
 
+# Game's view of where HACKDIR is
+# This needs to change when save compat is broken and install-to-chroot
+# script needs to match.
+#
+DIR = /grunthack-0.2.4
+VAR = $(DIR)/var
+
 #
 # Make sure that your bourne shell is specified here, as you have to spawn
 # some of the commands (eg. depend) in bourne shell for them to work.
@@ -163,7 +170,10 @@ GNOMEINC=-I/usr/lib/glib/include -I/usr/lib/gnome-libs/include -I../win/gnome
 # CFLAGS = -g -I../include
 
 CFLAGS = -g -O -I../include
-LFLAGS = 
+LFLAGS =
+
+# extra CFLAGS for paths
+CFLAGS += -DHACKDIR=\"$(DIR)\" -DVAR_PLAYGROUND=\"$(VAR)\"
 
 # The Qt and Be window systems are written in C++, while the rest of
 # NetHack is standard C.  If using Qt, uncomment the LINK line here to get
