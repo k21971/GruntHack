@@ -19,7 +19,7 @@
 #define FIRST_GEM    DILITHIUM_CRYSTAL
 #define FIRST_AMULET AMULET_OF_ESP
 #define LAST_AMULET  AMULET_OF_YENDOR
- 
+
 struct valuable_data { long count; int typ; };
 
 static struct valuable_data
@@ -46,6 +46,7 @@ STATIC_DCL void FDECL(savelife, (int));
 void FDECL(list_vanquished, (CHAR_P,BOOLEAN_P));
 #ifdef DUMP_LOG
 extern char msgs[][BUFSZ];
+extern int msgs_count[];
 extern int lastmsg;
 extern void NDECL(dump_spells);
 STATIC_DCL char *FDECL(dump_format_str,(char *));
@@ -1065,16 +1066,21 @@ die:
 	if (strcmp(flags.end_disclose, "none") && how != PANICKED) {
 		disclose(how, taken);
 #if defined(DUMP_LOG) && defined(DUMPMSGS)
+		char tmpbuf[BUFSZ];
+		int i, j;
 		if (lastmsg >= 0) {
 		  dump ("", "Latest messages");
-		  for (i = lastmsg + 1; i < DUMPMSGS; i++) {
-		    if (msgs[i] && strcmp(msgs[i], "") )
+		for (j = lastmsg + 1; j < DUMPMSGS + lastmsg + 1; j++) {
+		  i = j % DUMPMSGS;
+		  if (msgs[i] && strcmp(msgs[i], "") ) {
+		    if (msgs_count[i] == 1) {
 		      dump ("  ", msgs[i]);
-		  } 
-		  for (i = 0; i <= lastmsg; i++) {
-		    if (msgs[i] && strcmp(msgs[i], "") )
-		      dump ("  ", msgs[i]);
-		  } 
+		    } else {
+		      Sprintf(tmpbuf, "%s (%dx)", msgs[i], msgs_count[i]);
+		      dump ("  ", tmpbuf);
+		    }
+		  }
+		}
 		  dump ("","");
 		}
 #endif
