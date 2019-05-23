@@ -156,7 +156,7 @@ CC = gcc
 # Same as above, but for XCurses
 #CFLAGS = -O -DXCURSES -I../include -I/usr/local/include/pdcurses
 # Compile against system curses library, such as ncurses
-CFLAGS = -O -I../include
+CFLAGS = -O0 -I../include
 
 
 # Only used for the Gnome interface.
@@ -169,7 +169,7 @@ GNOMEINC=-I/usr/lib/glib/include -I/usr/lib/gnome-libs/include -I../win/gnome
 # flags for debugging:
 # CFLAGS = -g -I../include
 
-CFLAGS = -g -O -I../include
+CFLAGS = -g -O0 -I../include
 LFLAGS =
 
 # extra CFLAGS for paths
