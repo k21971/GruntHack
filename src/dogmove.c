@@ -419,6 +419,9 @@ dog_hunger(mtmp, edog)
 register struct monst *mtmp;
 register struct edog *edog;
 {
+    /* The below block of code is broken
+     * commenting out for now (#if 0) */
+#if 0
         if (monstermoves > edog->hungrytime)
 	{
 	    /* We're hungry; check if we're carrying anything we can eat */
@@ -447,6 +450,7 @@ register struct edog *edog;
 	        return(FALSE);
 	    }
 	}
+#endif
 	if (monstermoves > edog->hungrytime + 500) {
 	    if (!carnivorous(mtmp->data) && !herbivorous(mtmp->data)) {
 		edog->hungrytime = monstermoves + 500;

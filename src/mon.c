@@ -1691,7 +1691,7 @@ struct monst *magr,	/* monster that is currently deciding where to move */
 	     *mdef;	/* another monster which is next to it */
 {
  	struct permonst *ma,*md;
- 
+
  	ma = magr->data;
  	md = mdef->data;
 
@@ -1729,8 +1729,8 @@ struct monst *magr,	/* monster that is currently deciding where to move */
 
         if (md == &mons[PM_DRAGON_ZOMBIE] && !is_undead(ma))
             return ALLOW_M|ALLOW_TM;
- 
- 	/* Since the quest guardians are under siege, it makes sense to have 
+
+ 	/* Since the quest guardians are under siege, it makes sense to have
         them fight hostiles.  (But we don't want the quest leader to be in
 	danger.) */
  	if(ma->msound==MS_GUARDIAN &&
@@ -1739,41 +1739,37 @@ struct monst *magr,	/* monster that is currently deciding where to move */
 	    mdef->mpeaceful==FALSE))
  		return ALLOW_M|ALLOW_TM;
  	/* and vice versa */
- 	if(md->msound==MS_GUARDIAN && 
+ 	if(md->msound==MS_GUARDIAN &&
 	   (ma->msound!=MS_GUARDIAN &&
 	    ma->msound!=MS_LEADER &&
 	    magr->mpeaceful==FALSE))
  		return ALLOW_M|ALLOW_TM;
- 
+
  	/* elves vs. orcs */
  	if(is_elf(magr) && is_orc(mdef))
  		return ALLOW_M|ALLOW_TM;
  	/* and vice versa */
  	if(is_elf(mdef) && is_orc(magr))
  		return ALLOW_M|ALLOW_TM;
- 
+
  	/* angels vs. demons */
  	if(ma->mlet==S_ANGEL && is_demon(md))
  		return ALLOW_M|ALLOW_TM;
  	/* and vice versa */
  	if(md->mlet==S_ANGEL && is_demon(ma))
  		return ALLOW_M|ALLOW_TM;
- 
+
  	/* woodchucks vs. The Oracle */
  	if(ma == &mons[PM_WOODCHUCK] && md == &mons[PM_ORACLE])
  		return ALLOW_M|ALLOW_TM;
- 
+
  	/* ravens like eyes */
  	if(ma == &mons[PM_RAVEN] && md == &mons[PM_FLOATING_EYE])
  		return ALLOW_M|ALLOW_TM;
- 
+
 #ifdef ATTACK_PETS
-        /* pets attack hostile monsters */
-	if (magr->mtame && !mdef->mpeaceful)
-	    return ALLOW_M|ALLOW_TM;
-	
-        /* and vice versa */
-	if (mdef->mtame && !magr->mpeaceful)
+        /* hostile monsters will attack your pets */
+        if (!magr->mpeaceful && mdef->mtame)
 	    return ALLOW_M|ALLOW_TM;
 #endif /*ATTACK_PETS*/
 
