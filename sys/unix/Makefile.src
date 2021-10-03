@@ -169,8 +169,8 @@ GNOMEINC=-I/usr/lib/glib/include -I/usr/lib/gnome-libs/include -I../win/gnome
 # flags for debugging:
 # CFLAGS = -g -I../include
 
-CFLAGS = -g -O0 -I../include
-LFLAGS =
+CFLAGS = -g3 -O0 -fcommon -Wno-format-overflow -I../include
+LFLAGS = -g3
 
 # extra CFLAGS for paths
 CFLAGS += -DHACKDIR=\"$(DIR)\" -DVAR_PLAYGROUND=\"$(VAR)\"

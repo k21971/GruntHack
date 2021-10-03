@@ -89,8 +89,8 @@
 # flags for debugging:
 # CFLAGS = -g -I../include
 
-CFLAGS = -O0 -I../include
-LFLAGS =
+CFLAGS = -g3 -fcommon -Wno-format-overflow -O0 -I../include
+LFLAGS = -g3
 
 LIBS =
 
