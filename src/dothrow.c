@@ -1889,8 +1889,6 @@ boolean hitceiling;	/* from hitting the ceiling, i.e should objects drop? */
 	    	place_object(obj, x, y);
 	    }
 	}
-	else
-	    delobj(obj);
 }
 
 /*
