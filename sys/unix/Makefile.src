@@ -29,6 +29,7 @@ SYSTEM = Sysunix
 # script needs to match.
 #
 DIR = /grunthack-0.2.4
+#DIR = /usr/games/lib/grunthackdir
 VAR = $(DIR)/var
 
 #
