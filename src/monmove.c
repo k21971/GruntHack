@@ -527,7 +527,7 @@ toofar:
 	    struct obj *mw_tmp;
 
 	    /* The scared check is necessary.  Otherwise a monster that is
-	     * one square near the player but fleeing into a wall would keep	
+	     * one square near the player but fleeing into a wall would keep
 	     * switching between pick-axe and weapon.  If monster is stuck
 	     * in a trap, prefer ranged weapon (wielding is done in thrwmu).
 	     * This may cost the monster an attack, but keeps the monster
@@ -616,7 +616,8 @@ toofar:
 
 		if (!tmp)
 		    tmp = m_move(mtmp, 0);
-		distfleeck(mtmp,&inrange,&nearby,&scared);	/* recalc */
+                if (tmp != 2)
+		    distfleeck(mtmp,&inrange,&nearby,&scared);	/* recalc */
 
 		switch (tmp) {
 		    case 0:	/* no movement, but it can still attack you */
@@ -773,7 +774,7 @@ register int after;
 	int  omx = mtmp->mx, omy = mtmp->my;
 	struct obj *mw_tmp;
 	struct obj *wand = (struct obj *)0;
-	
+
 	mconfdir =
 	    (mtmp->data == &mons[PM_STALKER]) ||
 	    (mtmp->data->mlet == S_BAT) ||
@@ -1231,7 +1232,7 @@ actualmove:
 			          canspotmon(mtmp) ? Monnam(mtmp) :
 				  Something);
 			}
-			mtmp->mspec_used += spelltimeout(mtmp, 
+			mtmp->mspec_used += spelltimeout(mtmp,
 				objects[SPE_DIG].oc_level);
 #endif
 		    }
