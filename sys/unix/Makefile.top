@@ -41,6 +41,7 @@ DIRPERM  = 0755
 GAMEDIR  = $(PREFIX)/grunthack-0.2.4
 #GAMEDIR  = $(PREFIX)/games/lib/$(GAME)dir
 VARDIR  = $(GAMEDIR)/var
+SHELLDIR = /tmp
 
 # per discussion in Install.X11 and Install.Qt
 VARDATND =
