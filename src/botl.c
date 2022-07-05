@@ -877,6 +877,24 @@ bot2()
 #else
   Strcat(nb = eos(nb), " Blind");
 #endif
+  if(Levitation)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Lev", newbot2);
+#else
+  Strcat(nb = eos(nb), " Lev");
+#endif
+  if(Flying)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Fly", newbot2);
+#else
+  Strcat(nb = eos(nb), " Fly");
+#endif
+  if(u.usteed)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Ride", newbot2);
+#else
+  Strcat(nb = eos(nb), " Ride");
+#endif
   if(Stunned)
 #if defined(STATUS_COLORS) && defined(TEXTCOLOR)
       add_colored_text("Stun", newbot2);
@@ -894,6 +912,18 @@ bot2()
       add_colored_text("Slime", newbot2);
 #else
   Strcat(nb = eos(nb), " Slime");
+#endif
+  if(Stoned)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Stone", newbot2);
+#else
+  Strcat(nb = eos(nb), " Stone");
+#endif
+  if(Strangled)
+#if defined(STATUS_COLORS) && defined(TEXTCOLOR)
+      add_colored_text("Strngl", newbot2);
+#else
+  Strcat(nb = eos(nb), " Strngl");
 #endif
   if(cap > UNENCUMBERED)
 #if defined(STATUS_COLORS) && defined(TEXTCOLOR)
