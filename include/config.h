@@ -211,7 +211,7 @@
  * otherwise it will be the current directory.
  */
 # ifndef HACKDIR
-#  define HACKDIR "/grunthack-0.2.4/var"
+#  define HACKDIR "/grunthack-0.3.0/var"
 # endif
 
 /*
