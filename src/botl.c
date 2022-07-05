@@ -4,6 +4,10 @@
 
 #include "hack.h"
 
+#ifdef TTY_GRAPHICS
+#include "wintty.h"
+#endif
+
 #ifdef OVL0
 extern const char *hu_stat[];	/* defined in eat.c */
 
@@ -373,7 +377,7 @@ bot1()
 # endif
                 if (changed) {
                     /* force whole string to update */
-                    Sprintf(nb = eos(nb), "%*c", strlen(mbot), ' ');
+                    Sprintf(nb = eos(nb), "%ld", strlen(mbot));
 	            putstr(WIN_STATUS, 0, newbot1);
                     *nb = '\0';
                 }
@@ -402,7 +406,7 @@ bot1()
 # endif
                 if (changed) {
                     /* force whole string to update */
-                    Sprintf(nb = eos(nb), "%*c", strlen(rank()), ' ');
+                    Sprintf(nb = eos(nb), "%ld", strlen(rank()));
 	            putstr(WIN_STATUS, 0, newbot1);
                     *nb = '\0';
                 }

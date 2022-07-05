@@ -211,7 +211,7 @@
  * otherwise it will be the current directory.
  */
 # ifndef HACKDIR
-#  define HACKDIR "/grunthack-0.2.4"
+#  define HACKDIR "/grunthack-0.2.4/var"
 # endif
 
 /*
@@ -446,7 +446,8 @@ typedef long glyph_t;
 /*#define GOLDOBJ */	/* Gold is kept on obj chains - Helge Hafting */
 #define AUTOPICKUP_EXCEPTIONS /* exceptions to autopickup */
 #define DUMP_LOG        /* Dump game end information to a file */
-#define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"
+/*#define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"*/
+#define DUMP_FN "/tmp/%t.gh.txt"
 
 #define DUMPMSGS 30     /* Number of latest messages in the dump file  */
 

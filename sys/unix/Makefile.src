@@ -28,8 +28,8 @@ SYSTEM = Sysunix
 # This needs to change when save compat is broken and install-to-chroot
 # script needs to match.
 #
-DIR = /grunthack-0.2.4
-#DIR = /usr/games/lib/grunthackdir
+#DIR = /grunthack-0.2.4
+DIR = /usr/games/lib/grunthackdir
 VAR = $(DIR)/var
 
 #
@@ -157,7 +157,7 @@ CC = gcc
 # Same as above, but for XCurses
 #CFLAGS = -O -DXCURSES -I../include -I/usr/local/include/pdcurses
 # Compile against system curses library, such as ncurses
-CFLAGS = -O0 -I../include
+#CFLAGS = -O0 -I../include
 
 
 # Only used for the Gnome interface.
@@ -260,12 +260,12 @@ WINOBJ = $(WINTTYOBJ) $(WINCURSESOBJ)
 # WINTTYLIB = -ltermcap
 # WINTTYLIB = -lcurses
 # WINTTYLIB = -lcurses16
-WINTTYLIB = -lncurses
+WINTTYLIB = -lncurses -ltinfo
 # WINTTYLIB = -ltermlib
 #
 # libraries for curses port
 # link with ncurses
-WINCURSESLIB = -lncurses
+WINCURSESLIB = -lncurses -ltinfo
 # link with pdcurses for SDL, installed in a separate directory
 #WINCURSESLIB = -L/usr/local/lib -lpdcurses $(shell sdl-config --libs)
 # same as above, for XCurses

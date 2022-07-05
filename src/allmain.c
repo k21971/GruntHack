@@ -16,6 +16,8 @@ STATIC_DCL void NDECL(do_positionbar);
 
 #ifdef OVL0
 
+extern void ck_server_admin_msg();
+
 static long prev_dgl_extrainfo = 0;
 
 void

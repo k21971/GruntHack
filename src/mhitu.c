@@ -131,7 +131,7 @@ register struct attack *mattk;
 			break;
                 case AT_WEAP:
                         if (MON_WEP(mtmp)) {
- 			   Sprintf(buf, weaphitmsg(MON_WEP(mtmp),FALSE));
+			   Strcpy(buf, weaphitmsg(MON_WEP(mtmp),FALSE));
                             if (is_launcher(MON_WEP(mtmp)) ||
                                 is_missile(MON_WEP(mtmp)) ||
                                 is_ammo(MON_WEP(mtmp)) ||
@@ -145,7 +145,7 @@ register struct attack *mattk;
                             break;
                         } /*fallthrough*/
                 case AT_CLAW:
-	 	       Sprintf(buf, barehitmsg(mtmp));
+		       Strcpy(buf, barehitmsg(mtmp));
                         pline("%s %s%s!", Monnam(mtmp), makeplural(buf),
 	 					!strcmp(buf,"scratch") ||
 	 					!strcmp(buf,"strike") ||

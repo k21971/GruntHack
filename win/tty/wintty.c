@@ -40,6 +40,10 @@ extern void msmsg(const char *,...);
 
 extern char mapped_menu_cmds[]; /* from options.c */
 
+#ifdef TEXTCOLOR
+extern void term_start_bgcolor (int);
+#endif
+
 /* Interface definition, for windows.c */
 struct window_procs tty_procs = {
     "tty",
@@ -1282,7 +1286,7 @@ struct WinDesc *cw;
 			ttyDisplay->curx += 4;
 		    }
 		    if (curr->glyph != NO_GLYPH && iflags.use_menu_glyphs) {
-			    glyph_t character;
+			    int character;
 			    unsigned special; /* unused */
 			    /* map glyph to character and color */
 			    mapglyph_obj(curr->glyph, &character, &color, &special, u.ux, u.uy, curr->obj);
@@ -2498,11 +2502,11 @@ tty_print_glyph(window, x, y, glyph)
     xchar x, y;
     int glyph;
 {
-    glyph_t ch;
+    int ch;
     boolean reverse_on = FALSE;
     int	    color;
     unsigned special;
-    
+
 #ifdef CLIPPING
     if(clipping) {
 	if(x <= clipx || y < clipy || x >= clipxmax || y >= clipymax)
