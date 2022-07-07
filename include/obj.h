@@ -188,6 +188,7 @@ struct obj {
                                  objects[otmp->otyp].oc_dir != WHACK)
 #endif
 #define uslinging()	(uwep && objects[uwep->otyp].oc_skill == P_SLING)
+#define any_quest_artifact(o) ((o)->oartifact >= ART_ORB_OF_DETECTION)
 
 /* Armor */
 #define is_shield(otmp) (otmp->oclass == ARMOR_CLASS && \
