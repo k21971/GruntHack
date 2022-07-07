@@ -445,8 +445,8 @@ typedef long glyph_t;
 
 /*#define GOLDOBJ */	/* Gold is kept on obj chains - Helge Hafting */
 #define DUMP_LOG        /* Dump game end information to a file */
-/*#define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"*/
-#define DUMP_FN "/tmp/%t.gh.txt"
+#define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"
+/*#define DUMP_FN "/tmp/%t.gh.txt"
 
 #define DUMPMSGS 30     /* Number of latest messages in the dump file  */
 

@@ -28,8 +28,8 @@ SYSTEM = Sysunix
 # This needs to change when save compat is broken and install-to-chroot
 # script needs to match.
 #
-#DIR = /grunthack-0.3.0
-DIR = /usr/games/lib/grunthackdir
+DIR = /grunthack-0.3.0
+#DIR = /usr/games/lib/grunthackdir
 VAR = $(DIR)/var
 
 #
