@@ -326,11 +326,9 @@ struct instance_flags {
 	boolean  travelcmd;	/* allow travel command */
 	boolean  showsym;	/* show object symbols in menus */
 	int	 runmode;	/* update screen display during run moves */
-#ifdef AUTOPICKUP_EXCEPTIONS
 	struct autopickup_exception *autopickup_exceptions[2];
 #define AP_LEAVE 0
 #define AP_GRAB	 1
-#endif
 #ifdef WIN32CON
 #define MAX_ALTKEYHANDLER 25
 	char	 altkeyhandler[MAX_ALTKEYHANDLER];

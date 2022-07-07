@@ -444,7 +444,6 @@ typedef long glyph_t;
 #define SHOWSYM	/* Show object symbols in menus */
 
 /*#define GOLDOBJ */	/* Gold is kept on obj chains - Helge Hafting */
-#define AUTOPICKUP_EXCEPTIONS /* exceptions to autopickup */
 #define DUMP_LOG        /* Dump game end information to a file */
 /*#define DUMP_FN "/dgldir/userdata/%N/%n/gh/dumplog/%t.gh.txt"*/
 #define DUMP_FN "/tmp/%t.gh.txt"
