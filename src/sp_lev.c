@@ -3053,6 +3053,7 @@ dlb *fd;
     /* disable level flipping for some levels */
     if (!Is_astralevel(&u.uz) &&
         !Is_oracle_level(&u.uz) &&
+        !In_sokoban(&u.uz) &&
         /* up and down ladders should be at the same position */
         !In_V_tower(&u.uz)) {
             flip_level_rnd(3);
