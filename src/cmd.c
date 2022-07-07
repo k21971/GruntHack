@@ -556,7 +556,7 @@ enter_explore_mode(VOID_ARGS)
 #ifdef DGAMELAUNCH
         pline("Explore mode is for local games, not for public servers.");
 #else
-#ifdef PARANOID        
+#ifdef PARANOID
        char buf[BUFSZ];
        int really_xplor = FALSE;
 #endif
@@ -1994,7 +1994,6 @@ struct ext_func_tab extcmdlist[] = {
 	{"wield", "wield (put in use) a weapon", dowield, !IFBURIED},
 	{"wear", "wear a piece of armor", dowear, !IFBURIED},
 	{"zap", "zap a wand", dozap, IFBURIED},
-	{"explore_mode", "enter explore (discovery) mode (only if defined)", enter_explore_mode, IFBURIED},
 
 	{"adjust", "adjust inventory letters", doorganize, IFBURIED, AUTOCOMPLETE},
         {"annotate", "name current level", donamelevel, IFBURIED, AUTOCOMPLETE},
@@ -2002,6 +2001,7 @@ struct ext_func_tab extcmdlist[] = {
 	{"conduct", "list status of voluntary challenges", doconduct, IFBURIED, AUTOCOMPLETE},
 	{"dip", "dip an object into something", dodip, !IFBURIED, AUTOCOMPLETE},
 	{"enhance", "advance or check weapon and spell skills", enhance_weapon_skill, IFBURIED, AUTOCOMPLETE},
+	{"explore_mode", "enter explore (discovery) mode (only if defined)", enter_explore_mode, IFBURIED},
 	{"force", "force a lock", doforce, !IFBURIED, AUTOCOMPLETE},
 	{"invoke", "invoke an object's powers", doinvoke, IFBURIED, AUTOCOMPLETE},
 	{"jump", "jump to a location", dojump, !IFBURIED, AUTOCOMPLETE},
@@ -2205,7 +2205,7 @@ init_bind_list(void)
 	bind_key('W',    "wear" );
 	bind_key(M('w'), "wipe" );
 	bind_key('x',    "swap" );
-	bind_key('X',    "explore_mode" );
+	bind_key('X',    "twoweapon" );
 	/*        'y', 'Y' : go nw */
 #ifdef STICKY_COMMAND
 	bind_key(M('y'), "sticky" );
