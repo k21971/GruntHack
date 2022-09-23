@@ -788,7 +788,7 @@ unsigned trflags;
 		otmp->opoisoned = 0;
 #ifdef STEED
 		if (u.usteed && !rn2(2) && steedintrap(trap, otmp)) /* nothing */;
-		else
+		else {
 #endif
 		curmonst = (struct monst *)0;
 		stack = (struct obj *)0;
@@ -804,6 +804,9 @@ unsigned trflags;
 		    stackobj(otmp);
 		    newsym(u.ux, u.uy);
 		}
+#ifdef STEED
+		}
+#endif
 		curmonst = curmonstbak;
 		break;
 	    case DART_TRAP:
@@ -822,7 +825,7 @@ unsigned trflags;
 		if (!rn2(6)) otmp->opoisoned = 1;
 #ifdef STEED
 		if (u.usteed && !rn2(2) && steedintrap(trap, otmp)) /* nothing */;
-		else
+		else {
 #endif
 		curmonst = (struct monst *)0;
 		stack = (struct obj *)0;
@@ -840,6 +843,9 @@ unsigned trflags;
 		    stackobj(otmp);
 		    newsym(u.ux, u.uy);
 		}
+#ifdef STEED
+		}
+#endif
 		curmonst = curmonstbak;
 		break;
 	    case ROCKTRAP:
