@@ -56,7 +56,7 @@ const char *name;	/* if null, then format `obj' */
 			killer_xname(obj, "", FALSE)),
 		knm = knmbuf;
 	    else if (curmonst && curmonst != &youmonst)
-	        Sprintf(knmbuf, "%s %s", 
+	        Sprintf(knmbuf, "%s %s",
 	            s_suffix(done_in_name(curmonst)),
 		    	obj->otyp == CORPSE ? corpse_xname(obj, FALSE) :
 			killer_xname(obj, "", FALSE)),
@@ -90,7 +90,7 @@ const char *name;	/* if null, then format `obj' */
 
 		if (stack)
 	        	stack->oprops_known |= obj->oprops_known;
-	    
+
 	        if (obj && (obj->otyp == CORPSE ||
 	            (obj->otyp == ROCK && obj->corpsenm != 0)) &&
 		    touch_petrifies(&mons[obj->corpsenm]) &&
@@ -168,20 +168,20 @@ int x,y;
                                 int dmg = d(4, 4);
                 		pline_The("%s explodes!", xname(obj));
                 	        obfree(obj, (struct obj *)0);
-		    
+
 		    		if (stack)
 				   stack->oprops_known |= ITEM_DETONATIONS;
-                
+
 /* ZT_SPELL(ZT_FIRE) = ZT_SPELL(AD_FIRE-1) = 10+(2-1) = 11 */
 #define ZT_SPELL_O_FIRE 11 /* value kludge, see zap.c */
-                
+
                                 explode(x, y,
 				        ZT_SPELL_O_FIRE,
                 		        dmg, obj->oclass, EXPL_FIERY);
                                 scatter(x, y, dmg,
                 	                VIS_EFFECTS|MAY_HIT|MAY_DESTROY
 				        |MAY_FRACTURE, NULL);
-                
+
                 	        return 1;
                 	    }
 			    place_object(obj, x, y);
@@ -798,7 +798,7 @@ struct monst *mtmp;
 	{
 	    return mtmp2;
 	}
-	
+
 #if 0
 	if (!is_mplayer(mtmp->data)/* || !(mtmp->mstrategy & STRAT_NONE)*/)
 	{
@@ -829,6 +829,7 @@ struct monst *mtmp;
     	dir = rn2(8);
 	origdir = -1;
 	if (mtmp->mtarget && mtmp->mtarget != &youmonst &&
+	    !DEADMONSTER(mtmp->mtarget) &&
 	    mlined_up(mtmp, mtmp->mtarget, FALSE)) {
 	        int oldtbx = tbx, oldtby = tby;
 		if (!((mtmp->mtame || mtmp->mpeaceful) && !conflicted) ||
@@ -842,7 +843,7 @@ struct monst *mtmp;
 		{
 		    tbx = oldtbx;
 		    tby = oldtby;
-		    return mtmp->mtarget; /* don't attack if player is in path 
+		    return mtmp->mtarget; /* don't attack if player is in path
 					     and monster is not hostile */
 		}
 	    }
@@ -923,7 +924,7 @@ struct monst *mtmp;
 	}
 	oldmret = mret;
     }
-	
+
     if (mret != (struct monst *)0) {
         mtmp->mtarget = mret;
 	mtmp->mtarget_id = mret->m_id;
@@ -985,7 +986,7 @@ struct monst *mdef;
 
 	/*x = mtmp->mx;
 	y = mtmp->my;*/
-	
+
 	/*
 	 * Check for being lined up and for friendlies in the line
 	 * of fire:
@@ -1273,13 +1274,13 @@ boolean
 lined_up(mtmp)		/* is mtmp in position to use ranged attack? */
 	register struct monst *mtmp;
 {
-	boolean retval = FALSE; 
-	    
+	boolean retval = FALSE;
+
 	if (u.uundetected ||
 	    ((youmonst.data->mlet == S_MIMIC) &&
 	      (youmonst.m_ap_type != M_AP_NOTHING)))
 	      return FALSE;
-	      
+
 	retval = linedup(mtmp->mux,mtmp->muy,mtmp->mx,mtmp->my);
 
 	if (retval && ((mtmp->mconf && !rn2(5)) || mtmp->mstun)) {
@@ -1308,7 +1309,7 @@ mlined_up(mtmp, mdef, breath)	/* is mtmp in position to use ranged attack? */
 	int x = mtmp->mx, y = mtmp->my;
 
 	int i = 10; /*arbitrary*/
-	
+
 	if (lined_up && ((mtmp->mconf && !rn2(5)) || mtmp->mstun)) {
 	    do {
 	        tbx = rn1(3,-1);
@@ -1325,8 +1326,8 @@ mlined_up(mtmp, mdef, breath)	/* is mtmp in position to use ranged attack? */
 	    x += dx;
 	    y += dy;
 	    if (!isok(x, y)) break;
-		
-            if (x == u.ux && y == u.uy) 
+
+            if (x == u.ux && y == u.uy)
 	        return FALSE;
 
 	    if ((mat = m_at(x, y)) )
