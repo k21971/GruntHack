@@ -900,13 +900,25 @@ movemon()
 	if(mtmp->movement < NORMAL_SPEED)
 	    continue;
 
-        /* Kludge to work around dangling mtarget pointer */
-        if ((mtmp->mtarget_id == 0 || mtmp->mtarget_id == youmonst.m_id)
- 
-	  || (mtmp->mtarget && DEADMONSTER(mtmp->mtarget))) {
-	    mtmp->mtarget = (mtmp->mpeaceful || mtmp->mtame)
-	        ? (struct monst *)0 : &youmonst;
-	    mtmp->mtarget_id = (mtmp->mtarget) ? mtmp->mtarget->m_id : 0;
+	/* Re-validate the cached mtarget against its stored id.  The raw
+	   pointer can dangle if the target left fmon (migration via
+	   relmon) or was freed and its chunk reused, so DEADMONSTER() on
+	   it is unreliable; resolve by id the way relink_targets() does
+	   and refresh a stale-but-live pointer. */
+	if (mtmp->mtarget_id && mtmp->mtarget_id != youmonst.m_id) {
+		struct monst *tgt = find_mid(mtmp->mtarget_id, FM_FMON);
+
+		if (tgt) {
+			mtmp->mtarget = tgt;
+		} else {
+			mtmp->mtarget = (mtmp->mpeaceful || mtmp->mtame)
+				? (struct monst *)0 : &youmonst;
+			mtmp->mtarget_id = (mtmp->mtarget) ? mtmp->mtarget->m_id : 0;
+		}
+	} else {
+		mtmp->mtarget = (mtmp->mpeaceful || mtmp->mtame)
+			? (struct monst *)0 : &youmonst;
+		mtmp->mtarget_id = (mtmp->mtarget) ? mtmp->mtarget->m_id : 0;
 	}
 
 	mtmp->movement -= NORMAL_SPEED;
